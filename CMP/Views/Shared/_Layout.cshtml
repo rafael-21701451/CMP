@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CMP</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+    </environment>
+    <link rel="stylesheet" href="~/css/shared.css" />
+</head>
+<body>
+    <header>
+        <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-6 text-center">
+                <a style="color: black; font-family: 'Century Gothic'; font-size: 50px;" asp-area="" asp-controller="Home" asp-action="Index"><b>Content Marketplace Platform</b></a>
+            </div>
+            <div class="col-md-1 text-right mt-4">
+                <a><img src="~/images/user.png" width="30" height="30"></a>
+            </div>
+            <div class="col-md-1 text-center mt-4">
+                <a><img src="~/images/fav.png" width="30" height="30"></a>
+            </div>
+            <div class="col-md-1 text-left mt-4">
+                <a><img src="~/images/carrinho.png" width="30" height="30"></a>
+            </div>
+        </div>
+        <div class="row border-bottom">
+            <div class="col-md-3 text-center mt-3 mb-3">
+                <a class="underline" style="color: black; font-family: 'Century Gothic'; font-size: 30px;" asp-area="" asp-controller="Products" asp-action="Index"><b>Produtos</b></a>
+            </div>
+            <div class="col-md-3 text-center mt-3 mb-3">
+                <a class="underline" style="color: black; font-family: 'Century Gothic'; font-size: 30px;" asp-area="" asp-controller="Novidades" asp-action="Index"><b>Novidades</b></a>
+            </div>
+            <div class="col-md-3 text-center mt-3 mb-3">
+                <a class="underline" style="color: black; font-family: 'Century Gothic'; font-size: 30px;" asp-area="" asp-controller="Materiais" asp-action="Index"><b>Materiais Gratuitos</b></a>
+            </div>
+            <div class="col-md-3 text-center mt-3 mb-3">
+                <span class="underline" style="color: black; font-family: 'Century Gothic'; font-size: 30px;"><b>Blog</b></span>
+            </div>
+        </div>
+    </header>
+
+    <div>
+            @RenderBody()
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container-fluid text-center" style="background-color: rgba(67,67,67,1)">
+            <div class="row">
+                <div class="col-md-3 mx-auto">
+                    <h6 class="font-weight-bold text-uppercase mt-3 mb-4 text-left ml-5">Sobre Nós</h6>
+                    <ul class="list-unstyled text-left ml-5">
+                        <li>
+                            <a href="#!">Quem Somos?</a>
+                        </li>
+                        <li>
+                            <a href="#!">Empresa</a>
+                        </li>
+                        <li>
+                            <a href="#!">História</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mx-auto">
+                    <h6 class="font-weight-bold text-uppercase mt-3 mb-4 text-left ml-5">Apoio Ao Consumidor</h6>
+                    <ul class="list-unstyled text-left ml-5">
+                        <li>
+                            <a href="#!">FAQ</a>
+                        </li>
+                        <li>
+                            <a href="#!">Guia De Compra</a>
+                        </li>
+                        <li>
+                            <a href="#!">Pagamento</a>
+                        </li>
+                        <li>
+                            <a href="#!">Envio</a>
+                        </li>
+                        <li>
+                            <a href="#!">Trocas & Devoluções</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mx-auto">
+                    <h6 class="font-weight-bold text-uppercase mt-3 mb-4 text-left ml-5">Políticas</h6>
+                    <ul class="list-unstyled text-left ml-5">
+                        <li>
+                            <a href="#!">Condições De Compra</a>
+                        </li>
+                        <li>
+                            <a href="#!">Política De Privacidade</a>
+                        </li>
+                        <li>
+                            <a href="#!">Política De Cookies</a>
+                        </li>
+                        <li>
+                            <a href="#!">Livro De Reclamações Online</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mx-auto">
+                    <h6 class="font-weight-bold text-uppercase mt-3 mb-4 text-left ml-5">Contactos</h6>
+                    <ul class="list-unstyled text-left ml-5">
+                        <li>
+                            <a href="https://pt-pt.facebook.com/"><img src="~/images/facebook.png" width="30" height="30" class="mr-3"></a>
+                            <a href="https://twitter.com/?lang=pt"><img src="~/images/twitter.png" width="30" height="30"></a>
+                            <a href="https://pt.linkedin.com/"><img src="~/images/linkedin.png" width="55" height="35"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
+        </script>
+    </environment>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
