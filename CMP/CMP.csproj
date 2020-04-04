@@ -52,6 +52,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Materiais\" />
+    <Folder Include="Views\NewFolder\" />
   </ItemGroup>
 
 </Project>
