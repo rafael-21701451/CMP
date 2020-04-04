@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\NewFolder\**" />
+    <Content Remove="Views\NewFolder\**" />
+    <EmbeddedResource Remove="Views\NewFolder\**" />
+    <None Remove="Views\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Products\Index.cshtml" />
     <None Include="Views\Shared\Error.cshtml" />
@@ -52,7 +59,6 @@
 
   <ItemGroup>
     <Folder Include="Views\Materiais\" />
-    <Folder Include="Views\NewFolder\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Account
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -158,12 +159,12 @@
         </div>
 
         <div class="text-center" style="color:rgb(102,102,102); font-family: 'Century Gothic'; padding-top: 100px; padding-bottom: 100px;">
-            <form action="/action_page.php">
+            <form method="post">
                 <div>
                     <label for="email"><b> Junte-se à nossa newsletter </b></label>
                 </div>
                 <div>
-                    <input type="text" id="email" name="email" placeholder="Email">
+                    <input type="text" name="email" placeholder="Email" asp-for="email">
                 </div>
                 <div>
                     <input type="submit" value="Subscreva">

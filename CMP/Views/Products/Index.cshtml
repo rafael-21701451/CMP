@@ -71,16 +71,18 @@
                     <a id="botao" class="button" style="font-family: 'Century Gothic'; "><b>VER MAIS</b></a>
                 </center>
             </div>
-            <div class="col-md-6" id="produto" style="padding-top: 2em;">
-                <center>
-                    <img src="~/images/artigoblog.jpg" width="432" height="255">
-                </center>
-                <p style="font-size: 20px; text-align: center; margin-top: 5px"><b><span>Artigo de Blog</span></b></p>
-                <p style="font-size: 20px; text-align: center; margin-top: 5px"><b><span>5.0</span></b><img src="~/images/star.png" width="20" height="20" style="margin-left:5px; margin-bottom: 6px;"></p>
-                <center>
-                    <a id="botao" class="button" style="font-family: 'Century Gothic';" asp-area="" asp-controller="Products" asp-action="ArtigosBlog"><b>VER MAIS</b></a>
-                </center>
-            </div>
+            <a asp-area="" asp-controller="Products" asp-action="ArtigosBlog" style="color:black">
+                <div class="col-md-6" id="produto" style="padding-top: 2em;">
+                    <center>
+                        <img src="~/images/artigoblog.jpg" width="432" height="255">
+                    </center>
+                    <p style="font-size: 20px; text-align: center; margin-top: 5px"><b><span>Artigo de Blog</span></b></p>
+                    <p style="font-size: 20px; text-align: center; margin-top: 5px"><b><span>5.0</span></b><img src="~/images/star.png" width="20" height="20" style="margin-left:5px; margin-bottom: 6px;"></p>
+                    <center>
+                        <a id="botao" class="button" style="font-family: 'Century Gothic';" asp-area="" asp-controller="Products" asp-action="ArtigosBlog"><b>VER MAIS</b></a>
+                    </center>
+                </div>
+            </a>
             <div class="col-md-3" id="produto" style="padding-top: 2em;">
                 <center>
                     <img src="~/images/casosucesso.png" width="222" height="255">
