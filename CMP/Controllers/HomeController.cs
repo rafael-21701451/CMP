@@ -8,12 +8,18 @@ using CMP.Models;
 using System.Data.SqlClient;
 using System.Net.Mail;
 using System.Net;
+using Microsoft.Extensions.Configuration;
 
 namespace CMP.Controllers
 {
     public class HomeController : Controller
     {
-        public object Configuration { get; private set; }
+        private readonly IConfiguration _configuration;
+
+        public HomeController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         public IActionResult Index()
         {
@@ -26,7 +32,7 @@ namespace CMP.Controllers
             String email = "";
             String nomeUser = "";
             bool jaSubscrito = false;
-            string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=SGPAV;Trusted_Connection=True";
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string sql = $"Select * From AppLogin Where Email='{account.email}'";
