@@ -31,11 +31,12 @@ namespace CMP.Controllers
         {
             String email = "";
             String nomeUser = "";
+            int id = -1;
             bool jaSubscrito = false;
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = $"Select * From AppLogin Where Email='{account.email}'";
+                string sql = $"Select * From Account Where email='{account.email}'";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -43,9 +44,23 @@ namespace CMP.Controllers
                     {
                         while (dataReader.Read())
                         {
-                            email = Convert.ToString(dataReader["Email"]);
-                            nomeUser = Convert.ToString(dataReader["Login"]);
-                           //jaSubscrito = Convert.ToBoolean(dataReader["subscricao"]);
+                            id = Convert.ToInt32(dataReader["id"]);
+                            email = Convert.ToString(dataReader["email"]);
+                           jaSubscrito = Convert.ToBoolean(dataReader["newsletter"]);
+                        }
+                    }
+                    connection.Close();
+                }
+
+                sql = $"Select * From Cliente Where account_id='{id}'";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            nomeUser = Convert.ToString(dataReader["nome"]);
                         }
                     }
                     connection.Close();
