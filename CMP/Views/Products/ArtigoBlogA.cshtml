@@ -1,4 +1,4 @@
-﻿
+﻿@model Briefing
 @{
     ViewData["Title"] = "ArtigoBlogA";
 }
@@ -13,260 +13,262 @@
             padding:1em;
             color: black;
         }
+
             input[type=text], select {
                 width: 80%;
                 padding: 6px 20px;
                 margin: 8px 0;
                 display: inline-block;
                 box-sizing: border-box;
-                color: lightgray;
+                color: black;
             }
         </style>
     </head>
 
 
     <body>
-        <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
-            <p style="font-size: 40px; "><b><span>ARTIGO DE BLOG</span></b></p>
-            <p style="font-size: 20px; "><span>Criação de 4 textos de 500 palavras.</span></p>
-        </div>
+        <form method="post">
+            <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
+                <p style="font-size: 40px; "><b><span>ARTIGO DE BLOG</span></b></p>
+                <p style="font-size: 20px; "><span>Criação de 4 textos de 500 palavras.</span></p>
+            </div>
 
-        <div class="container" style="background-color:whitesmoke;">
-            <div class="row" style="padding-top:2em;padding-bottom:2em;">
-                <div class="col-md-6" style="padding-top:2em; padding-left: 1em">
-                    <p style="font-size: 40px; "><b><span>DESCRIÇÃO</span></b></p>
-                    <p style="font-size: 20px; "><span>Um artigo de blog normalmente é escrito para uma leitura mais descontraída e é escrito com o objetivo de partilhar dicas, tutoriais, opiniões, insights e busca interação com os leitores.</span></p>
-                </div>
-                <div class="col-md-6" style="padding-top:1em;padding-bottom:1em">
-                    <center>
-                        <img src="~/images/artigoblog.jpg" width="500" height="255">
-                    </center>
-                </div>
-            </div>
-        </div>
-
-        <div class="text-center" style="color:black; font-family: 'Century Gothic'; padding-top: 1em; padding-bottom: 1em; ">
-            <p style="font-size: 40px; "><b><span>BRIEFING</span></b></p>
-        </div>
-
-        <div class="container" style="background-color:whitesmoke; margin-bottom:100px">
-            <p style="font-size: 40px; padding-left: 1em; padding-top: 1em; text-align:center"><b><span>INFORMAÇÕES SOBRE A SUA EMPRESA</span></b></p>
-            <div class="row">
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>Empresa</span></b></p>
-                </div>
-                <div class="col-md-4" style="padding-top: 1em;">
-                    <input type="text" id="form">
-                </div>
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; text-align:left"><b><span>Setor de Atividade</span></b></p>
-                </div>
-                <div class="col-md-4" style="padding-top: 1em;">
-                    <input type="text" id="form">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 1em; padding-top: 3em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>História da Empresa</span></b></p>
-                </div>
-                <div class="col-md-10" style="padding-top: 1em; padding-bottom: 1em">
-                    <input type="text" id="form" style="width: 93%; height:100%">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <p style="font-size: 14px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Objetivo do Negócio</span></b></p>
-                </div>
-                <div class="col-md-10" style="padding-top: 1em;">
-                    <input type="text" id="form" style="width: 93%;">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Estratégia</span></b></p>
-                </div>
-                <div class="col-md-10" style="padding-top: 1em;">
-                    <input type="text" id="form" style="width: 93%;">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 1em; padding-top: 5em; padding-bottom: 1em; border-top: 1000px; text-align:center"><b><span>Produtos/serviços comercializados</span></b></p>
-                </div>
-                <div class="col-md-4" style="padding-top: 1em;padding-bottom: 1em;">
-                    <input type="text" id="form" style="height: 100%;">
-                </div>
-                <div class="col-md-2">
-                    <div class="row">
-                        <p style="font-size: 15px; padding-left: 1em; padding-top: 3em; padding-bottom: 1em; text-align:left"><b><span>Marca</span></b></p>
+            <div class="container" style="background-color:whitesmoke;">
+                <div class="row" style="padding-top:2em;padding-bottom:2em;">
+                    <div class="col-md-6" style="padding-top:2em; padding-left: 1em">
+                        <p style="font-size: 40px; "><b><span>DESCRIÇÃO</span></b></p>
+                        <p style="font-size: 20px; "><span>Um artigo de blog normalmente é escrito para uma leitura mais descontraída e é escrito com o objetivo de partilhar dicas, tutoriais, opiniões, insights e busca interação com os leitores.</span></p>
                     </div>
-                    <div class="row">
-                        <p style="font-size: 15px; padding-left: 1em;   text-align:left"><b><span>Imagem Corporativa</span></b></p>
-                    </div>
-                </div>
-                <div class="col-md-4" style="padding-top: 1em;">
-                    <div class="row">
-                        <input type="text" id="form" style="padding-top: 1em;">
-                    </div>
-                    <div class="row">
-                        <input type="text" id="form" style="padding-top: 1em;">
+                    <div class="col-md-6" style="padding-top:1em;padding-bottom:1em">
+                        <center>
+                            <img src="~/images/artigoblog.jpg" width="500" height="255">
+                        </center>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Posicionamento</span></b></p>
-                </div>
-                <div class="col-md-10" style="padding-top: 1em;">
-                    <input type="text" id="form" style="width: 93%;">
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 1em">
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>Público-Alvo</span></b></p>
-                </div>
-                <div class="col-md-4" style="padding-top: 1em;">
-                    <input type="text" id="form">
-                </div>
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; text-align:left"><b><span>Concorrentes</span></b></p>
-                </div>
-                <div class="col-md-4" style="padding-top: 1em;">
-                    <input type="text" id="form">
-                </div>
-            </div>
-        </div>
 
-        <div class="container" style="background-color:whitesmoke; margin-bottom:100px">
-            <p style="font-size: 40px; padding-left: 1em; padding-top: 1em; text-align:center"><b><span>INFORMAÇÕES SOBRE O PROJETO</span></b></p>
-            <div class="row">
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 1em; padding-top: 3em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>Objetivos e Metas</span></b></p>
-                </div>
-                <div class="col-md-10" style="padding-top: 1em; padding-bottom: 1em">
-                    <input type="text" id="form" style="width: 93%; height:100%">
-                </div>
+            <div class="text-center" style="color:black; font-family: 'Century Gothic'; padding-top: 1em; padding-bottom: 1em; ">
+                <p style="font-size: 40px; "><b><span>BRIEFING</span></b></p>
             </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <p style="font-size: 14px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Resultados esperados</span></b></p>
-                </div>
-                <div class="col-md-10" style="padding-top: 1em;">
-                    <input type="text" id="form" style="width: 93%;">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 20px; text-align:center"><b><span>Permissas</span></b></p>
-                </div>
-                <div class="col-md-10" style="padding-top: 1em;">
-                    <input type="text" id="form" style="width: 93%;">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Restrições</span></b></p>
-                </div>
-                <div class="col-md-10" style="padding-top: 1em;">
-                    <input type="text" id="form" style="width: 93%;">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>DATAS</span></b></p>
-                </div>
-                <div class="col-md-2">
-                </div>
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 2em; padding-top: 2em; padding-bottom: 1em; text-align:left"><b><span>FASE 1</span></b></p>
-                </div>
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 2em; padding-top: 2em; padding-bottom: 1em; text-align:left"><b><span>FASE 2</span></b></p>
-                </div>
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 2em; padding-top: 2em; padding-bottom: 1em; text-align:left"><b><span>FASE 3</span></b></p>
-                </div>
-            </div>
-            <div class="row"  style="padding-bottom: 1em">
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 1em; padding-top: 1em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>Entrega</span></b></p>
-                </div>
-                <div class="col-md-2">
-                    <input type="text" id="form" style="height: 50%;">
-                </div>
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-top: 1em; padding-bottom: 1em; text-align:center"><b><span>Cronograma</span></b></p>
-                </div>
-                <div class="col-md-2">
-                    <input type="text" id="form" style="height: 50%;width:100px">
-                </div>
-                <div class="col-md-2">
-                    <input type="text" id="form" style="height: 50%;width:100px">
-                </div>
-                <div class="col-md-2">
-                    <input type="text" id="form" style="height: 50%; width:100px">
-                </div>
-            </div>
-        </div>
 
-        <div class="container" style="background-color:whitesmoke; margin-bottom:40px">
-            <p style="font-size: 40px; padding-left: 1em; padding-top: 1em; text-align:center"><b><span>ASPETOS TÉCNICOS</span></b></p>
-            <div class="row">
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 1em; padding-top: 3em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>Linha a Seguir</span></b></p>
+            <div class="container" style="background-color:whitesmoke; margin-bottom:100px">
+                <p style="font-size: 40px; padding-left: 1em; padding-top: 1em; text-align:center"><b><span>INFORMAÇÕES SOBRE A SUA EMPRESA</span></b></p>
+                <div class="row">
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>Empresa</span></b></p>
+                    </div>
+                    <div class="col-md-4" style="padding-top: 1em;">
+                        <input type="text" name="empresa" style="color:black" asp-for="empresa">
+                    </div>
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; text-align:left"><b><span>Setor de Atividade</span></b></p>
+                    </div>
+                    <div class="col-md-4" style="padding-top: 1em;">
+                        <input type="text" name="setor" style="color:black" asp-for="setor">
+                    </div>
                 </div>
-                <div class="col-md-10" style="padding-top: 1em; padding-bottom: 1em">
-                    <input type="text" id="form" style="width: 93%; height:100%">
+                <div class="row">
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 1em; padding-top: 3em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>História da Empresa</span></b></p>
+                    </div>
+                    <div class="col-md-10" style="padding-top: 1em; padding-bottom: 1em">
+                        <input type="text" name="historia_empresa" asp-for="historia_empresa" style="width: 93%; height:100%">
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Tom de Voz</span></b></p>
+                <div class="row">
+                    <div class="col-md-2">
+                        <p style="font-size: 14px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Objetivo do Negócio</span></b></p>
+                    </div>
+                    <div class="col-md-10" style="padding-top: 1em;">
+                        <input type="text" asp-for="objetivo_negocio" style="width: 93%;">
+                    </div>
                 </div>
-                <div class="col-md-10" style="padding-top: 1em;">
-                    <input type="text" id="form" style="width: 93%;">
+                <div class="row">
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Estratégia</span></b></p>
+                    </div>
+                    <div class="col-md-10" style="padding-top: 1em;">
+                        <input type="text" asp-for="estrategia" style="width: 93%;">
+                    </div>
                 </div>
-            </div>
-            <div class="row"  style="padding-bottom: 1em">
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 20px; text-align:center"><b><span>Tipo de Letra</span></b></p>
+                <div class="row">
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 1em; padding-top: 5em; padding-bottom: 1em; border-top: 1000px; text-align:center"><b><span>Produtos/serviços comercializados</span></b></p>
+                    </div>
+                    <div class="col-md-4" style="padding-top: 1em;padding-bottom: 1em;">
+                        <input type="text" asp-for="produtos_comercializados" style="height: 100%;">
+                    </div>
+                    <div class="col-md-2">
+                        <div class="row">
+                            <p style="font-size: 15px; padding-left: 1em; padding-top: 3em; padding-bottom: 1em; text-align:left"><b><span>Marca</span></b></p>
+                        </div>
+                        <div class="row">
+                            <p style="font-size: 15px; padding-left: 1em;   text-align:left"><b><span>Imagem Corporativa</span></b></p>
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="padding-top: 1em;">
+                        <div class="row">
+                            <input type="text" asp-for="marca" style="padding-top: 1em;">
+                        </div>
+                        <div class="row">
+                            <input type="text" asp-for="imagem_corporativa" style="padding-top: 1em;">
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4" style="padding-top: 1em;">
-                    <select style="color: black">
-                        <option value="default">Escolher...</option>
-                        <option value="arial">Arial</option>
-                        <option value="tnr">Times New Roman</option>
-                        <option value="centuryGothic">CenturyGothic</option>
-                    </select>
+                <div class="row">
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Posicionamento</span></b></p>
+                    </div>
+                    <div class="col-md-10" style="padding-top: 1em;">
+                        <input type="text" asp-for="posicionamento" style="width: 93%;">
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 20px; text-align:center"><b><span>Cores</span></b></p>
-                </div>
-                <div class="col-md-4" style="padding-top: 1em;">
-                    <select style="color: black">
-                        <option value="default">Escolher...</option>
-                        <option value="arial">Preto</option>
-                        <option value="tnr">Cinzento</option>
-                        <option value="centuryGothic">Branco</option>
-                    </select>
+                <div class="row" style="padding-bottom: 1em">
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>Público-Alvo</span></b></p>
+                    </div>
+                    <div class="col-md-4" style="padding-top: 1em;">
+                        <input type="text" asp-for="publico_alvo">
+                    </div>
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; text-align:left"><b><span>Concorrentes</span></b></p>
+                    </div>
+                    <div class="col-md-4" style="padding-top: 1em;">
+                        <input type="text" asp-for="concorrentes">
+                    </div>
                 </div>
             </div>
 
-
-        </div>
-
-        <div class="container" style="padding-top: 1em; padding-bottom: 2em;">
-            <div class="row">
-                <div class="col-md-8">
+            <div class="container" style="background-color:whitesmoke; margin-bottom:100px">
+                <p style="font-size: 40px; padding-left: 1em; padding-top: 1em; text-align:center"><b><span>INFORMAÇÕES SOBRE O PROJETO</span></b></p>
+                <div class="row">
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 1em; padding-top: 3em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>Objetivos e Metas</span></b></p>
+                    </div>
+                    <div class="col-md-10" style="padding-top: 1em; padding-bottom: 1em">
+                        <input type="text" asp-for="objetivos" style="width: 93%; height:100%">
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <center>
-                        <a id="botao" class="button" style="font-family: 'Century Gothic'; "><b>ADICIONAR AO CARRINHO</b></a>
-                    </center>
+                <div class="row">
+                    <div class="col-md-2">
+                        <p style="font-size: 14px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Resultados esperados</span></b></p>
+                    </div>
+                    <div class="col-md-10" style="padding-top: 1em;">
+                        <input type="text" asp-for="resultados_esperados" style="width: 93%;">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 20px; text-align:center"><b><span>Permissas</span></b></p>
+                    </div>
+                    <div class="col-md-10" style="padding-top: 1em;">
+                        <input type="text" asp-for="permissas" style="width: 93%;">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Restrições</span></b></p>
+                    </div>
+                    <div class="col-md-10" style="padding-top: 1em;">
+                        <input type="text" asp-for="restricoes" style="width: 93%;">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>DATAS</span></b></p>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 2em; padding-top: 2em; padding-bottom: 1em; text-align:left"><b><span>FASE 1</span></b></p>
+                    </div>
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 2em; padding-top: 2em; padding-bottom: 1em; text-align:left"><b><span>FASE 2</span></b></p>
+                    </div>
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 2em; padding-top: 2em; padding-bottom: 1em; text-align:left"><b><span>FASE 3</span></b></p>
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 1em">
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 1em; padding-top: 1em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>Entrega</span></b></p>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="date" asp-for="data_entrega" style="height: 50%;">
+                    </div>
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-top: 1em; padding-bottom: 1em; text-align:center"><b><span>Cronograma</span></b></p>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="date" asp-for="cronograma_1" style="height: 50%;width:100px; font-size-adjust:inherit">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="date" asp-for="cronograma_2" style="height: 50%;width:100px">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="date" asp-for="cronograma_3" style="height: 50%; width:100px">
+                    </div>
                 </div>
             </div>
-        </div>
 
+            <div class="container" style="background-color:whitesmoke; margin-bottom:40px">
+                <p style="font-size: 40px; padding-left: 1em; padding-top: 1em; text-align:center"><b><span>ASPETOS TÉCNICOS</span></b></p>
+                <div class="row">
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 1em; padding-top: 3em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>Linha a Seguir</span></b></p>
+                    </div>
+                    <div class="col-md-10" style="padding-top: 1em; padding-bottom: 1em">
+                        <input type="text" asp-for="linha_seguir" style="width: 93%; height:100%">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Tom de Voz</span></b></p>
+                    </div>
+                    <div class="col-md-10" style="padding-top: 1em;">
+                        <input type="text" asp-for="tom_voz" style="width: 93%;">
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 1em">
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 20px; text-align:center"><b><span>Tipo de Letra</span></b></p>
+                    </div>
+                    <div class="col-md-4" style="padding-top: 1em;">
+                        <select asp-for="tipo_letra" style="color: black">
+                            <option value="default">Escolher...</option>
+                            <option value="arial">Arial</option>
+                            <option value="tnr">Times New Roman</option>
+                            <option value="centuryGothic">CenturyGothic</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 20px; text-align:center"><b><span>Cores</span></b></p>
+                    </div>
+                    <div class="col-md-4" style="padding-top: 1em;">
+                        <select asp-for="cor" style="color: black">
+                            <option value="default">Escolher...</option>
+                            <option value="arial">Preto</option>
+                            <option value="tnr">Cinzento</option>
+                            <option value="centuryGothic">Branco</option>
+                        </select>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="container" style="padding-top: 1em; padding-bottom: 2em;">
+                <div class="row">
+                    <div class="col-md-8">
+                    </div>
+                    <div class="col-md-4">
+                        <center>
+                            <button id="botao" type="submit" class="button" style="font-family: 'Century Gothic'; "><b>ADICIONAR AO CARRINHO</b></button>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </form>
 
     </body>
 
