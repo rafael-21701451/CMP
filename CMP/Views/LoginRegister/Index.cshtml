@@ -100,7 +100,7 @@
     <body>
         <div class="container" style="background-color: white">
             <div class="row" style="padding-bottom: 1em;padding-top:1em">
-                <div class="col-md-6" id="conta" style="padding-top: 2em;">
+                <div class="col-md-6" id="conta" style="padding-top: 2em;border-right: 1px solid grey;height: 800px;">
                     <p style="font-size: 20px; text-align: center; margin-top: 5px"><b><span>CLIENTES REGISTADOS</span></b></p>
                     <form method="post">
                         <div>
@@ -121,11 +121,7 @@
                     </form>
                 </div>
 
-                <div style="padding-top: 2em; border-left: 6px solid green; height: 500px;">
-
-                </div>
-
-                <div class="col-md-6" id="conta" style="padding-top: 2em;">
+                <div class="col-md-6" id="conta" style="padding-top: 2em;border-left: 1px solid grey;height: 800px;">
                         <p style="font-size: 20px; text-align: center; margin-top: 5px"><b><span>NOVOS CLIENTES</span></b></p>
                         <form method="post">
                             <div>
@@ -135,7 +131,7 @@
                             <div>
                                 <br>
                                 <label for="nome"><b>Nome </b></label>
-                                <input type="text" name="email" placeholder="Ex.:" asp-for="nome">
+                                <input type="text" name="nome" placeholder="Ex.:" asp-for="nome">
                             </div>
                             <div>
                                 <br>
@@ -145,18 +141,18 @@
                             <div>
                                 <br>
                                 <label for="email"><b>Email </b></label>
-                                <input type="text" name="email" placeholder="Email" asp-for="email">
+                                <input type="text" name="email" placeholder="Email" asp-for="emailReg">
                             </div>
                             <div>
                                 <br>
                                 <label for="password"><b>Password </b></label>
-                                <input type="password" name="password" placeholder="" asp-for="password">
+                                <input type="password" name="password" placeholder="" asp-for="passwordReg">
                             </div>
                             <div>
                                 <input type="checkbox" name="sessao" value="sessao" /> Li e compreendi a informação sobre a utilização dos meus dados pessoais explicada na Política de privacidade
                             </div>
                             <div class="buttonCreate" style="width:1000px;height:80px;">
-                                <input type="submit" value="Criar conta" asp-action="Registar">
+                                    <input type="submit" value="Criar conta" asp-action="Registar">
                             </div>
                         </form>
                     </div>
