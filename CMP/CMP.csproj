@@ -6,10 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Views\NewFolder\**" />
-    <Content Remove="Views\NewFolder\**" />
-    <EmbeddedResource Remove="Views\NewFolder\**" />
-    <None Remove="Views\NewFolder\**" />
+    <Compile Remove="Views\Login_Register\**" />
+    <Content Remove="Views\Login_Register\**" />
+    <EmbeddedResource Remove="Views\Login_Register\**" />
+    <None Remove="Views\Login_Register\**" />
   </ItemGroup>
 
   <ItemGroup>
