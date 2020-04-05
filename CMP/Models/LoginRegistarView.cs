@@ -15,5 +15,11 @@ namespace CMP.Models
 
         public string morada { get; set; }
 
+        public string username { get; set; }
+
+        public string emailReg { get; set; }
+
+        public string passwordReg { get; set; }
+
     }
 }
