@@ -1,4 +1,4 @@
-﻿@model Account
+﻿@model LoginRegistarView
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -130,12 +130,12 @@
                         <form method="post">
                             <div>
                                 <label for="nome"><b>Nome </b></label>
-                                <input type="text" name="email" placeholder="Ex.:" asp-for="email">
+                                <input type="text" name="email" placeholder="Ex.:" asp-for="nome">
                             </div>
                             <div>
                                 <br>
                                 <label for="morada"><b>Morada </b></label>
-                                <input type="text" name="morada" placeholder="Ex.:  Campo Grande 376, 1749-024 Lisboa" asp-for="email">
+                                <input type="text" name="morada" placeholder="Ex.:  Campo Grande 376, 1749-024 Lisboa" asp-for="morada">
                             </div>
                             <div>
                                 <br>
@@ -145,13 +145,13 @@
                             <div>
                                 <br>
                                 <label for="password"><b>Password </b></label>
-                                <input type="password" name="password" placeholder="" asp-for="email">
+                                <input type="password" name="password" placeholder="" asp-for="password">
                             </div>
                             <div>
                                 <input type="checkbox" name="sessao" value="sessao" /> Li e compreendi a informação sobre a utilização dos meus dados pessoais explicada na Política de privacidade
                             </div>
                             <div class="buttonCreate" style="width:1000px;height:80px;">
-                                <input type="submit" value="Criar conta">
+                                <input type="submit" value="Criar conta" asp-action="Registar">
                             </div>
                         </form>
                     </div>
