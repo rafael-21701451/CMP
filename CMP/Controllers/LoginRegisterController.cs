@@ -63,12 +63,40 @@ namespace CMP.Controllers
         [HttpPost]
         public IActionResult Registar(LoginRegistarView dados)
         {
-            if (ModelState.IsValid)
-            {
+           
                 bool valid = true;
                 int id = -1;
 
-                if (!verificarUsername(dados.username))
+                if (String.IsNullOrEmpty(dados.nome))
+                {
+                    valid = false;
+                    ModelState.AddModelError("nome", "Nome obrigatório");
+                }
+                if (String.IsNullOrEmpty(dados.morada))
+                {
+                    valid = false;
+                    ModelState.AddModelError("morada", "Morada obrigatóri");
+                }
+                if (String.IsNullOrEmpty(dados.username))
+                {
+                    valid = false;
+                    ModelState.AddModelError("username", "Username obrigatório");
+                }
+                if (String.IsNullOrEmpty(dados.emailReg))
+                {
+                    valid = false;
+                    ModelState.AddModelError("emailReg", "Email obrigatório");
+                }
+                if (String.IsNullOrEmpty(dados.passwordReg))
+                {
+                    valid = false;
+                    ModelState.AddModelError("passwordReg", "Password obrigatória");
+                }
+            if (valid == false)
+            {
+                return View("Index");
+            }
+            if (!verificarUsername(dados.username))
                 {
                     valid = false;
                     ModelState.AddModelError("username", "Username já existe");
@@ -119,13 +147,7 @@ namespace CMP.Controllers
                     }
                 }
                 return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                return View("Index");
-            }
-
-        }
+            }        
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
