@@ -70,7 +70,6 @@ namespace CMP.Controllers
             {
                 ModelState.AddModelError("", "Email Obrigatório");
                 return View();
-
             }
             else if (jaSubscrito)
             {

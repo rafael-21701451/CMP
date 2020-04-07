@@ -31,28 +31,59 @@ namespace CMP.Controllers
         [HttpPost]
         public IActionResult Registar(LoginRegistarView dados)
         {
-            string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            if (ModelState.IsValid)
             {
-                string sql = $"Insert Into Account (username, email, password, newsletter) Values ('{dados.username}','{dados.email}','{dados.password}','false')";
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                bool valid = true;
+                int id = -1;
+
+                if (!verificarUsername(dados.username))
                 {
-                    command.CommandType = System.Data.CommandType.Text;
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
+                    ModelState.AddModelError("username", "Username já existe");
+                    return View("Index");
                 }
 
-                sql = $"Insert Into Cliente (nome, morada, account_id, role_id,group_id) Values ('{dados.nome}','{dados.morada}','{4}','{1}','{1}')";
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    command.CommandType = System.Data.CommandType.Text;
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
+                    string sql = $"Insert Into Account (username, email, password, newsletter) Values ('{dados.username}','{dados.email}','{dados.password}','false')";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        command.CommandType = System.Data.CommandType.Text;
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                    }
+
+                    sql = $"SELECT * FROM Account WHERE id = (SELECT MAX(id) FROM Account)";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        using (SqlDataReader dataReader = command.ExecuteReader())
+                        {
+                            while (dataReader.Read())
+                            {
+                                id = Convert.ToInt32(dataReader["id"]);
+                            }
+                        }
+                        connection.Close();
+                    }
+
+                    sql = $"Insert Into Cliente (nome, morada, account_id, role_id,group_id) Values ('{dados.nome}','{dados.morada}','{id}','{1}','{1}')"; //INSERE SEMPRE DO TIPO USER
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        command.CommandType = System.Data.CommandType.Text;
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                    }
                 }
+                return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Index","Home");
+            else
+            {
+                return View("Index");
+            }
+
         }
 
 
@@ -61,5 +92,31 @@ namespace CMP.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public bool verificarUsername(String user)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Account";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToString(dataReader["username"]).Equals(user))
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return true;
+        }
     }
+  
 }
