@@ -29,6 +29,38 @@ namespace CMP.Controllers
         }
 
         [HttpPost]
+        public IActionResult Login(LoginRegistarView dados)
+        {
+
+
+            bool valid = true;
+            int id = -1;
+            String email = dados.email;
+            String password = dados.password;
+
+            if (String.IsNullOrEmpty(email))
+            {
+                valid = false;
+                ModelState.AddModelError("email", "Email obrigatório");
+            }
+            if (String.IsNullOrEmpty(password))
+            {
+                valid = false;
+                ModelState.AddModelError("password", "Password obrigatória");
+            }
+            if (valid == false)
+            {
+                return View("Index");
+            }
+            if (!verificarConta(email, password))
+            {
+                ModelState.AddModelError("password", "Email e/ou password incorreta");
+                return View("Index");
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
         public IActionResult Registar(LoginRegistarView dados)
         {
             if (ModelState.IsValid)
@@ -54,7 +86,7 @@ namespace CMP.Controllers
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    string sql = $"Insert Into Account (username, email, password, newsletter) Values ('{dados.username}','{dados.email}','{dados.password}','false')";
+                    string sql = $"Insert Into Account (username, email, password, newsletter) Values ('{dados.username}','{dados.emailReg}','{dados.passwordReg}','false')";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.CommandType = System.Data.CommandType.Text;
@@ -150,6 +182,31 @@ namespace CMP.Controllers
                 }
             }
             return true;
+        }
+
+        public bool verificarConta(String email, String password)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Account";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToString(dataReader["email"]).Equals(email) && Convert.ToString(dataReader["password"]).Equals(password))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return false;
         }
     }
   
