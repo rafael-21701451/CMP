@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using CMP.Models;
 using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -29,7 +32,7 @@ namespace CMP.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(LoginRegistarView dados)
+        public async Task<IActionResult> Login(LoginRegistarView dados)
         {
 
 
@@ -57,6 +60,20 @@ namespace CMP.Controllers
                 ModelState.AddModelError("password", "Email e/ou password incorreta");
                 return View("Index");
             }
+
+            var claims = new[] {
+                                new Claim(ClaimTypes.Name, email),//0
+                            };
+
+            var authProperties = new AuthenticationProperties
+            {
+                AllowRefresh = true,
+                IsPersistent = true,
+            };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
             return RedirectToAction("Index", "Home");
         }
 
