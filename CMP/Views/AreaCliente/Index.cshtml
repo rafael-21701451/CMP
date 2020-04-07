@@ -19,6 +19,18 @@
         color: black;
         width: 110px;
     }
+    .btn-group button {
+        background-color: white; 
+        border: 2px solid grey;
+        color: black;
+        padding: 10px 24px;
+        cursor: pointer;
+        width: 50%;
+        display: block;
+    }
+    .btn-group button:hover {
+        background-color: whitesmoke;
+    }
 </style>
 
 <body>
@@ -30,24 +42,18 @@
 
     <div class="container">
         <div class="row" style="padding-bottom: 2em;">
-            <div class="col-md-3" id="dados" style="padding-top: 2em; border: 1px solid grey;border-radius: 5px;">
-                <center>
-                    <a id="caixa" class="button" style="font-family: 'Century Gothic'; padding-top: 2em;">
-                        <p><b>[Ebook]</b></p>
-                        <b>Como captar talento</b><br />
-                        <p><b>nas empresas de TI</b></p>
-                        <span style="font-size:15px">Um guia para atrair os <br /> melhores colaboradores </span>
-                    </a>
-                </center>
-                <p style="font-size: 20px; text-align: center; margin-top: 5px"><b><span>Ebook</span></b></p>
-                <p style="font-size: 20px; text-align: center; margin-top: 5px"><b><span>5.0</span></b><img src="~/images/star.png" width="20" height="20" style="margin-left:5px; margin-bottom: 6px;"></p>
-                <center>
-                    <a id="botao" class="button" style="font-family: 'Century Gothic'; "><b>DOWNLOAD</b></a>
-                </center>
+            <div class="col-md-3" style="padding-top: 2em;">
+                <div class="btn-group">
+                    <button>Dados Pessoais</button>
+                    <br>
+                    <button>Minhas Encomendas</button>
+                    <br>
+                    <button>Meus Produtos</button>
+                </div>
             </div>
-            <div class="col-md-9" style="padding-top: 2em; border: 1px solid grey;border-radius: 5px;">
+            <div class="col-md-9" style="padding-top: 2em;">
                 <center>
-                    <a id="caixa" class="button" style="font-family: 'Century Gothic'; padding-top: 2em; width: 432px; height:255px;">
+                    <a class="button" style="font-family: 'Century Gothic'; padding-top: 2em; width: 432px; height:255px;">
                         <p><b>VÍDEO 01</b></p>
                         <b>Dicas de Marketing - O que é o Inbound<br />Marketing?</b>
                         <p><img src="~/images/videob.png" width="100" height="100"></p>
