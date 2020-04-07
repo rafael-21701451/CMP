@@ -102,6 +102,7 @@
             <div class="row" style="padding-bottom: 1em;padding-top:1em">
                 <div class="col-md-6" id="conta" style="padding-top: 2em;border-right: 1px solid grey;height: 800px;">
                     <p style="font-size: 20px; text-align: center; margin-top: 5px"><b><span>CLIENTES REGISTADOS</span></b></p>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <form method="post">
                         <div>
                             <label for="email"><b>Email </b></label>
@@ -118,7 +119,7 @@
                             <input type="checkbox" name="sessao" value="sessao" /> Manter sessão iniciada
                         </div>
                         <div>
-                            <input type="submit" value="Entrar">
+                            <input type="submit" value="Entrar" asp-action="Login">
                         </div>
                     </form>
                 </div>

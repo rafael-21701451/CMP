@@ -38,7 +38,16 @@ namespace CMP.Controllers
 
                 if (!verificarUsername(dados.username))
                 {
+                    valid = false;
                     ModelState.AddModelError("username", "Username já existe");
+                }
+                if (!verificarEmail(dados.emailReg))
+                {
+                    valid = false;
+                    ModelState.AddModelError("emailReg", "Email já existe");
+                }
+                if (valid == false)
+                {
                     return View("Index");
                 }
 
@@ -107,6 +116,31 @@ namespace CMP.Controllers
                         while (dataReader.Read())
                         {
                             if (Convert.ToString(dataReader["username"]).Equals(user))
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return true;
+        }
+
+        public bool verificarEmail(String email)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Account";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToString(dataReader["email"]).Equals(email))
                             {
                                 return false;
                             }
