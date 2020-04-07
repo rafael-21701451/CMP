@@ -26,7 +26,14 @@
                 <a style="color: black; font-family: 'Century Gothic'; font-size: 50px;" asp-area="" asp-controller="Home" asp-action="Index"><b>Content Marketplace Platform</b></a>
             </div>
             <div class="col-md-1 text-right mt-4">
-                <a class = "image"asp-area="" asp-controller="LoginRegister" asp-action="Index"><img src="~/images/user.png" width="30" height="30"></a>
+                @if (@User.Identity.IsAuthenticated == false)
+                {
+                    <a class="image" asp-area="" asp-controller="LoginRegister" asp-action="Index"><img src="~/images/user.png" width="30" height="30"></a>
+                }
+                else
+                {
+                    <a class="image" asp-area="" asp-controller="AreaCliente" asp-action="Index"><img src="~/images/user.png" width="30" height="30"></a>
+                }
             </div>
             <div class="col-md-1 text-center mt-4">
                 <a class = "image"asp-area="" asp-controller="AreaCliente" asp-action="Index"><img src="~/images/fav.png" width="30" height="30"></a>
