@@ -51,6 +51,7 @@
             box-sizing: border-box;
             border: 1px solid grey;
             border-radius: 4px;
+            background-color: whitesmoke;
         }
 
 
@@ -63,11 +64,11 @@
         </div>
 
         <div class="container" style="background-color: white">
-            <div class="row" style="padding-bottom: 1em;padding-top:1em">
-                <div class="col-md-3" style="padding-top: 2em;height: 900px;">
+            <div class="row" style="padding-top:1em">
+                <div class="col-md-3" style="height: 700px;">
                 </div>
 
-                <div class="col-md-6"style="padding-top: 2em;height: 900px;">
+                <div class="col-md-6"style="height: 700px;">
                     <form method="post">
                         <div>
                             <input type="text" name="nome" placeholder="Nome" asp-for="nome">
@@ -90,17 +91,17 @@
                         </div>
                         <div>
                             <br>
-                            <input type="text" name="mensagem" placeholder="Mensagem" asp-for="mensagem">
+                            <input type="text" name="mensagem" placeholder="Mensagem" asp-for="mensagem" style="height:200px; text-align:initial">
                             <span asp-validation-for="mensagem" class="text-danger"></span>
                         </div>
 
-                        <div class="buttonCreate" style="width:3500px;height:80px;">
+                        <div class="buttonCreate" style="width:3585px;height:80px;">
                             <input type="submit" value="Enviar" asp-action="Registar">
                         </div>
                     </form>
                 </div>
 
-                <div class="col-md-3" style="padding-top: 2em;height: 900px;">
+                <div class="col-md-3" style="height: 700px;">
                 </div>
             </div>
         </div>
