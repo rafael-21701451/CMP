@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CMP.Controllers
 {
-    [Authorize]
     public class AreaClienteController : Controller
     {
         public IActionResult Index()

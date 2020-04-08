@@ -63,6 +63,7 @@ namespace CMP.Controllers
 
             var claims = new[] {
                                 new Claim(ClaimTypes.Name, email),//0
+                                new Claim("nome", getNomeByEmail(email))//1
                             };
 
             var authProperties = new AuthenticationProperties
@@ -246,6 +247,57 @@ namespace CMP.Controllers
                 }
             }
             return false;
+        }
+
+        public String getNomeByEmail(String email)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Account";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToString(dataReader["email"]).Equals(email))
+                            {
+                                return getNomeCliente(Convert.ToInt32(dataReader["id"]));
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return null;
+        }
+
+        public String getNomeCliente(int id)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Cliente";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["account_id"])==id)
+                            {
+                                return Convert.ToString(dataReader["nome"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return null;
+
         }
     }
   
