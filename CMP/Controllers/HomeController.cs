@@ -71,12 +71,12 @@ namespace CMP.Controllers
                     connection.Close();
                 }
             }
-            if (email.Equals(""))
+            if (String.IsNullOrEmpty(account.email))
             {
-                ModelState.AddModelError("", "Email Obrigatório");
+                ModelState.AddModelError("email", "Email Obrigatório");
                 return View();
             }
-            else if (jaSubscrito)
+            else if (jaSubscrito || email.Equals(""))
             {
                 return View();
             }
@@ -84,7 +84,7 @@ namespace CMP.Controllers
             {
                 SmtpClient client = new SmtpClient("smtp.live.com");
                 client.EnableSsl = true;
-                client.UseDefaultCredentials = false;
+                client.UseDefaultCredentials = true;
                 client.Credentials = new NetworkCredential("rafael_lemos@live.com.pt", "Sporting7675.");
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.From = new MailAddress("rafael_lemos@live.com.pt");

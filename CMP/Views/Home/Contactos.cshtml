@@ -1,4 +1,4 @@
-﻿@model LoginRegistarView
+﻿@model ContactosView
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -70,28 +70,28 @@
                 <div class="col-md-6"style="padding-top: 2em;height: 900px;">
                     <form method="post">
                         <div>
-                            <input type="text" name="nome" placeholder="Nome" asp-for="username">
-                            <span asp-validation-for="username" class="text-danger"></span>
-                        </div>
-                        <div>
-                            <br>
-                            <input type="text" name="email" placeholder="Email" asp-for="nome">
+                            <input type="text" name="nome" placeholder="Nome" asp-for="nome">
                             <span asp-validation-for="nome" class="text-danger"></span>
                         </div>
                         <div>
                             <br>
-                            <input type="text" name="empresa" placeholder="Empresa" asp-for="morada">
-                            <span asp-validation-for="morada" class="text-danger"></span>
+                            <input type="text" name="email" placeholder="Email" asp-for="email">
+                            <span asp-validation-for="email" class="text-danger"></span>
                         </div>
                         <div>
                             <br>
-                            <input type="text" name="setorAtividade" placeholder="Setor de Atividade" asp-for="emailReg">
-                            <span asp-validation-for="emailReg" class="text-danger"></span>
+                            <input type="text" name="empresa" placeholder="Empresa" asp-for="empresa">
+                            <span asp-validation-for="empresa" class="text-danger"></span>
                         </div>
                         <div>
                             <br>
-                            <input type="text" name="mensagem" placeholder="Mensagem" asp-for="passwordReg">
-                            <span asp-validation-for="passwordReg" class="text-danger"></span>
+                            <input type="text" name="setorAtividade" placeholder="Setor de Atividade" asp-for="setor">
+                            <span asp-validation-for="setor" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <br>
+                            <input type="text" name="mensagem" placeholder="Mensagem" asp-for="mensagem">
+                            <span asp-validation-for="mensagem" class="text-danger"></span>
                         </div>
 
                         <div class="buttonCreate" style="width:3500px;height:80px;">
