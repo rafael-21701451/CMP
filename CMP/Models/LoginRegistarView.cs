@@ -8,6 +8,11 @@ namespace CMP.Models
 {
     public class LoginRegistarView
     {
+
+        public bool sessao { get; set; }
+
+        public bool termos { get; set; }
+
         public string email { get; set; }
 
         public string password { get; set; }

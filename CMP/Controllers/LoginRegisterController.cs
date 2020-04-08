@@ -67,16 +67,31 @@ namespace CMP.Controllers
                                 new Claim("id", Convert.ToString(getIdByEmail(email))),//2
                             };
 
-            var authProperties = new AuthenticationProperties
+            if (!dados.sessao)
             {
-                AllowRefresh = true,
-                IsPersistent = false,
-            };
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = false,
+                };
 
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
-            return RedirectToAction("Index", "Home");
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity),authProperties);
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                };
+
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity),authProperties);
+                return RedirectToAction("Index", "Home");
+            }
+            
         }
 
         [HttpPost]
@@ -111,6 +126,11 @@ namespace CMP.Controllers
                     valid = false;
                     ModelState.AddModelError("passwordReg", "Password obrigatória");
                 }
+            if (!dados.termos)
+            {
+                valid = false;
+                ModelState.AddModelError("termos", "É necessário aceitar os termos");
+            }
             if (valid == false)
             {
                 return View("Index");
