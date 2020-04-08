@@ -63,13 +63,14 @@ namespace CMP.Controllers
 
             var claims = new[] {
                                 new Claim(ClaimTypes.Name, email),//0
-                                new Claim("nome", getNomeByEmail(email))//1
+                                new Claim("nome", getNomeByEmail(email)),//1
+                                new Claim("id", Convert.ToString(getIdByEmail(email))),//2
                             };
 
             var authProperties = new AuthenticationProperties
             {
                 AllowRefresh = true,
-                IsPersistent = true,
+                IsPersistent = false,
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -93,7 +94,7 @@ namespace CMP.Controllers
                 if (String.IsNullOrEmpty(dados.morada))
                 {
                     valid = false;
-                    ModelState.AddModelError("morada", "Morada obrigatóri");
+                    ModelState.AddModelError("morada", "Morada obrigatória");
                 }
                 if (String.IsNullOrEmpty(dados.username))
                 {
@@ -272,6 +273,31 @@ namespace CMP.Controllers
                 }
             }
             return null;
+        }
+
+        public int getIdByEmail(String email)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Account";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToString(dataReader["email"]).Equals(email))
+                            {
+                                return Convert.ToInt32(dataReader["id"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
         }
 
         public String getNomeCliente(int id)
