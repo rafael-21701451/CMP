@@ -26,44 +26,11 @@
         input[type=submit]:hover {
             background-color: rgb(120,120,120);
         }
-        #conta:hover {
+        #contacto {
             background-color: whitesmoke;
             border-radius: 4px;
         }
-        #botao {
-            background-color: white;
-            font-family: 'Century Gothic';
-            border-radius: 8px;
-            border: 2px solid #ff01f2;
-            padding-right: 1em;
-            padding-left: 1em;
-            color: black;
-            display: block;
-            width: 110px;
-        }
-
-        #botao1 {
-            background-color: white;
-            font-family: 'Century Gothic';
-            border-radius: 8px;
-            border: 2px solid #ff01f2;
-            padding-right: 1em;
-            padding-left: 1em;
-            color: black;
-            width: 50%;
-            display: block;
-        }
-        #botao2 {
-            background-color: rgba(67,67,67,1);
-            font-family: 'Century Gothic';
-            border-radius: 8px;
-            border: 2px solid #ff01f2;
-            padding-right: 1em;
-            padding-left: 1em;
-            color: black;
-            display: block;
-            width: 130px;
-        }
+      
         .barslide {
             padding-top: 50px;
             padding-bottom:50px;
@@ -86,23 +53,55 @@
             border-radius: 4px;
         }
 
-        input[type=password] {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            box-sizing: border-box;
-            border: 1px solid grey;
-            border-radius: 4px;
-        }
 
     </style>
 
     <body>
         <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
-            <p style="font-size: 40px; "><b><span>Contactos</span></b></p>
-            <p style="font-size: 20px; "><span>?????????????????????</span></p>
+            <p style="font-size: 40px; "><b><span>Contacte-nos</span></b></p>
+            <p style="font-size: 20px; "><span>Envia-nos um email para expor as suas dúvidas</span></p>
         </div>
 
-        
-        
+        <div class="container" style="background-color: white">
+            <div class="row" style="padding-bottom: 1em;padding-top:1em">
+                <div class="col-md-3" style="padding-top: 2em;height: 900px;">
+                </div>
+
+                <div class="col-md-6"style="padding-top: 2em;height: 900px;">
+                    <form method="post">
+                        <div>
+                            <input type="text" name="nome" placeholder="Nome" asp-for="username">
+                            <span asp-validation-for="username" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <br>
+                            <input type="text" name="email" placeholder="Email" asp-for="nome">
+                            <span asp-validation-for="nome" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <br>
+                            <input type="text" name="empresa" placeholder="Empresa" asp-for="morada">
+                            <span asp-validation-for="morada" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <br>
+                            <input type="text" name="setorAtividade" placeholder="Setor de Atividade" asp-for="emailReg">
+                            <span asp-validation-for="emailReg" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <br>
+                            <input type="text" name="mensagem" placeholder="Mensagem" asp-for="passwordReg">
+                            <span asp-validation-for="passwordReg" class="text-danger"></span>
+                        </div>
+
+                        <div class="buttonCreate" style="width:3500px;height:80px;">
+                            <input type="submit" value="Enviar" asp-action="Registar">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-md-3" style="padding-top: 2em;height: 900px;">
+                </div>
+            </div>
+        </div>
     </body>
