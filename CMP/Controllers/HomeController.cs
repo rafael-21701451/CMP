@@ -21,6 +21,11 @@ namespace CMP.Controllers
             _configuration = configuration;
         }
 
+        public IActionResult Contactos()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();
