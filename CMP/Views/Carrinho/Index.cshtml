@@ -1,4 +1,4 @@
-﻿
+﻿@model Carrinho
 @{
     ViewData["Title"] = "Index";
 }
@@ -22,21 +22,106 @@
     </style>
 
     <body>
-        <div class="text-center" style="color:black; font-family: 'Century Gothic'; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
-            <p style="font-size: 40px; "><b><span>O seu carrinho de compras está vazio</span></b></p>
-        </div>
 
-        <div class="container" style="background-color: white">
-            <center>
-                <img src="~/images/carrinho.png" width="222" height="255" padding-right="100">
-            </center>
-        </div>
+        @if (Model.produtos == null)
+        {
+            <div class="text-center" style="color:black; font-family: 'Century Gothic'; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
+                <p style="font-size: 40px; "><b><span>O seu carrinho de compras está vazio</span></b></p>
+            </div>
 
-        <div class="text-center" style="color:black; font-family: 'Century Gothic'; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
-            <p style="font-size: 20px; "><span>Comece a adicionar produtos ao seu carrinho</span></p>
-        </div>
+            <div class="container" style="background-color: white">
+                <center>
+                    <img src="~/images/carrinho.png" width="222" height="255" padding-right="100">
+                </center>
+            </div>
 
-        <div class="container" style="background-color: white">
+            <div class="text-center" style="color:black; font-family: 'Century Gothic'; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
+                <p style="font-size: 20px; "><span>Comece a adicionar produtos ao seu carrinho</span></p>
+            </div>
+        }
+        else
+        {
+            <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 0.5em;">
+                <p style="font-size: 40px; "><b><span>O SEU CARRINHO DE COMPRAS</span></b></p>
+            </div>
+
+            @foreach (var p in Model.produtos)
+            {
+                <div class="container" style="background-color: white">
+                    <div class="row" style="padding-bottom: 2em;">
+                        <div class="col-md-3" style="padding-top: 2em;">
+                            <center>
+                                <img src="~/images/artigoBlogOpcao.png" width="200" height="150" padding-right="100">
+                            </center>
+                        </div>
+
+                        <div class="col-md-3" style="padding-top: 2em; font-size: 20px; text-align: center; font-family: 'Century Gothic';">
+                            <p style="margin-top: 1em"><b><span>@p.categoria</span></b></p>
+                            <p><span>@p.nome</span></p>
+                        </div>
+
+                        <div class="col-md-3" style="padding-top: 2em; font-family: 'Century Gothic';">
+                            <p style="font-size: 20px; text-align: center; margin-top: 3em"><span>@p.preco€</span></p>
+                        </div>
+
+                        <div class="col-md-3" style="padding-top: 3em; font-family: 'Century Gothic';">
+                            <center>
+                                <a id="botao" class="button" style=" margin-top: 3em"><b>REMOVER</b></a>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="separar" />
+            }
+
+            <div class="container" style="background-color: white">
+                <div class="row" style="font-family: 'Century Gothic';">
+                    <div class="col-md-9" style="padding-top: 1em;"></div>
+
+                    <div class="col-md-3" style="padding-top: 1em">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <p style="font-size: 15px; text-align: right;"><span>Subtotal</span></p>
+                            </div>
+                            <div class="col-md-5">
+                                <p style="font-size: 15px; text-align: left;"><span><b>@Model.subtotal€</b></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="background-color: white">
+                <div class="row" style="font-family: 'Century Gothic';">
+                    <div class="col-md-9" style="padding-top: 1em;"></div>
+
+                    <div class="col-md-3" style="padding-top: 1em">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <p style="font-size: 15px; text-align: right;"><span>Total (IVA incluído)</span></p>
+                            </div>
+                            <div class="col-md-5">
+                                <p style="font-size: 15px; text-align: left;"><span><b>@Model.total€</b></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background-color: white">
+                <div class="row" style="font-family: 'Century Gothic'; background-color:whitesmoke;padding-top: 1em;padding-bottom: 1em; border-radius: 8px;">
+                    <div class="col-md-7" style="padding-top: 2em;">
+                    </div>
+                    <div class="col-md-5">
+                        <center>
+                            <a id="botao" class="button"><b>Finalizar Compra</b></a>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="container" style="background-color: white; padding-top: 1em">
             <p style="font-size: 40px; text-align:center"><b><span>QUEM COMPROU TAMBÉM COMPROU</span></b></p>
             <div class="row" style="padding-bottom: 2em;">
                 <div class="col-md-8" id="produto" style="padding-top: 2em;">

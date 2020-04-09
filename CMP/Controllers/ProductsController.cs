@@ -41,7 +41,7 @@ namespace CMP.Controllers
             Product product = getProductByName("Criação de 4 textos de 500 palavras");
             string sql = "";
             int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
-            Compra compra = getCompraByCliente(idCliente);
+            Compra compra = new Compra();
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -113,7 +113,7 @@ namespace CMP.Controllers
 
 
             }
-            return View();
+            return RedirectToAction("Index","Carrinho");
         }
 
 
