@@ -53,8 +53,14 @@
             border-radius: 4px;
             background-color: whitesmoke;
         }
-
-
+        #mensagem {
+            padding: 12px 20px;
+            margin: 8px 0;
+            resize: none;
+            border: 1px solid grey;
+            border-radius: 4px;
+            background-color: whitesmoke;
+        }
     </style>
 
     <body>
@@ -65,43 +71,46 @@
 
         <div class="container" style="background-color: white">
             <div class="row" style="padding-top:1em">
-                <div class="col-md-3" style="height: 700px;">
+                <div class="col-md-3" style="height: 900px;">
                 </div>
 
-                <div class="col-md-6"style="height: 700px;">
+                <div class="col-md-6"style="height: 900px;">
                     <form method="post">
                         <div>
+                            <label for="nome"><b>Nome </b></label>
                             <input type="text" name="nome" placeholder="Nome" asp-for="nome">
                             <span asp-validation-for="nome" class="text-danger"></span>
                         </div>
                         <div>
                             <br>
+                            <label for="email"><b>Email </b></label>
                             <input type="text" name="email" placeholder="Email" asp-for="email">
                             <span asp-validation-for="email" class="text-danger"></span>
                         </div>
                         <div>
                             <br>
+                            <label for="empres"><b>Empresa </b></label>
                             <input type="text" name="empresa" placeholder="Empresa" asp-for="empresa">
                             <span asp-validation-for="empresa" class="text-danger"></span>
                         </div>
                         <div>
                             <br>
+                            <label for="setorAtividade"><b>Setor de Atividade </b></label>
                             <input type="text" name="setorAtividade" placeholder="Setor de Atividade" asp-for="setor">
                             <span asp-validation-for="setor" class="text-danger"></span>
                         </div>
                         <div>
                             <br>
-                            <input type="text" name="mensagem" placeholder="Mensagem" asp-for="mensagem" style="height:200px; text-align:initial">
-                            <span asp-validation-for="mensagem" class="text-danger"></span>
+                            <label for="mensagem"><b>Mensagem </b></label>
+                            <textarea rows="7" cols="67" placeholder="Mensagem" id="mensagem"></textarea>
                         </div>
-
                         <div class="buttonCreate" style="width:3585px;height:80px;">
                             <input type="submit" value="Enviar" asp-action="Registar">
                         </div>
                     </form>
                 </div>
 
-                <div class="col-md-3" style="height: 700px;">
+                <div class="col-md-3" style="height: 900px;">
                 </div>
             </div>
         </div>
