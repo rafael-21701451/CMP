@@ -11,11 +11,7 @@
             background-color: rgba(67,67,67,1);
             font-family: 'Century Gothic';
             line-height: 100%;
-        }
-
-        #produto:hover {
-            background-color: whitesmoke;
-        }
+        }      
         #botao {
             background-color: white;
             font-family: 'Century Gothic';
@@ -39,6 +35,9 @@
             float: left;
             margin: 0 20px 20px 0;
         }
+        hr.separar{
+            border: 1px solid grey;
+        }
     </style>
 
     <body>
@@ -48,28 +47,108 @@
 
         <div class="container" style="background-color: white">
             <div class="row" style="padding-bottom: 2em;">
-                <div class="col-md-3" id="produto" style="padding-top: 2em;">
+                <div class="col-md-3" style="padding-top: 2em;">
                     <center>
-                        <img src="~/images/artigoBlogOpcao.png" width="150" height="150" padding-right="100">
+                        <img src="~/images/artigoBlogOpcao.png" width="200" height="150" padding-right="100">
                     </center>
                 </div>
 
-                <div class="col-md-3" id="produto" style="padding-top: 2em;">                   
-                    <p style="font-size: 20px; text-align: center; margin-top: 2em"><b><span>Artigo de Blog</span></b></p>
-                    <p style="font-size: 20px; text-align: center; margin-top: 5px"><span>Criação de 8 textos de 1000 palavras</span></p>                 
+                <div class="col-md-3" style="padding-top: 2em; font-size: 20px; text-align: center; font-family: 'Century Gothic';">
+                    <p style="margin-top: 1em"><b><span>Artigo de Blog</span></b></p>
+                    <p><span>Criação de 8 textos de 1000 palavras</span></p>
                 </div>
 
-                <div class="col-md-3" id="produto" style="padding-top: 2em;">                
-                    <p style="font-size: 20px; text-align: center; margin-top: 3em"><span>800€</span></p>                    
+                <div class="col-md-3" style="padding-top: 2em; font-family: 'Century Gothic';">
+                    <p style="font-size: 20px; text-align: center; margin-top: 3em"><span>800€</span></p>
                 </div>
 
-                <div class="col-md-3" id="produto" style="padding-top: 5em;">                                      
+                <div class="col-md-3" style="padding-top: 3em; font-family: 'Century Gothic';">
                     <center>
-                        <a id="botao" class="button" style="font-family: 'Century Gothic'; "><b>REMOVER</b></a>
+                        <a id="botao" class="button" style=" margin-top: 3em"><b>REMOVER</b></a>
                     </center>
                 </div>
             </div>
         </div>
-        <hr />
+
+        <hr class="separar"/>
+
+        <div class="container" style="background-color: white">
+            <div class="row" style="padding-bottom: 2em;">
+                <div class="col-md-3" style="padding-top: 2em;">
+                    <center>
+                        <img src="~/images/artigoBlogOpcao.png" width="200" height="150" padding-right="100">
+                    </center>
+                </div>
+
+                <div class="col-md-3" style="padding-top: 2em; font-size: 20px; text-align: center; font-family: 'Century Gothic';">
+                    <p style="margin-top: 1em"><b><span>Artigo de Blog</span></b></p>
+                    <p><span>Criação de 8 textos de 1000 palavras</span></p>
+                </div>
+
+                <div class="col-md-3" style="padding-top: 2em; font-family: 'Century Gothic';">
+                    <p style="font-size: 20px; text-align: center; margin-top: 3em"><span>800€</span></p>
+                </div>
+
+                <div class="col-md-3" style="padding-top: 3em; font-family: 'Century Gothic';">
+                    <center>
+                        <a id="botao" class="button" style=" margin-top: 3em"><b>REMOVER</b></a>
+                    </center>
+                </div>
+            </div>
+        </div>
+
+        <hr class="separar"/>
+
+        <div class="container" style="background-color: white">
+            <div class="row" style="font-family: 'Century Gothic';">
+                <div class="col-md-3" style="padding-top: 2em;">
+                </div>
+
+                <div class="col-md-3">
+                </div>
+
+                <div class="col-md-3">
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="row">
+                            <div class="col-2 col-sm-6">
+                                <p style="font-size: 15px; text-align: center; margin-top: 3em"><span>Subtotal</span></p>
+                            </div>
+                            <div class="col-2 col-sm-6">
+                                <p style="font-size: 15px; text-align: center; margin-top: 3em"><span><b>1600€</b></span></p>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>                
+            </div>
+        </div>
+
+        <div class="container" style="background-color: white">
+            <div class="row" style="font-family: 'Century Gothic'; background-color:whitesmoke;padding-top: 1em;padding-bottom: 1em; border-radius: 8px;">
+                <div class="col-md-3" style="padding-top: 2em;">
+                </div>
+
+                <div class="col-md-3">
+                </div>
+
+                <div class="col-md-3">
+                </div>
+
+                <div class="col-md-3">
+                    <center>
+                        <a id="botao" class="button"><b>Finalizar Compra</b></a>
+                    </center>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div style="color:black; font-family: 'Century Gothic'; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px; padding-left:10%">
+            <p style="font-size: 30px; "><b><span>Precisa de ajuda?</span></b></p>
+            Se precisar de ajuda pode ligar para o nosso número de telefone gratuito de apoio ao cliente 800 111 222 ou enviar um e-mail para content@platform.pt
+        </div>
     </body>
 
