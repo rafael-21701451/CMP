@@ -31,6 +31,32 @@ namespace CMP.Controllers
             return View();
         }
 
+        //APAGAR
+        public IActionResult APAGAR()
+        {
+            List<Account> contas = new List<Account>();
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "Select * From Account";
+                SqlCommand command = new SqlCommand(sql, connection);
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        Account c = new Account();
+                        c.id = Convert.ToInt32(dataReader["id"]);
+                        c.email = Convert.ToString(dataReader["email"]);
+                        c.password = Convert.ToString(dataReader["password"]);
+                        contas.Add(c);
+                    }
+                }
+                connection.Close();
+            }
+            return View(contas);
+        }
+
         [HttpPost]
         public IActionResult Index(Account account)
         {
