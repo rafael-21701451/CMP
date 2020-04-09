@@ -49,7 +49,7 @@ namespace CMP.Controllers
                 {
                     compra = getCompraByCliente(idCliente);
 
-                    sql = $"Update Compra SET sub_total='{Convert.ToString(compra.subTotal + product.preco).Replace(',', '.')}', total='{Convert.ToString(compra.subTotal + product.preco + ((compra.subTotal + product.preco) * 0.23)).Replace(',', '.')}' Where id='{idCliente}'";
+                    sql = $"Update Compra SET sub_total='{Convert.ToString(compra.subTotal + product.preco).Replace(',', '.')}', total='{Convert.ToString(compra.subTotal + product.preco + ((compra.subTotal + product.preco) * 0.23)).Replace(',', '.')}' Where id='{compra.id}'";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         connection.Open();
