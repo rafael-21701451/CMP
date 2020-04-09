@@ -26,6 +26,21 @@ namespace CMP.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Contactos(ContactosView dadosContacto)
+        {
+            if (ModelState.IsValid)
+            {
+                return View("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+
+
         public IActionResult Index()
         {
             return View();
