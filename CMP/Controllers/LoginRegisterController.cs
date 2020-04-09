@@ -67,7 +67,20 @@ namespace CMP.Controllers
                                 new Claim("id", Convert.ToString(getIdByEmail(email))),//2
                             };
 
-            if (!dados.sessao)
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"Insert Into Session (session_date, account_id) Values ('{string.Format("{0:yyyy-MM-dd HH:mm:ss}", DateTime.Now)}','{getIdByEmail(email)}')";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.CommandType = System.Data.CommandType.Text;
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+
+                if (!dados.sessao)
             {
                 var authProperties = new AuthenticationProperties
                 {
@@ -294,6 +307,7 @@ namespace CMP.Controllers
             }
             return null;
         }
+
 
         public int getIdByEmail(String email)
         {
