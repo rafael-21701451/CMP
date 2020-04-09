@@ -1,0 +1,75 @@
+﻿@model Account
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <style>
+        .bar {
+            padding-top: 100px;
+            padding-bottom: 100px;
+            color: white;
+            background-color: rgba(67,67,67,1);
+            font-family: 'Century Gothic';
+            line-height: 100%;
+        }
+
+        #produto:hover {
+            background-color: whitesmoke;
+        }
+        #botao {
+            background-color: white;
+            font-family: 'Century Gothic';
+            border-radius: 8px;
+            border: 2px solid #ff01f2;
+            padding-right: 1em;
+            padding-left: 1em;
+            color: black;
+            display: block;
+            width: 110px;
+        }
+        .barslide {
+            padding-top: 50px;
+            padding-bottom:50px;
+            color: white;
+            background-color: rgb(242,242,242);
+            font-family: 'Century Gothic';
+            line-height: 100%;
+        }
+        .textbar {
+            float: left;
+            margin: 0 20px 20px 0;
+        }
+    </style>
+
+    <body>
+        <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 0.5em;">
+            <p style="font-size: 40px; "><b><span>O SEU CARRINHO DE COMPRAS</span></b></p>
+        </div>
+
+        <div class="container" style="background-color: white">
+            <div class="row" style="padding-bottom: 2em;">
+                <div class="col-md-3" id="produto" style="padding-top: 2em;">
+                    <center>
+                        <img src="~/images/artigoBlogOpcao.png" width="150" height="150" padding-right="100">
+                    </center>
+                </div>
+
+                <div class="col-md-3" id="produto" style="padding-top: 2em;">                   
+                    <p style="font-size: 20px; text-align: center; margin-top: 2em"><b><span>Artigo de Blog</span></b></p>
+                    <p style="font-size: 20px; text-align: center; margin-top: 5px"><span>Criação de 8 textos de 1000 palavras</span></p>                 
+                </div>
+
+                <div class="col-md-3" id="produto" style="padding-top: 2em;">                
+                    <p style="font-size: 20px; text-align: center; margin-top: 3em"><span>800€</span></p>                    
+                </div>
+
+                <div class="col-md-3" id="produto" style="padding-top: 5em;">                                      
+                    <center>
+                        <a id="botao" class="button" style="font-family: 'Century Gothic'; "><b>REMOVER</b></a>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <hr />
+    </body>
+

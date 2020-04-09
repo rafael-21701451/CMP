@@ -13,6 +13,10 @@ namespace CMP.Controllers
     public class CarrinhoController : Controller
     {
         // GET: /<controller>/
+        public IActionResult CarrinhoCheio()
+        {
+            return View();
+        }
         public IActionResult Index()
         {
             return View();
