@@ -1,0 +1,241 @@
+﻿@model Carrinho
+@{
+    ViewData["Title"] = "Index";
+}
+
+    <style>
+        #produto:hover {
+            background-color: whitesmoke;
+        }
+
+        #botao {
+            display: block;
+            background-color: white;
+            font-family: 'Century Gothic';
+            border-radius: 8px;
+            border: 2px solid #ff01f2;
+            padding-right: 1em;
+            padding-left: 1em;
+            color: black;
+            width: 110px;
+        }
+        input[type=text], select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid grey;
+            border-radius: 4px;
+        }
+        .butaoRedondo {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 22px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .butaoRedondo input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: white;
+            border-radius: 50%;
+        }
+
+        .butaoRedondo:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        .butaoRedondo input:checked ~ .checkmark {
+            background-color: gray;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .butaoRedondo input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .butaoRedondo .checkmark:after {
+            top: 9px;
+            left: 9px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+        }
+    </style>
+
+    <body>
+        <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 0.5em;">
+            <p style="font-size: 40px; "><b><span>FINALIZAR COMPRA</span></b></p>
+        </div>
+
+        <div class="container" style="background-color: whitesmoke; border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 2em">
+            <p style="font-size: 20px; padding-top: 1em"><b><span>Dados de Faturação</span></b></p>
+
+            <div class="row" style="padding-bottom: 2em; margin-top: 1em">
+                <div class="col-md-8" style="padding-top: 1em;">
+                    <form method="post">
+                        <div>
+                            <label for="nome"><b>Nome </b></label>
+                            <input type="text" placeholder="Nome">
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-1" style="padding-top: 1em;">
+                </div>
+                <div class="col-md-3" style="padding-top: 1em;">
+                    <form method="post">
+                        <div>
+                            <label for="nif"><b>NIF </b></label>
+                            <input type="text" placeholder="NIF">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row" style="padding-bottom: 2em;">
+                <div class="col-md-8">
+                    <form method="post">
+                        <div>
+                            <label for="email"><b>Email </b></label>
+                            <input type="text" placeholder="Email">
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-3">
+                    <form method="post">
+                        <div>
+                            <label for="Nº telemóvel"><b>Nº Telemóvel </b></label>
+                            <input type="text" placeholder="Nº Telemóvel">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row" style="padding-bottom: 2em">
+                <div class="col-md-12">
+                    <form method="post">
+                        <div>
+                            <label for="morada"><b>Morada </b></label>
+                            <input type="text" placeholder="Morada">
+                        </div>
+                    </form>
+                </div>                
+            </div>
+        </div>
+
+        <div class="container" style="background-color: whitesmoke; border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 2em">
+            <p style="font-size: 20px; padding-top: 1em"><b><span>Forma de Pagamento</span></b></p>
+
+            <div class="row" style="padding-bottom: 2em; margin-top: 1em">
+                <div class="col-md-3" style="padding-top: 1em;">
+                    <form method="post">
+                        <label class="butaoRedondo">
+                            Visa
+                            <input type="radio" checked="checked" name="radio">
+                            <span class="checkmark"></span>
+                        </label>
+                        <br />
+                        <label class="butaoRedondo">
+                            Multibanco
+                            <input type="radio" name="radio">
+                            <span class="checkmark"></span>
+                        </label>
+                        <br />
+                        <label class="butaoRedondo">
+                            Paypal
+                            <input type="radio" name="radio">
+                            <span class="checkmark"></span>
+                        </label>
+                        <br />
+                        <label class="butaoRedondo">
+                            MB WAY
+                            <input type="radio" name="radio">
+                            <span class="checkmark"></span>
+                        </label>
+                    </form>
+                </div>
+                <div class="col-md-9" style="padding-top: 14em; padding-right: 3em">
+                    <center>
+                        <a id="botao" class="button"; style="float: right"><b>Confirmar</b></a>
+                    </center>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" style="background-color: white">
+            <div class="row" style="font-family: 'Century Gothic'; padding-top: 2em">
+                <div class="col-md-9"></div>
+
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <p style="font-size: 15px; text-align: right;"><span>Subtotal</span></p>
+                        </div>
+                        <div class="col-md-5">
+                            <p style="font-size: 15px; text-align: left;"><span><b></b></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container" style="background-color: white">
+            <div class="row" style="font-family: 'Century Gothic';">
+                <div class="col-md-9" style="padding-top: 1em;"></div>
+
+                <div class="col-md-3" style="padding-top: 1em">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <p style="font-size: 15px; text-align: right;"><span>Total (IVA incluído)</span></p>
+                        </div>
+                        <div class="col-md-5">
+                            <p style="font-size: 15px; text-align: left;"><span><b></b></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="background-color: white">
+            <div class="row" style="font-family: 'Century Gothic'; background-color:whitesmoke;padding-top: 1em;padding-bottom: 1em; border-radius: 8px;">
+                <div class="col-md-7" style="padding-top: 2em;">
+                </div>
+                <div class="col-md-5">
+                    <center>
+                        <a id="botao" class="button"><b>Finalizar</b></a>
+                    </center>
+                </div>
+            </div>
+        </div>
+
+
+        <hr>
+
+        <div style="color:black; font-family: 'Century Gothic'; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px; padding-left:10%">
+            <p style="font-size: 30px; "><b><span>Precisa de ajuda?</span></b></p>
+            Se precisar de ajuda pode ligar para o nosso número de telefone gratuito de apoio ao cliente 800 111 222 ou enviar um e-mail para content@platform.pt
+        </div>
+
+    </body>

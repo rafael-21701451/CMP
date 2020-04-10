@@ -22,7 +22,11 @@ namespace CMP.Controllers
             _configuration = configuration;
         }
 
-        public IActionResult Index()
+        public IActionResult Pagamento()
+        {
+            return View();
+        }
+            public IActionResult Index()
         {
             Carrinho carrinho = new Carrinho();
             int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
