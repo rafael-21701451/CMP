@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Cryptography;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -40,6 +41,12 @@ namespace CMP.Controllers
             int id = -1;
             String email = dados.email;
             String password = dados.password;
+
+            HashAlgorithm hasher;
+            hasher = new SHA256Managed();
+            byte[] mPasswordBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(password);
+            byte[] mPasswordHash = hasher.ComputeHash(mPasswordBytes);
+            password = Convert.ToBase64String(mPasswordHash, 0, mPasswordHash.Length);
 
             if (String.IsNullOrEmpty(email))
             {
@@ -163,10 +170,17 @@ namespace CMP.Controllers
                     return View("Index");
                 }
 
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            String password = dados.passwordReg;
+            HashAlgorithm hasher;
+            hasher = new SHA256Managed();
+            byte[] mPasswordBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(password);
+            byte[] mPasswordHash = hasher.ComputeHash(mPasswordBytes);
+            password = Convert.ToBase64String(mPasswordHash, 0, mPasswordHash.Length);
+
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    string sql = $"Insert Into Account (username, email, password, newsletter) Values ('{dados.username}','{dados.emailReg}','{dados.passwordReg}','false')";
+                    string sql = $"Insert Into Account (username, email, password, newsletter) Values ('{dados.username}','{dados.emailReg}','{password}','false')";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.CommandType = System.Data.CommandType.Text;
