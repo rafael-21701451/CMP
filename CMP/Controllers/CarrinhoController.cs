@@ -24,9 +24,61 @@ namespace CMP.Controllers
 
         public IActionResult Pagamento()
         {
-            return View();
+            FinalizarCompraView compraFin = new FinalizarCompraView();
+            int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
+            if (temCompraPorConfirmar(idCliente))
+            {
+                Compra compra = getCompraByCliente(idCliente);
+                compraFin.subtotal = compra.subTotal;
+                compraFin.total = compra.total;
+                return View(compraFin);
+            }
+            else
+            {
+                return View(compraFin);
+            }
         }
-            public IActionResult Index()
+
+        [HttpPost]
+        public IActionResult Pagamento(FinalizarCompraView finalizar)
+        {
+            int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
+            Compra compra = getCompraByCliente(idCliente);
+            if (ModelState.IsValid)
+            {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string sql = $"Insert Into Fatura (nome, morada, email, telemovel,nif,compra_id) Values ('{finalizar.nome}','{finalizar.morada}','{finalizar.email}','{finalizar.tlm}','{finalizar.nif}','{compra.id}')";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        command.CommandType = System.Data.CommandType.Text;
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                    }
+
+                    sql = $"Update Compra SET estado_id='{2}'";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                    }
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                FinalizarCompraView compraFin = new FinalizarCompraView();
+                compraFin.subtotal = compra.subTotal;
+                compraFin.total = compra.total;
+                return View(compraFin);
+            }
+        }
+
+
+        public IActionResult Index()
         {
             Carrinho carrinho = new Carrinho();
             int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));

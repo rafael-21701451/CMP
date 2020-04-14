@@ -1,44 +1,46 @@
-﻿@model Carrinho
+﻿@model FinalizarCompraView
 @{
     ViewData["Title"] = "Index";
 }
 
-    <style>
-        #produto:hover {
-            background-color: whitesmoke;
-        }
+<style>
+    #produto:hover {
+        background-color: whitesmoke;
+    }
 
-        #botao {
-            display: block;
-            background-color: white;
-            font-family: 'Century Gothic';
-            border-radius: 8px;
-            border: 2px solid #ff01f2;
-            padding-right: 1em;
-            padding-left: 1em;
-            color: black;
-            width: 110px;
-        }
-        input[type=text], select {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            box-sizing: border-box;
-            border: 1px solid grey;
-            border-radius: 4px;
-        }
-        .botaoRedondo {
-            display: block;
-            position: relative;
-            padding-left: 35px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            font-size: 22px;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
+    #botao {
+        display: block;
+        background-color: white;
+        font-family: 'Century Gothic';
+        border-radius: 8px;
+        border: 2px solid #ff01f2;
+        padding-right: 1em;
+        padding-left: 1em;
+        color: black;
+        width: 110px;
+    }
+
+    input[type=text], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 1px solid grey;
+        border-radius: 4px;
+    }
+
+    .botaoRedondo {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
 
         .botaoRedondo input {
             position: absolute;
@@ -46,113 +48,152 @@
             cursor: pointer;
         }
 
-        .checkmark {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 25px;
-            width: 25px;
-            background-color: white;
-            border-radius: 50%;
-        }
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: white;
+        border-radius: 50%;
+    }
 
-        .botaoRedondo:hover input ~ .checkmark {
-            background-color: #ccc;
-        }
+    .botaoRedondo:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
 
-        .botaoRedondo input:checked ~ .checkmark {
-            background-color: gray;
-        }
+    .botaoRedondo input:checked ~ .checkmark {
+        background-color: gray;
+    }
 
-        .checkmark:after {
-            content: "";
-            position: absolute;
-            display: none;
-        }
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
 
-        .botaoRedondo input:checked ~ .checkmark:after {
-            display: block;
-        }
+    .botaoRedondo input:checked ~ .checkmark:after {
+        display: block;
+    }
 
-        .botaoRedondo .checkmark:after {
-            top: 9px;
-            left: 9px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: white;
-        }
-    </style>
+    .botaoRedondo .checkmark:after {
+        top: 9px;
+        left: 9px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: white;
+    }
+</style>
 
-    <body>
-        <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 0.5em;">
-            <p style="font-size: 40px; "><b><span>FINALIZAR COMPRA</span></b></p>
+<body>
+    @if (Model.subtotal == 0)
+    {
+        <div class="text-center" style="color:black; font-family: 'Century Gothic'; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
+            <p style="font-size: 40px; "><b><span>O seu carrinho de compras está vazio</span></b></p>
         </div>
 
-        <div class="container" style="background-color: whitesmoke; border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 2em">
-            <p style="font-size: 20px; padding-top: 1em"><b><span>Dados de Faturação</span></b></p>
+        <div class="container" style="background-color: white">
+            <center>
+                <img src="~/images/carrinho.png" width="222" height="255" padding-right="100">
+            </center>
+        </div>
 
-            <div class="row" style="padding-bottom: 2em; margin-top: 1em">
-                <div class="col-md-8" style="padding-top: 1em;">
-                    <form method="post">
+        <div class="text-center" style="color:black; font-family: 'Century Gothic'; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
+            <p style="font-size: 20px; "><span>Comece a adicionar produtos ao seu carrinho</span></p>
+        </div>
+
+        <div class="container" style="background-color: white; padding-top: 1em">
+            <p style="font-size: 40px; text-align:center"><b><span>QUEM COMPROU TAMBÉM COMPROU</span></b></p>
+            <div class="row" style="padding-bottom: 2em;">
+                <div class="col-md-8" id="produto" style="padding-top: 2em;">
+                    <center>
+                        <img src="~/images/viedomarketing.jpg" width="620" height="255">
+                    </center>
+                    <p style="font-size: 20px; text-align: center; margin-top: 5px"><b><span>Video Marketing</span></b></p>
+                    <p style="font-size: 20px; text-align: center; margin-top: 5px"><b><span>5.0</span></b><img src="~/images/star.png" width="20" height="20" style="margin-left:5px; margin-bottom: 6px;"></p>
+                    <center>
+                        <a id="botao" class="button" style="font-family: 'Century Gothic'; "><b>VER MAIS</b></a>
+                    </center>
+                </div>
+                <div class="col-md-4" id="produto" style="padding-top: 2em;">
+                    <center>
+                        <img src="~/images/ebook.png" width="222" height="255" padding-right="100">
+                    </center>
+                    <p style="font-size: 20px; text-align: center; margin-top: 5px"><b><span>Ebook</span></b></p>
+                    <p style="font-size: 20px; text-align: center; margin-top: 5px"><b><span>5.0</span></b><img src="~/images/star.png" width="20" height="20" style="margin-left:5px; margin-bottom: 6px;"></p>
+                    <center>
+                        <a id="botao" class="button" style="font-family: 'Century Gothic'; "><b>VER MAIS</b></a>
+                    </center>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <form method="post">
+            <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 0.5em;">
+                <p style="font-size: 40px; "><b><span>FINALIZAR COMPRA</span></b></p>
+            </div>
+
+            <div class="container" style="background-color: whitesmoke; border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 2em">
+                <p style="font-size: 20px; padding-top: 1em"><b><span>Dados de Faturação</span></b></p>
+
+                <div class="row" style="padding-bottom: 2em; margin-top: 1em">
+                    <div class="col-md-8" style="padding-top: 1em;">
                         <div>
                             <label for="nome"><b>Nome </b></label>
-                            <input type="text" placeholder="Nome">
+                            <input type="text" name="nome" asp-for="nome" placeholder="Nome">
+                            <span asp-validation-for="nome" class="text-danger"></span>
                         </div>
-                    </form>
-                </div>
-                <div class="col-md-1" style="padding-top: 1em;">
-                </div>
-                <div class="col-md-3" style="padding-top: 1em;">
-                    <form method="post">
+                    </div>
+                    <div class="col-md-1" style="padding-top: 1em;">
+                    </div>
+                    <div class="col-md-3" style="padding-top: 1em;">
                         <div>
                             <label for="nif"><b>NIF </b></label>
-                            <input type="text" placeholder="NIF">
+                            <input type="text" name="nif" asp-for="nif" placeholder="NIF">
+                            <span asp-validation-for="nif" class="text-danger"></span>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row" style="padding-bottom: 2em;">
-                <div class="col-md-8">
-                    <form method="post">
+                <div class="row" style="padding-bottom: 2em;">
+                    <div class="col-md-8">
                         <div>
                             <label for="email"><b>Email </b></label>
-                            <input type="text" placeholder="Email">
+                            <input type="text" name="email" asp-for="email" placeholder="Email">
+                            <span asp-validation-for="email" class="text-danger"></span>
                         </div>
-                    </form>
-                </div>
-                <div class="col-md-1">
-                </div>
-                <div class="col-md-3">
-                    <form method="post">
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                    <div class="col-md-3">
                         <div>
                             <label for="Nº telemóvel"><b>Nº Telemóvel </b></label>
-                            <input type="text" placeholder="Nº Telemóvel">
+                            <input type="text" name="tlm" asp-for="tlm" placeholder="Nº Telemóvel">
+                            <span asp-validation-for="tlm" class="text-danger"></span>
                         </div>
-                    </form>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-bottom: 2em">
+                    <div class="col-md-12">
+                        <div>
+                            <label for="morada"><b>Morada </b></label>
+                            <input type="text" name="morada" asp-for="morada" placeholder="Morada">
+                            <span asp-validation-for="morada" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="row" style="padding-bottom: 2em">
-                <div class="col-md-12">
-                    <form method="post">
-                        <div>
-                            <label for="morada"><b>Morada </b></label>
-                            <input type="text" placeholder="Morada">
-                        </div>
-                    </form>
-                </div>                
-            </div>
-        </div>
+            <div class="container" style=" border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 2em">
 
-        <div class="container" style=" border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 2em">
-
-            <div class="row" style="padding-bottom: 2em;  margin-top: 1em">
-                <div class="col-md-4" style="padding-top: 1em; background-color: whitesmoke;font-size: 10px;">
-                    <a style="font-size: 20px; padding-top: 1em"><b><span>Forma de Pagamento</span></b></a>
-                    <p></p>
-                    <form method="post">
+                <div class="row" style="padding-bottom: 2em;  margin-top: 1em">
+                    <div class="col-md-4" style="padding-top: 1em; background-color: whitesmoke;font-size: 10px;">
+                        <a style="font-size: 20px; padding-top: 1em"><b><span>Forma de Pagamento</span></b></a>
+                        <p></p>
                         <label class="botaoRedondo">
                             <img src="~/images/visa.png" width="30" height="30">
                             Visa
@@ -180,40 +221,43 @@
                             <input type="radio" name="radio">
                             <span class="checkmark"></span>
                         </label>
-                    </form>
-                </div>
-                <div class="col-md-4" style="padding-top: 8em;font-size: 10px;">
-                    <div class="row">
-                        <div class="col-md-9">
-                            <p style="font-size: 30px; text-align: right;"><span>Subtotal</span></p>
+
+                    </div>
+                    <div class="col-md-4" style="padding-top: 8em;font-size: 10px;">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <p style="font-size: 30px; text-align: right;"><span>Subtotal</span></p>
+                            </div>
+                            <div class="col-md-3">
+
+                                <p style="font-size: 30px; text-align: left;"><span><b>@Model.subtotal€</b></span></p>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            
-                            <p style="font-size: 30px; text-align: left;"><span><b>70€</b></span></p>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <p style="font-size: 30px; text-align: right;"><span>Total (c/IVA)</span></p>
+                            </div>
+                            <div class="col-md-3">
+                                <p style="font-size: 30px; text-align: left;"><span><b>@Model.total€</b></span></p>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-9">
-                            <p style="font-size: 30px; text-align: right;"><span>Total (c/IVA)</span></p>
-                        </div>
-                        <div class="col-md-3">
-                            <p style="font-size: 30px; text-align: left;"><span><b>80€</b></span></p>
-                        </div>
+                    <div class="col-md-4" style="font-family: 'Century Gothic'; padding-top: 7em; padding-bottom: 1em; border-radius: 8px;">
+                        <center>
+                            <button id="botao" class="button" type="submit"><b>Finalizar</b></button>
+                        </center>
                     </div>
-                </div>
-                <div class="col-md-4" style="font-family: 'Century Gothic'; padding-top: 7em; padding-bottom: 1em; border-radius: 8px;">
-                    <center>
-                        <a id="botao" class="button"><b>Finalizar</b></a>
-                    </center>
                 </div>
             </div>
-        </div>
+        </form>
+    }
 
-        <hr>
 
-        <div style="color:black; font-family: 'Century Gothic'; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px; padding-left:10%">
-            <p style="font-size: 30px; "><b><span>Precisa de ajuda?</span></b></p>
-            Se precisar de ajuda pode ligar para o nosso número de telefone gratuito de apoio ao cliente 800 111 222 ou enviar um e-mail para content@platform.pt
-        </div>
+    <hr>
 
-    </body>
+    <div style="color:black; font-family: 'Century Gothic'; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px; padding-left:10%">
+        <p style="font-size: 30px; "><b><span>Precisa de ajuda?</span></b></p>
+        Se precisar de ajuda pode ligar para o nosso número de telefone gratuito de apoio ao cliente 800 111 222 ou enviar um e-mail para content@platform.pt
+    </div>
+
+</body>
