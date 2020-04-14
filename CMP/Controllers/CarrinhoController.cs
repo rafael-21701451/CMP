@@ -35,11 +35,11 @@ namespace CMP.Controllers
                 Compra compra = getCompraByCliente(idCliente);
                 carrinho.subtotal = compra.subTotal;
                 carrinho.total = compra.total;
-                List<int> idProdutosCompra = getIDProdutosCompra(compra.id);
+                List<Product> ProdutosCompra = getProdutosCompra(compra.id);
                 List<Product> produtosCarrinho = new List<Product>();
-                foreach(int i in idProdutosCompra)
+                foreach(Product p in ProdutosCompra)
                 {
-                    produtosCarrinho.Add(getProductByID(i));
+                    produtosCarrinho.Add(getProductByID(p));
                 }
                 carrinho.produtos = produtosCarrinho;
                 return View(carrinho);
@@ -49,6 +49,13 @@ namespace CMP.Controllers
                 return View(carrinho);
             }
             
+        }
+
+        public IActionResult Remover(int idProdutoCompra)
+        {
+            deleteBriefing(idProdutoCompra);
+            deleteProdutoCompra(idProdutoCompra);
+            return RedirectToAction("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -136,9 +143,9 @@ namespace CMP.Controllers
             return false;
         }
 
-        public List<int> getIDProdutosCompra(int idCompra)
+        public List<Product> getProdutosCompra(int idCompra)
         {
-            List<int> ids = new List<int>();
+            List<Product> ProdutoCompra = new List<Product>();
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -152,17 +159,20 @@ namespace CMP.Controllers
                         {
                             if (Convert.ToInt32(dataReader["compra_id"]) == idCompra)
                             {
-                                ids.Add(Convert.ToInt32(dataReader["produto_id"]));
+                                Product produto = new Product();
+                                produto.idProdutoCompra = Convert.ToInt32(dataReader["id"]);
+                                produto.id = Convert.ToInt32(dataReader["produto_id"]);
+                                ProdutoCompra.Add(produto);
                             }
                         }
                     }
                     connection.Close();
                 }
             }
-            return ids;
+            return ProdutoCompra;
         }
 
-        public Product getProductByID(int idProduto)
+        public Product getProductByID(Product p)
         {
             Product product = new Product();
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -176,12 +186,13 @@ namespace CMP.Controllers
                     {
                         while (dataReader.Read())
                         {
-                            if (Convert.ToInt32(dataReader["id"]) == idProduto)
+                            if (Convert.ToInt32(dataReader["id"]) == p.id)
                             {
                                 product.id = Convert.ToInt32(dataReader["id"]);
                                 product.nome = Convert.ToString(dataReader["nome"]);
                                 product.preco = Convert.ToDouble(dataReader["preco"]);
                                 product.categoria = getProductCategory(product.id);
+                                product.idProdutoCompra = p.idProdutoCompra;
                             }
                         }
                     }
@@ -214,6 +225,36 @@ namespace CMP.Controllers
                 }
             }
             return null;
+        }
+
+        public void deleteBriefing(int idProdutoCompra)
+        {
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"Delete From Briefing Where produto_compra_id='{idProdutoCompra}'";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+
+        public void deleteProdutoCompra(int idProdutoCompra)
+        {
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"Delete From Produto_Compra Where id='{idProdutoCompra}'";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
         }
     }
 }
