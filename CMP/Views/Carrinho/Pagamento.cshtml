@@ -27,7 +27,8 @@
             border: 1px solid grey;
             border-radius: 4px;
         }
-        .butaoRedondo {
+
+        .botaoRedondo {
             display: block;
             position: relative;
             padding-left: 35px;
@@ -40,7 +41,7 @@
             user-select: none;
         }
 
-        .butaoRedondo input {
+        .botaoRedondo input {
             position: absolute;
             opacity: 0;
             cursor: pointer;
@@ -56,11 +57,11 @@
             border-radius: 50%;
         }
 
-        .butaoRedondo:hover input ~ .checkmark {
+        .botaoRedondo:hover input ~ .checkmark {
             background-color: #ccc;
         }
 
-        .butaoRedondo input:checked ~ .checkmark {
+        .botaoRedondo input:checked ~ .checkmark {
             background-color: gray;
         }
 
@@ -70,11 +71,11 @@
             display: none;
         }
 
-        .butaoRedondo input:checked ~ .checkmark:after {
+        .botaoRedondo input:checked ~ .checkmark:after {
             display: block;
         }
 
-        .butaoRedondo .checkmark:after {
+        .botaoRedondo .checkmark:after {
             top: 9px;
             left: 9px;
             width: 8px;
@@ -152,35 +153,39 @@
             <div class="row" style="padding-bottom: 2em; margin-top: 1em">
                 <div class="col-md-3" style="padding-top: 1em;">
                     <form method="post">
-                        <label class="butaoRedondo">
+                        <label class="botaoRedondo">
                             Visa
                             <input type="radio" checked="checked" name="radio">
                             <span class="checkmark"></span>
                         </label>
-                        <br />
-                        <label class="butaoRedondo">
+                    </form>
+                </div>
+                <div class="col-md-3" style="padding-top: 1em;">
+                    <form method="post">
+                        <label class="botaoRedondo">
                             Multibanco
-                            <input type="radio" name="radio">
-                            <span class="checkmark"></span>
-                        </label>
-                        <br />
-                        <label class="butaoRedondo">
-                            Paypal
-                            <input type="radio" name="radio">
-                            <span class="checkmark"></span>
-                        </label>
-                        <br />
-                        <label class="butaoRedondo">
-                            MB WAY
                             <input type="radio" name="radio">
                             <span class="checkmark"></span>
                         </label>
                     </form>
                 </div>
-                <div class="col-md-9" style="padding-top: 14em; padding-right: 3em">
-                    <center>
-                        <a id="botao" class="button"; style="float: right"><b>Confirmar</b></a>
-                    </center>
+                <div class="col-md-3" style="padding-top: 1em;">
+                    <form method="post">
+                        <label class="botaoRedondo">
+                            Paypal
+                            <input type="radio" name="radio">
+                            <span class="checkmark"></span>
+                        </label>
+                    </form>
+                </div>
+                <div class="col-md-3" style="padding-top: 1em;">
+                    <form method="post">
+                        <label class="botaoRedondo">
+                            MB WAY
+                            <input type="radio" name="radio">
+                            <span class="checkmark"></span>
+                        </label>
+                    </form>
                 </div>
             </div>
         </div>
