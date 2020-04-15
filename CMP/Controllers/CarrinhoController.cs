@@ -58,7 +58,7 @@ namespace CMP.Controllers
                         connection.Close();
                     }
 
-                    sql = $"Update Compra SET estado_id='{2}'";
+                    sql = $"Update Compra SET estado_id='{getEstadoByNome("Planeamento")}'";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         connection.Open();
@@ -307,6 +307,31 @@ namespace CMP.Controllers
                     connection.Close();
                 }
             }
+        }
+
+        public int getEstadoByNome(string nomeEstado)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Estado";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToString(dataReader["estado"]).Equals(nomeEstado))
+                            {
+                                return Convert.ToInt32(dataReader["id"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
         }
     }
 }
