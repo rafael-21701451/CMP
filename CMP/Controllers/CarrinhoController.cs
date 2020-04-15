@@ -49,7 +49,7 @@ namespace CMP.Controllers
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    string sql = $"Insert Into Fatura (nome, morada, email, telemovel,nif,compra_id) Values ('{finalizar.nome}','{finalizar.morada}','{finalizar.email}','{finalizar.tlm}','{finalizar.nif}','{compra.id}')";
+                    string sql = $"Insert Into Fatura (nome, morada, email, telemovel,nif,compra_id, data) Values ('{finalizar.nome}','{finalizar.morada}','{finalizar.email}','{finalizar.tlm}','{finalizar.nif}','{compra.id}','{string.Format("{0:yyyy-MM-dd}", DateTime.Now)}')";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.CommandType = System.Data.CommandType.Text;

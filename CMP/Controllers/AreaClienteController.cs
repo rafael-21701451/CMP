@@ -44,9 +44,9 @@ namespace CMP.Controllers
                         {
                             CompraPerfil compra = new CompraPerfil();
                             compra.id = Convert.ToInt32(dataReader["id"]);
-                            compra.data = Convert.ToInt32(dataReader["sub_total"]);
+                            compra.data = getDataCompra( Convert.ToInt32(dataReader["id"]));
                             compra.total = Convert.ToInt32(dataReader["total"]);
-                            compra.estado = Convert.ToInt32(dataReader["iva"]);
+                            compra.estado = getNomeEstado(Convert.ToInt32(dataReader["estado_id"]));
                             compras.Add(compra);
                         }
                     }
@@ -54,6 +54,56 @@ namespace CMP.Controllers
                 }
             }
             return View(compras);
+        }
+
+        public string getNomeEstado(int idEstado)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Estado";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["id"]) == idEstado)
+                            {
+                                return Convert.ToString(dataReader["estado"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
+        }
+
+        public string getDataCompra(int idCompra)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Fatura";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["compra_id"]) == idCompra)
+                            {
+                                return string.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(dataReader["data"]));
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
         }
 
         public async Task<ActionResult> Logout()
