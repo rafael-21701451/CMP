@@ -105,6 +105,24 @@ namespace CMP.Controllers
 
         public IActionResult Remover(int idProdutoCompra)
         {
+            Product product = new Product();
+            string sql = "";
+            product = getProductIDByProduto_Compra(idProdutoCompra);
+            Product productPrices = getProductByID(product);
+            int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
+            Compra compra = getCompraByCliente(idCliente);
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                sql = $"Update Compra SET sub_total='{Convert.ToString(compra.subTotal - productPrices.preco).Replace(',', '.')}', total='{Convert.ToString(compra.subTotal - productPrices.preco + ((compra.subTotal - productPrices.preco) * 0.23)).Replace(',', '.')}' Where id='{compra.id}'";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+           
             deleteBriefing(idProdutoCompra);
             deleteProdutoCompra(idProdutoCompra);
             return RedirectToAction("Index");
@@ -147,7 +165,7 @@ namespace CMP.Controllers
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = $"SELECT top 1 * FROM Compra WHERE cliente_id={id} AND estado_id={1} ORDER BY id DESC";
+                string sql = $"SELECT top 1 * FROM Compra WHERE cliente_id={id} AND estado_id={getEstadoByNome("Por Pagar")} ORDER BY id DESC";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -183,7 +201,7 @@ namespace CMP.Controllers
                     {
                         while (dataReader.Read())
                         {
-                            if (Convert.ToInt32(dataReader["cliente_id"]) == id && Convert.ToInt32(dataReader["estado_id"]) == 1)
+                            if (Convert.ToInt32(dataReader["cliente_id"]) == id && Convert.ToInt32(dataReader["estado_id"]) == getEstadoByNome("Por Pagar"))
                             {
                                 return true;
                             }
@@ -245,6 +263,32 @@ namespace CMP.Controllers
                                 product.preco = Convert.ToDouble(dataReader["preco"]);
                                 product.categoria = getProductCategory(product.id);
                                 product.idProdutoCompra = p.idProdutoCompra;
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return product;
+        }
+
+        public Product getProductIDByProduto_Compra(int pc)
+        {
+            Product product = new Product();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produto_Compra";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["id"]) == pc)
+                            {
+                                product.id = Convert.ToInt32(dataReader["produto_id"]);
                             }
                         }
                     }

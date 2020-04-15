@@ -26,7 +26,7 @@
 
     <body>
 
-        @if (Model.produtos == null)
+        @if (Model.produtos.Count() == 0)
         {
             <div class="text-center" style="color:black; font-family: 'Century Gothic'; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
                 <p style="font-size: 40px; "><b><span>O seu carrinho de compras está vazio</span></b></p>

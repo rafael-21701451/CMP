@@ -59,7 +59,7 @@ namespace CMP.Controllers
                 }
                 else
                 {
-                    sql = $"Insert Into Compra (sub_total, iva, total, estado_id, cliente_id) Values ('{Convert.ToString(product.preco).Replace(',', '.')}','{23}','{Convert.ToString(product.preco + ((product.preco) * 0.23)).Replace(',', '.')}','{1}','{idCliente}')";
+                    sql = $"Insert Into Compra (sub_total, iva, total, estado_id, cliente_id) Values ('{Convert.ToString(product.preco).Replace(',', '.')}','{23}','{Convert.ToString(product.preco + ((product.preco) * 0.23)).Replace(',', '.')}','{getEstadoByNome("Por Pagar")}','{idCliente}')";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.CommandType = System.Data.CommandType.Text;
@@ -163,7 +163,7 @@ namespace CMP.Controllers
                     {
                         while (dataReader.Read())
                         {
-                            if (Convert.ToInt32(dataReader["cliente_id"]) == id && Convert.ToInt32(dataReader["estado_id"]) == 1)
+                            if (Convert.ToInt32(dataReader["cliente_id"]) == id && Convert.ToInt32(dataReader["estado_id"]) == getEstadoByNome("Por Pagar"))
                             {
                                 return true;
                             }
@@ -210,7 +210,7 @@ namespace CMP.Controllers
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = $"SELECT top 1 * FROM Compra WHERE cliente_id={id} AND estado_id={1} ORDER BY id DESC";
+                string sql = $"SELECT top 1 * FROM Compra WHERE cliente_id={id} AND estado_id={getEstadoByNome("Por Pagar")} ORDER BY id DESC";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -258,6 +258,30 @@ namespace CMP.Controllers
             return null;
         }
 
+        public int getEstadoByNome(string nomeEstado)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Estado";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToString(dataReader["estado"]).Equals(nomeEstado))
+                            {
+                                return Convert.ToInt32(dataReader["id"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
 
     }
 }
