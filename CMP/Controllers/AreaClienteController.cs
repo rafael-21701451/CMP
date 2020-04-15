@@ -47,7 +47,10 @@ namespace CMP.Controllers
                             compra.data = getDataCompra( Convert.ToInt32(dataReader["id"]));
                             compra.total = Convert.ToInt32(dataReader["total"]);
                             compra.estado = getNomeEstado(Convert.ToInt32(dataReader["estado_id"]));
-                            compras.Add(compra);
+                            if (!compra.estado.Equals("Por Pagar"))
+                            {
+                                compras.Add(compra);
+                            }
                         }
                     }
                     connection.Close();
