@@ -66,41 +66,106 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-2">
-                            <div class="card">
-                                <div class="card-body" style="background-color: whitesmoke">
-                                    <p class="card-text">Produção</p>
+                        @if (Model.estado.Equals("Produção") || Model.estado.Equals("Aceitação") || Model.estado.Equals("Concluído") || Model.estado.Equals("Validação") || Model.estado.Equals("Entregue"))
+                        {
+                            <div class="col-sm-2">
+                                <div class="card">
+                                    <div class="card-body" style="background-color: #99FFCC">
+                                        <p class="card-text">Produção</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="card">
-                                <div class="card-body" style="background-color: whitesmoke">
-                                    <p class="card-text">Aceitação</p>
+                        }
+                        else
+                        {
+                            <div class="col-sm-2">
+                                <div class="card">
+                                    <div class="card-body" style="background-color: whitesmoke">
+                                        <p class="card-text">Produção</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="card">
-                                <div class="card-body" style="background-color: whitesmoke">
-                                    <p class="card-text">Concluído</p>
+                        }
+                        @if (Model.estado.Equals("Aceitação") || Model.estado.Equals("Concluído") || Model.estado.Equals("Validação") || Model.estado.Equals("Entregue"))
+                        {
+                            <div class="col-sm-2">
+                                <div class="card">
+                                    <div class="card-body" style="background-color: #99FFCC">
+                                        <p class="card-text">Aceitação</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="card">
-                                <div class="card-body" style="background-color: whitesmoke">
-                                    <p class="card-text">Validação</p>
+                        }
+                        else
+                        {
+                            <div class="col-sm-2">
+                                <div class="card">
+                                    <div class="card-body" style="background-color: whitesmoke">
+                                        <p class="card-text">Aceitação</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="card">
-                                <div class="card-body" style="background-color: whitesmoke">
-                                    <p class="card-text">Entregue</p>
+                        }
+                        @if (Model.estado.Equals("Concluído") || Model.estado.Equals("Validação") || Model.estado.Equals("Entregue"))
+                        {
+                            <div class="col-sm-2">
+                                <div class="card">
+                                    <div class="card-body" style="background-color: #99FFCC">
+                                        <p class="card-text">Concluído</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
+                        else
+                        {
+                            <div class="col-sm-2">
+                                <div class="card">
+                                    <div class="card-body" style="background-color: whitesmoke">
+                                        <p class="card-text">Concluído</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        @if (Model.estado.Equals("Validação") || Model.estado.Equals("Entregue"))
+                        {
+                            <div class="col-sm-2">
+                                <div class="card">
+                                    <div class="card-body" style="background-color: #99FFCC">
+                                        <p class="card-text">Validação</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-sm-2">
+                                <div class="card">
+                                    <div class="card-body" style="background-color: whitesmoke">
+                                        <p class="card-text">Validação</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        @if (Model.estado.Equals("Entregue"))
+                        {
+                            <div class="col-sm-2">
+                                <div class="card">
+                                    <div class="card-body" style="background-color: #99FFCC">
+                                        <p class="card-text">Entregue</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-sm-2">
+                                <div class="card">
+                                    <div class="card-body" style="background-color: whitesmoke">
+                                        <p class="card-text">Entregue</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
 
                     @foreach (var p in Model.produtos)
