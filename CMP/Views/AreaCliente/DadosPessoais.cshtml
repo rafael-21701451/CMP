@@ -17,6 +17,23 @@
     .btn-group button:hover {
             background-color: whitesmoke;
     }
+
+    img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #botao {
+        background-color: white;
+        font-family: 'Century Gothic';
+        border-radius: 8px;
+        border: 2px solid #ff01f2;
+        padding-right: 1em;
+        padding-left: 1em;
+        color: black;
+        display: block;
+        width: 175px;
+    }
 </style>
 
 <body>
@@ -36,13 +53,27 @@
                     <button><b>Meus Comentários</b></button>
                     <button><b>Minhas Mensagens</b></button>
                     <button><b>Minhas Avaliações</b></button>
-                    <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
+                    <a asp-action="Logout"><button style="color:red"><b>Terminar Sessão</b></button></a>
                 </div>
             </div>
 
-
-            <div class="col-md-9" style="border: 1px solid whitesmoke;">
-               
+            <div class="col-md-9" style="border: 1px solid whitesmoke; padding-bottom:1em">
+                <div class="row" style="font-size: 20px; text-align: center">
+                    <div class="col-md-12">
+                        <center>
+                            <img src="~/images/userPhoto.png" width="300" height="250">
+                        </center>
+                        <p><span><b>Nome: </b> Olá</span></p>
+                        <p><span><b>Username: </b> Olá</span></p>
+                        <p><span><b>Mail: </b> Olá</span></p>
+                        <p><span><b>Produtos Adquiridos: </b> Olá</span></p>
+                        <p><span><b>Compras efetuadas: </b> Olá</span></p>
+                        <br/>
+                        <center>
+                            <a id="botao" class="button"><b>EDITAR PERFIL</b></a>
+                        </center>
+                    </div>                   
+                </div>
             </div>
         </div>
     </div>
