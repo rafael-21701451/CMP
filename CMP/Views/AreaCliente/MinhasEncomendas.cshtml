@@ -22,7 +22,7 @@
 <body>
     <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
         <p style="font-size: 40px; "><b><span>ÁREA CLIENTE</span></b></p>
-        <p style="font-size: 20px; "><span>Bem-vindo à sua área de cliente, @User.Claims.ElementAt(1).Value!</span></p>
+        <p style="font-size: 20px; "><span>Bem-vindo à sua área de cliente, <b>@User.Claims.ElementAt(1).Value</b>!</span></p>
     </div>
 
     <div class="container">
@@ -30,7 +30,7 @@
             <div class="btn-group">
                 <div class="col-md-3">
                     <a asp-action="DadosPessoais"><button><b>Dados Pessoais</b></button></a>
-                    <a asp-action="MinhasEncomendas"><button><b>Minhas Encomendas</b></button></a>
+                    <a asp-action="MinhasEncomendas"><button style="background-color:whitesmoke"><b>Minhas Encomendas</b></button></a>
                     <button><b>Meus Produtos</b></button>
                     <button><b>Meus Favoritos</b></button>
                     <button><b>Meus Comentários</b></button>

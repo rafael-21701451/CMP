@@ -25,7 +25,16 @@ namespace CMP.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
+            UltimaCompra compra = getUltimaCompraByCliente(idCliente);
+            List<Product> ProdutosCompra = getProdutosCompra(compra.id);
+            List<Product> produtos= new List<Product>();
+            foreach (Product p in ProdutosCompra)
+            {
+                produtos.Add(getProductByID(p));
+            }
+            compra.produtos = produtos;
+            return View(compra);
         }
 
         public IActionResult DadosPessoais()
@@ -35,11 +44,12 @@ namespace CMP.Controllers
 
         public IActionResult MinhasEncomendas()
         {
+            int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
             List<CompraPerfil> compras = new List<CompraPerfil>();
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = $"SELECT * FROM Compra";
+                string sql = $"SELECT * FROM Compra WHERE cliente_id={idCliente}";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -126,5 +136,192 @@ namespace CMP.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public UltimaCompra getUltimaCompraByCliente(int id)
+        {
+            UltimaCompra compra = new UltimaCompra();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT top 1 * FROM Compra WHERE cliente_id={id} AND estado_id != {getEstadoByNome("Por Pagar")} ORDER BY id DESC";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["estado_id"])!=getEstadoByNome("Por Pagar"))
+                            {
+                                compra.id = Convert.ToInt32(dataReader["id"]);
+                                compra.estado = getEstadoById(Convert.ToInt32(dataReader["estado_id"]));
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return compra;
+        }
+
+        public int getEstadoByNome(string nomeEstado)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Estado";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToString(dataReader["estado"]).Equals(nomeEstado))
+                            {
+                                return Convert.ToInt32(dataReader["id"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
+        public string getEstadoById(int idEstado)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Estado";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["id"]) == idEstado)
+                            {
+                                return Convert.ToString(dataReader["estado"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
+        }
+
+        public int getidCliente(int id)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Cliente";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["account_id"]) == id)
+                            {
+                                return Convert.ToInt32(dataReader["id"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
+        public List<Product> getProdutosCompra(int idCompra)
+        {
+            List<Product> ProdutoCompra = new List<Product>();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produto_Compra";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["compra_id"]) == idCompra)
+                            {
+                                Product produto = new Product();
+                                produto.idProdutoCompra = Convert.ToInt32(dataReader["id"]);
+                                produto.id = Convert.ToInt32(dataReader["produto_id"]);
+                                ProdutoCompra.Add(produto);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return ProdutoCompra;
+        }
+
+        public Product getProductByID(Product p)
+        {
+            Product product = new Product();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produto";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["id"]) == p.id)
+                            {
+                                product.id = Convert.ToInt32(dataReader["id"]);
+                                product.nome = Convert.ToString(dataReader["nome"]);
+                                product.preco = Convert.ToDouble(dataReader["preco"]);
+                                product.categoria = getProductCategory(product.id);
+                                product.idProdutoCompra = p.idProdutoCompra;
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return product;
+        }
+
+        public String getProductCategory(int id)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Categoria";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["id"]) == id)
+                            {
+                                return Convert.ToString(dataReader["nome"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return null;
+        }
+
     }
 }
