@@ -39,7 +39,13 @@ namespace CMP.Controllers
 
         public IActionResult DadosPessoais()
         {
-            return View();
+            DadosPerfil dados = new DadosPerfil();
+            DadosPerfil d = getAccountDetails(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
+            dados.username = d.username;
+            dados.email = d.email;
+            int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
+            dados.nome = getClientName(idCliente);
+            return View(dados);
         }
 
         public IActionResult MinhasEncomendas()
@@ -239,6 +245,31 @@ namespace CMP.Controllers
             return -1;
         }
 
+        public string getClientName(int id)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Cliente";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["id"]) == id)
+                            {
+                                return Convert.ToString(dataReader["nome"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
+        }
+
         public List<Product> getProdutosCompra(int idCompra)
         {
             List<Product> ProdutoCompra = new List<Product>();
@@ -323,5 +354,28 @@ namespace CMP.Controllers
             return null;
         }
 
+        public DadosPerfil getAccountDetails(int id)
+        {
+            DadosPerfil dados = new DadosPerfil();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Account WHERE id = {id}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            dados.username = Convert.ToString(dataReader["username"]);
+                            dados.email = Convert.ToString(dataReader["email"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return dados;
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿
+﻿@model DadosPerfil
 @{
     ViewData["Title"] = "Index";
 }
@@ -57,11 +57,11 @@
                         <center>
                             <img src="~/images/userPhoto.png" width="300" height="250">
                         </center>
-                        <p><span><b>Nome: </b> Olá</span></p>
-                        <p><span><b>Username: </b> Olá</span></p>
-                        <p><span><b>Mail: </b> Olá</span></p>
-                        <p><span><b>Produtos Adquiridos: </b> Olá</span></p>
-                        <p><span><b>Compras efetuadas: </b> Olá</span></p>
+                        <p><span><b>Nome: </b> @Model.nome</span></p>
+                        <p><span><b>Username: </b> @Model.username</span></p>
+                        <p><span><b>Email: </b> @Model.email</span></p>
+                        <p><span><b>Produtos Adquiridos: </b> Model.produtosAdquiridos</span></p>
+                        <p><span><b>Compras efetuadas: </b> Model.comprasEfetuadas</span></p>
                         <br/>
                         <center>
                             <a id="botao" class="button"><b>EDITAR PERFIL</b></a>
