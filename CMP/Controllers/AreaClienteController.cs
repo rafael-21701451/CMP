@@ -28,6 +28,11 @@ namespace CMP.Controllers
             return View();
         }
 
+        public IActionResult DadosPessoais()
+        {
+            return View();
+        }
+
         public IActionResult MinhasEncomendas()
         {
             List<CompraPerfil> compras = new List<CompraPerfil>();

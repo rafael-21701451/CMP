@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    .btn-group button {
+        background-color: white;
+        border: 1px solid whitesmoke;
+        color: black;
+        padding: 10px 24px;
+        cursor: pointer;
+        display: block;
+        width: 250px;
+        font-family: 'Century Gothic';
+    }
+    .btn-group button:hover {
+            background-color: whitesmoke;
+    }
+</style>
+
+<body>
+    <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
+        <p style="font-size: 40px; "><b><span>ÁREA CLIENTE</span></b></p>
+        <p style="font-size: 20px; "><span>Bem-vindo à sua área de cliente, <b>@User.Claims.ElementAt(1).Value</b>!</span></p>
+    </div>
+
+    <div class="container">
+        <div class="row" style="padding-bottom: 2em;">
+            <div class="btn-group">
+                <div class="col-md-3">
+                    <a asp-action="DadosPessoais"><button><b>Dados Pessoais</b></button></a>
+                    <a asp-action="MinhasEncomendas"><button><b>Minhas Encomendas</b></button></a>
+                    <button><b>Meus Produtos</b></button>
+                    <button><b>Meus Favoritos</b></button>
+                    <button><b>Meus Comentários</b></button>
+                    <button><b>Minhas Mensagens</b></button>
+                    <button><b>Minhas Avaliações</b></button>
+                    <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
+                </div>
+            </div>
+
+
+            <div class="col-md-9" style="border: 1px solid whitesmoke;">
+               
+            </div>
+        </div>
+    </div>
+</body>
