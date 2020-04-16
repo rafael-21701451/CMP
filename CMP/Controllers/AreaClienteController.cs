@@ -23,6 +23,16 @@ namespace CMP.Controllers
             _configuration = configuration;
         }
 
+        public IActionResult EditarDados(int id)
+        {
+            return View();
+        }
+
+        public IActionResult VerCompra(int id)
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
@@ -44,7 +54,66 @@ namespace CMP.Controllers
             dados.username = d.username;
             dados.email = d.email;
             int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
+            List<int> compras = new List<int>();
             dados.nome = getClientName(idCliente);
+            dados.comprasEfetuadas = 0;
+            dados.produtosAdquiridos = 0;
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Compra WHERE cliente_id={idCliente} AND estado_id != {getEstadoByNome("Por Pagar")}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            dados.comprasEfetuadas++;
+                        }
+                    }
+                    connection.Close();
+                }
+
+                sql = $"SELECT * FROM Compra WHERE cliente_id={idCliente}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            string estado = getNomeEstado(Convert.ToInt32(dataReader["estado_id"]));
+                            if (!estado.Equals("Por Pagar"))
+                            {
+                                compras.Add(Convert.ToInt32(dataReader["id"]));
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+
+                sql = $"SELECT * FROM Produto_Compra ";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                           foreach(var c in compras)
+                            {
+                                if (c == Convert.ToInt32(dataReader["compra_id"]))
+                                {
+                                    dados.produtosAdquiridos++;
+                                }
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+
+            }
             return View(dados);
         }
 

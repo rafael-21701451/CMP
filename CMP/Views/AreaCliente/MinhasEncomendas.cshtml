@@ -61,7 +61,7 @@
                             @foreach (var p in Model)
                             {
                                 <tr style="transform: rotate(0);">
-                                    <th scope="row"><a asp-action="Index" class="stretched-link" style="color:black">@p.id</a></th>
+                                    <th scope="row"><a asp-action="VerCompra" asp-route-id="@p.id" class="stretched-link" style="color:black">@p.id</a></th>
                                     <td style="text-align:center">@p.total€</td>
                                     <td style="text-align:center">@p.estado</td>
                                     <td style="text-align:center">@p.data</td>

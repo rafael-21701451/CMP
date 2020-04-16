@@ -1,5 +1,4 @@
-﻿@model DadosPerfil
-@{
+﻿@{
     ViewData["Title"] = "Index";
 }
 
@@ -16,17 +15,6 @@
     }
     .btn-group button:hover {
             background-color: whitesmoke;
-    }
-    #botao {
-        background-color: white;
-        font-family: 'Century Gothic';
-        border-radius: 8px;
-        border: 2px solid #ff01f2;
-        padding-right: 1em;
-        padding-left: 1em;
-        color: black;
-        display: block;
-        width: 175px;
     }
 </style>
 
@@ -47,28 +35,13 @@
                     <button><b>Meus Comentários</b></button>
                     <button><b>Minhas Mensagens</b></button>
                     <button><b>Minhas Avaliações</b></button>
-                    <a asp-action="Logout"><button style="color:red"><b>Terminar Sessão</b></button></a>
+                    <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
                 </div>
             </div>
-
             <div class="col-md-9" style="border: 1px solid whitesmoke; padding-bottom:1em">
-                <div class="row" style="font-size: 20px; text-align: center">
-                    <div class="col-md-12">
-                        <center>
-                            <img src="~/images/userPhoto.png" width="300" height="250">
-                        </center>
-                        <p><span><b>Nome: </b> @Model.nome</span></p>
-                        <p><span><b>Username: </b> @Model.username</span></p>
-                        <p><span><b>Email: </b> @Model.email</span></p>
-                        <p><span><b>Produtos Adquiridos: </b> @Model.produtosAdquiridos</span></p>
-                        <p><span><b>Compras efetuadas: </b> @Model.comprasEfetuadas</span></p>
-                        <br/>
-                        <center>
-                            <a id="botao" class="button" asp-action="EditarDados" asp-route-id="@User.Claims.ElementAt(2).Value"><b>EDITAR PERFIL</b></a>
-                        </center>
-                    </div>                   
-                </div>
+               
             </div>
         </div>
     </div>
 </body>
+
