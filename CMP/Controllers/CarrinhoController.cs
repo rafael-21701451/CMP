@@ -22,6 +22,8 @@ namespace CMP.Controllers
             _configuration = configuration;
         }
 
+       
+
         public IActionResult Pagamento()
         {
             FinalizarCompraView compraFin = new FinalizarCompraView();
