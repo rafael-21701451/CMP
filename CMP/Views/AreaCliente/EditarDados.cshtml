@@ -16,6 +16,34 @@
     .btn-group button:hover {
             background-color: whitesmoke;
     }
+    #botao {
+        background-color: white;
+        font-family: 'Century Gothic';
+        border-radius: 8px;
+        border: 2px solid #ff01f2;
+        padding-right: 1em;
+        padding-left: 1em;
+        color: black;
+        display: block;
+        width: 175px;
+    }
+    input[type=text], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 1px solid grey;
+        border-radius: 4px;
+    }
+
+    input[type=password] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 1px solid grey;
+        border-radius: 4px;
+    }
 </style>
 
 <body>
@@ -39,7 +67,59 @@
                 </div>
             </div>
             <div class="col-md-9" style="border: 1px solid whitesmoke; padding-bottom:1em">
-               
+                <div class="row" style="font-size: 20px; text-align: center">
+                    <div class="col-md-12">
+                        <center>
+                            <p style="font-size: 20px;"><span><b>Editar Perfil</b></span></p>
+                        </center>
+                    </div>
+                </div>
+                <div class="row" style="font-family: 'Century Gothic'">
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-6">
+                        <form method="post">
+                            <div>
+                                <br>
+                                <label for="nome"><b>Nome </b></label>
+                                <input type="text" name="nome" placeholder="Nome">
+                                <!-- <span asp-validation-for="passwordReg" class="text-danger"></span>-->
+                            </div>
+
+                            <div>
+                                <br>
+                                <label for="username"><b>Username </b></label>
+                                <input type="text" name="username" placeholder="Username">
+                                <!-- <span asp-validation-for="passwordReg" class="text-danger"></span>-->
+                            </div>
+                            <div>
+                                <br>
+                                <label for="email"><b>Email </b></label>
+                                <input type="text" name="emailReg" placeholder="Email">
+                                <!-- <span asp-validation-for="passwordReg" class="text-danger"></span>-->
+                            </div>
+                            <div>
+                                <br>
+                                <label for="password"><b>Password </b></label>
+                                <input type="password" name="passwordReg" placeholder="Password">
+                                <!-- <span asp-validation-for="passwordReg" class="text-danger"></span>-->
+                            </div>
+                            <div>
+                                <br>
+                                <label for="password"><b>Confirmar Password </b></label>
+                                <input type="password" name="passwordReg" placeholder="Confirmar Password">
+                                <!-- <span asp-validation-for="passwordReg" class="text-danger"></span>-->
+                            </div>
+                            <center style="padding-top:2em">
+                                <a id="botao" class="button" asp-action="EditarDados" asp-route-id="@User.Claims.ElementAt(2).Value"><b>CONFIRMAR</b></a>
+                            </center>
+                        </form>
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>                        
+                </div>
             </div>
         </div>
     </div>
