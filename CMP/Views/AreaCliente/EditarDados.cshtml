@@ -1,4 +1,5 @@
-﻿@{
+﻿@model EditarPerfilView
+@{
     ViewData["Title"] = "Index";
 }
 
@@ -83,36 +84,35 @@
                             <div>
                                 <br>
                                 <label for="nome"><b>Nome </b></label>
-                                <input type="text" name="nome" placeholder="Nome">
-                                <!-- <span asp-validation-for="passwordReg" class="text-danger"></span>-->
+                                <input type="text" asp-for="nome" name="nome" placeholder="Nome" value="@Model.nome">
+                                <span asp-validation-for="nome" class="text-danger"></span>
                             </div>
-
                             <div>
                                 <br>
                                 <label for="username"><b>Username </b></label>
-                                <input type="text" name="username" placeholder="Username">
-                                <!-- <span asp-validation-for="passwordReg" class="text-danger"></span>-->
+                                <input type="text" asp-for="username" name="username" placeholder="Username" value="@Model.username">
+                                <span asp-validation-for="username" class="text-danger"></span>
                             </div>
                             <div>
                                 <br>
                                 <label for="email"><b>Email </b></label>
-                                <input type="text" name="emailReg" placeholder="Email">
-                                <!-- <span asp-validation-for="passwordReg" class="text-danger"></span>-->
+                                <input type="text" name="email" asp-for="email" placeholder="Email" value="@Model.email">
+                                <span asp-validation-for="email" class="text-danger"></span>
                             </div>
                             <div>
                                 <br>
                                 <label for="password"><b>Password </b></label>
-                                <input type="password" name="passwordReg" placeholder="Password">
-                                <!-- <span asp-validation-for="passwordReg" class="text-danger"></span>-->
+                                <input type="password" name="password" asp-for="password" placeholder="Password" >
+                                <span asp-validation-for="password" class="text-danger"></span>
                             </div>
                             <div>
                                 <br>
                                 <label for="password"><b>Confirmar Password </b></label>
-                                <input type="password" name="passwordReg" placeholder="Confirmar Password">
-                                <!-- <span asp-validation-for="passwordReg" class="text-danger"></span>-->
+                                <input type="password" name="passwordCmf"  asp-for="passwordCmf"  placeholder="Confirmar Password"  >
+                                <span asp-validation-for="passwordCmf" class="text-danger"></span>
                             </div>
                             <center style="padding-top:2em">
-                                <a id="botao" class="button" asp-action="EditarDados" asp-route-id="@User.Claims.ElementAt(2).Value"><b>CONFIRMAR</b></a>
+                                <button id="botao" class="button" type="submit"><b>CONFIRMAR</b></button>
                             </center>
                         </form>
                     </div>
