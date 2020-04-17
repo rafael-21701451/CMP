@@ -1,4 +1,5 @@
-﻿@{
+﻿@model CompraView
+@{
     ViewData["Title"] = "Index";
 }
 
@@ -42,41 +43,30 @@
                 <div class="row" style="font-size: 20px; text-align: center">
                     <div class="col-md-12">
                         <center>
-                            <p style="font-size: 20px;"><span><b>Encomenda X</b></span></p>
+                            <p style="font-size: 20px;"><span><b>Encomenda #@Model.compra.id - @Model.estado</b></span></p>
                         </center>
                     </div>
                 </div>
 
-                <div class="row" style="text-align: center; font-size: 20px;">
-                    <div class="col-md-4" style="padding-top: 1em;">
-                        <center>
-                            <img src="~/images/artigoBlogOpcao.png" width="200" height="150" padding-right="100">
-                        </center>
+                @foreach (var p in Model.produtos)
+                {
+                    <div class="row" style="text-align: center; font-size: 20px;">
+                        <div class="col-md-4" style="padding-top: 1em;">
+                            <center>
+                                <img src="~/images/artigoBlogOpcao.png" width="200" height="150" padding-right="100">
+                            </center>
+                        </div>
+                        <div class="col-md-4" style=" margin-top: 2em">
+                            <p><b><span>@p.categoria </span></b></p>
+                            <p><span>@p.nome</span></p>
+                        </div>
+                        <div class="col-md-4" style="margin-top:1em">
+                            <p style="margin-top: 3em"><span>@p.preco€</span></p>
+                        </div>
                     </div>
-                    <div class="col-md-4" style=" margin-top: 2em">
-                        <p><b><span>Artigo de blog </span></b></p>
-                        <p><span>Criação de 4 textos de 500 palavras</span></p>
-                    </div>
-                    <div class="col-md-4" style="margin-top:1em">
-                        <p style="margin-top: 3em"><span>300€</span></p>
-                    </div>
-                </div>
-                <hr />
-                <div class="row" style="text-align: center; font-size: 20px;">
-                    <div class="col-md-4">
-                        <center>
-                            <img src="~/images/artigoBlogOpcao.png" width="200" height="150" padding-right="100">
-                        </center>
-                    </div>
-                    <div class="col-md-4" style=" margin-top: 1em">
-                        <p><b><span>Artigo de blog </span></b></p>
-                        <p><span>Criação de 4 textos de 500 palavras</span></p>
-                    </div>
-                    <div class="col-md-4" style="margin-top: 3em">
-                        <p><span>300€</span></p>
-                    </div>
-                </div>
-                <hr />
+                    <hr />
+                }
+
                 <div class="row" style="font-size: 20px; text-align: center; padding-top: 1em">
                     <div class="col-md-12">
                         <center>
@@ -86,14 +76,14 @@
                 </div>
                 <div class="row" style="font-size: 15px; text-align: left">
                     <div class="col-md-6">
-                        <p><span><b>Nome: </b> XXXX</span></p>
-                        <p><span><b>Email: </b> XXXXXXXXXXXXXXX</span></p>
-                        <p><span><b>Morada: </b> XXXXXXXXXXXXXXXXX</span></p>
+                        <p><span><b>Nome: </b> @Model.fatura.nome</span></p>
+                        <p><span><b>Email: </b> @Model.fatura.email</span></p>
+                        <p><span><b>Morada: </b> @Model.fatura.morada</span></p>
                     </div>
                     <div class="col-md-6">
-                        <p><span><b>NIF: </b> XXXX</span></p>
-                        <p><span><b>Nº de Telemóvel: </b> XXXXXXXXXXXXXXX</span></p>
-                        <p><span><b>Total: </b> XXXXXXXXXXXXXXX</span></p>
+                        <p><span><b>NIF: </b> @Model.fatura.nif</span></p>
+                        <p><span><b>Nº de Telemóvel: </b>@Model.fatura.tlm</span></p>
+                        <p><span><b>Total(c/IVA): </b> @Model.compra.total€</span></p>
                     </div>
                 </div>
             </div>
