@@ -42,11 +42,7 @@ namespace CMP.Controllers
             String email = dados.email;
             String password = dados.password;
 
-            HashAlgorithm hasher;
-            hasher = new SHA256Managed();
-            byte[] mPasswordBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(password);
-            byte[] mPasswordHash = hasher.ComputeHash(mPasswordBytes);
-            password = Convert.ToBase64String(mPasswordHash, 0, mPasswordHash.Length);
+           
 
             if (String.IsNullOrEmpty(email))
             {
@@ -62,6 +58,13 @@ namespace CMP.Controllers
             {
                 return View("Index");
             }
+
+            HashAlgorithm hasher;
+            hasher = new SHA256Managed();
+            byte[] mPasswordBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(password);
+            byte[] mPasswordHash = hasher.ComputeHash(mPasswordBytes);
+            password = Convert.ToBase64String(mPasswordHash, 0, mPasswordHash.Length);
+
             if (!verificarConta(email, password))
             {
                 ModelState.AddModelError("password", "Email e/ou password incorreta");
