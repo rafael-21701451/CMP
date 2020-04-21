@@ -5,22 +5,30 @@
     <head>
         <style>
              #botao {
-            display: block;
-            background-color: white;
-            font-family: 'Century Gothic';
-            border-radius: 8px;
-            border: 2px solid #ff01f2;
-            padding:1em;
-            color: black;
-        }
+                display: block;
+                background-color: white;
+                font-family: 'Century Gothic';
+                border-radius: 8px;
+                border: 2px solid #ff01f2;
+                padding:1em;
+                color: black;
+             }
 
             input[type=text], select {
-                width: 80%;
-                padding: 6px 20px;
+                width: 100%;
+                padding: 12px 20px;
                 margin: 8px 0;
-                display: inline-block;
                 box-sizing: border-box;
-                color: black;
+                border: 1px solid grey;
+                border-radius: 4px;
+            }
+
+            #caixa_maior {
+                padding: 12px 20px;
+                margin: 8px 0;
+                resize: none;
+                border: 1px solid grey;
+                border-radius: 4px;
             }
         </style>
     </head>
@@ -49,213 +57,162 @@
         <div class="text-center" style="color:black; font-family: 'Century Gothic'; padding-top: 1em; padding-bottom: 1em; ">
             <p style="font-size: 40px; "><b><span>BRIEFING</span></b></p>
         </div>
+
         @if (@User.Identity.IsAuthenticated == true)
         {
             <form method="post">
-                <div class="container" style="background-color:whitesmoke; margin-bottom:100px">
-                    <p style="font-size: 40px; padding-left: 1em; padding-top: 1em; text-align:center"><b><span>INFORMAÇÕES SOBRE A SUA EMPRESA</span></b></p>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>Empresa</span></b></p>
-                        </div>
-                        <div class="col-md-4" style="padding-top: 1em;">
-                            <input type="text" name="empresa" style="color:black" asp-for="empresa">
-                        </div>
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; text-align:left"><b><span>Setor de Atividade</span></b></p>
-                        </div>
-                        <div class="col-md-4" style="padding-top: 1em;">
-                            <input type="text" name="setor" style="color:black" asp-for="setor">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 1em; padding-top: 3em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>História da Empresa</span></b></p>
-                        </div>
-                        <div class="col-md-10" style="padding-top: 1em; padding-bottom: 1em">
-                            <input type="text" name="historia_empresa" asp-for="historia_empresa" style="width: 93%; height:100%">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <p style="font-size: 14px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Objetivo do Negócio</span></b></p>
-                        </div>
-                        <div class="col-md-10" style="padding-top: 1em;">
-                            <input type="text" asp-for="objetivo_negocio" style="width: 93%;">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Estratégia</span></b></p>
-                        </div>
-                        <div class="col-md-10" style="padding-top: 1em;">
-                            <input type="text" asp-for="estrategia" style="width: 93%;">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 1em; padding-top: 5em; padding-bottom: 1em; border-top: 1000px; text-align:center"><b><span>Produtos/serviços comercializados</span></b></p>
-                        </div>
-                        <div class="col-md-4" style="padding-top: 1em;padding-bottom: 1em;">
-                            <input type="text" asp-for="produtos_comercializados" style="height: 100%;">
-                        </div>
-                        <div class="col-md-2">
-                            <div class="row">
-                                <p style="font-size: 15px; padding-left: 1em; padding-top: 3em; padding-bottom: 1em; text-align:left"><b><span>Marca</span></b></p>
-                            </div>
-                            <div class="row">
-                                <p style="font-size: 15px; padding-left: 1em;   text-align:left"><b><span>Imagem Corporativa</span></b></p>
+
+                <div class="container" style="background-color: whitesmoke; border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 2em; padding-bottom:2em">
+                    <p style="font-size: 25px; padding-top: 1em; text-align: center"><b><span>Informações sobre a sua empresa</span></b></p>
+
+                    <div class="row" style="padding-bottom: 2em; margin-top: 1em">
+                        <div class="col-md-7" style="padding-top: 1em;">
+                            <div>
+                                <label for="empresa"><b>Empresa </b></label>
+                                <input type="text" name="nome" asp-for="empresa" placeholder="Empresa">
+                                <span asp-validation-for="empresa" class="text-danger"></span>
                             </div>
                         </div>
+                        <div class="col-md-1" style="padding-top: 1em;">
+                        </div>
                         <div class="col-md-4" style="padding-top: 1em;">
-                            <div class="row">
-                                <input type="text" asp-for="marca" style="padding-top: 1em;">
-                            </div>
-                            <div class="row">
-                                <input type="text" asp-for="imagem_corporativa" style="padding-top: 1em;">
+                            <div>
+                                <label for="setor"><b>Setor </b></label>
+                                <input type="text" name="setor" asp-for="setor" placeholder="Setor">
+                                <span asp-validation-for="setor" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Posicionamento</span></b></p>
-                        </div>
-                        <div class="col-md-10" style="padding-top: 1em;">
-                            <input type="text" asp-for="posicionamento" style="width: 93%;">
-                        </div>
-                    </div>
-                    <div class="row" style="padding-bottom: 1em">
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>Público-Alvo</span></b></p>
-                        </div>
-                        <div class="col-md-4" style="padding-top: 1em;">
-                            <input type="text" asp-for="publico_alvo">
-                        </div>
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; text-align:left"><b><span>Concorrentes</span></b></p>
-                        </div>
-                        <div class="col-md-4" style="padding-top: 1em;">
-                            <input type="text" asp-for="concorrentes">
+
+                    <div class="row" style="padding-bottom: 2em;">
+                        <div class="col-md-12">
+                            <label for="historia_empresa"><b>História da Empresa </b></label>
+                            <textarea asp-for="historia_empresa" rows="7" cols="132" placeholder="História da Empresa" id="caixa_maior"></textarea>
+                            <span asp-validation-for="historia_empresa" class="text-danger"></span>
                         </div>
                     </div>
+
+                    <div class="row" style="padding-bottom: 2em">
+                        <div class="col-md-12">
+                            <label for="objetivo_negocio"><b>Objetivo Negócio </b></label>
+                            <input type="text" name="objetivo_negocio" asp-for="objetivo_negocio" placeholder="Objetivo Negócio">
+                            <span asp-validation-for="objetivo_negocio" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-bottom: 2em">
+                        <div class="col-md-12">
+                            <label for="estrategia"><b>Estratégia </b></label>
+                            <input type="text" name="estrategia" asp-for="estrategia" placeholder="Estrategia">
+                            <span asp-validation-for="estrategia" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-bottom: 2em;">
+                        <div class="col-md-6">
+                            <label for="rodutos_comercializados"><b>Produtos/Serviços comercializados </b></label>
+                            <textarea asp-for="produtos_comercializados" rows="7" cols="65" placeholder="Produtos/Serviços comercializados" id="caixa_maior"></textarea>
+                            <span asp-validation-for="produtos_comercializados" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1">
+
+                        </div>
+                        <div class="col-md-5">
+                            <div class="row" style="padding-right:1em">
+                                <label for="marca"><b>Marca </b></label>
+                                <input type="text" name="marca" asp-for="marca" placeholder="Marca">
+                                <span asp-validation-for="marca" class="text-danger"></span>
+                            </div>
+                            <div class="row" style="padding-right:1em; padding-top:2.8em">
+                                <label for="imagem_corporativa"><b>Imagem Corporativa </b></label>
+                                <input type="text" name="imagem_corporativa" asp-for="imagem_corporativa" placeholder="Imagem Corporativa">
+                                <span asp-validation-for="imagem_corporativa" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-bottom: 2em">
+                        <div class="col-md-12">
+                            <label for="posicionamento"><b>Posicionamento </b></label>
+                            <input type="text" name="posicionamento" asp-for="posicionamento" placeholder="Posicionamento">
+                            <span asp-validation-for="posicionamento" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-bottom: 2em">
+                        <div class="col-md-7" style="padding-top: 1em;">
+                            <label for="publico_alvo"><b>Público-Alvo </b></label>
+                            <input type="text" name="publico_alvo" asp-for="publico_alvo" placeholder="Público-Alvo">
+                            <span asp-validation-for="publico_alvo" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1" style="padding-top: 1em;">
+                        </div>
+                        <div class="col-md-4" style="padding-top: 1em;">
+                            <div>
+                                <label for="concorrentes"><b>Concorrentes </b></label>
+                                <input type="text" name="concorrentes" asp-for="concorrentes" placeholder="Concorrentes">
+                                <span asp-validation-for="concorrentes" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="container" style="background-color:whitesmoke; margin-bottom:100px">
-                    <p style="font-size: 40px; padding-left: 1em; padding-top: 1em; text-align:center"><b><span>INFORMAÇÕES SOBRE O PROJETO</span></b></p>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 1em; padding-top: 3em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>Objetivos e Metas</span></b></p>
-                        </div>
-                        <div class="col-md-10" style="padding-top: 1em; padding-bottom: 1em">
-                            <input type="text" asp-for="objetivos" style="width: 93%; height:100%">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <p style="font-size: 14px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Resultados esperados</span></b></p>
-                        </div>
-                        <div class="col-md-10" style="padding-top: 1em;">
-                            <input type="text" asp-for="resultados_esperados" style="width: 93%;">
+                <div class="container" style="background-color: whitesmoke; border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 2em; padding-bottom:2em">
+                    <p style="font-size: 25px; padding-top: 1em; text-align: center"><b><span>Informações sobre o projeto</span></b></p>
+
+                    <div class="row" style="padding-bottom: 2em;">
+                        <div class="col-md-12">
+                            <label for="objetivos"><b>Objetivos e metas</b></label>
+                            <textarea asp-for="objetivos" rows="7" cols="132" placeholder="Objetivos e Metas" id="caixa_maior"></textarea>
+                            <span asp-validation-for="objetivos" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 20px; text-align:center"><b><span>Permissas</span></b></p>
-                        </div>
-                        <div class="col-md-10" style="padding-top: 1em;">
-                            <input type="text" asp-for="permissas" style="width: 93%;">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Restrições</span></b></p>
-                        </div>
-                        <div class="col-md-10" style="padding-top: 1em;">
-                            <input type="text" asp-for="restricoes" style="width: 93%;">
+
+                    <div class="row" style="padding-bottom: 2em">
+                        <div class="col-md-12">
+                            <label for="resultados_esperados"><b>Resultados Esperados </b></label>
+                            <input type="text" name="resultados_esperados" asp-for="resultados_esperados" placeholder="Resultados Esperados">
+                            <span asp-validation-for="resultados_esperados" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>DATAS</span></b></p>
-                        </div>
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 2em; padding-top: 2em; padding-bottom: 1em; text-align:left"><b><span>FASE 1</span></b></p>
-                        </div>
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 2em; padding-top: 2em; padding-bottom: 1em; text-align:left"><b><span>FASE 2</span></b></p>
-                        </div>
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 2em; padding-top: 2em; padding-bottom: 1em; text-align:left"><b><span>FASE 3</span></b></p>
+
+                    <div class="row" style="padding-bottom: 2em">
+                        <div class="col-md-12">
+                            <label for="permissas"><b>Permissas </b></label>
+                            <input type="text" name="permissas" asp-for="permissas" placeholder="Permissas">
+                            <span asp-validation-for="permissas" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="row" style="padding-bottom: 1em">
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 1em; padding-top: 1em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>Entrega</span></b></p>
-                        </div>
-                        <div class="col-md-2">
-                            <input type="date" asp-for="data_entrega" style="height: 50%;">
-                        </div>
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-top: 1em; padding-bottom: 1em; text-align:center"><b><span>Cronograma</span></b></p>
-                        </div>
-                        <div class="col-md-2">
-                            <input type="date" asp-for="cronograma_1" style="height: 50%;width:100px; font-size-adjust:inherit">
-                        </div>
-                        <div class="col-md-2">
-                            <input type="date" asp-for="cronograma_2" style="height: 50%;width:100px">
-                        </div>
-                        <div class="col-md-2">
-                            <input type="date" asp-for="cronograma_3" style="height: 50%; width:100px">
+
+                    <div class="row" style="padding-bottom: 2em">
+                        <div class="col-md-12">
+                            <label for="restricoes"><b>Restrições </b></label>
+                            <input type="text" name="restricoes" asp-for="restricoes" placeholder="Restrições">
+                            <span asp-validation-for="restricoes" class="text-danger"></span>
                         </div>
                     </div>
+
                 </div>
 
-                <div class="container" style="background-color:whitesmoke; margin-bottom:40px">
-                    <p style="font-size: 40px; padding-left: 1em; padding-top: 1em; text-align:center"><b><span>ASPETOS TÉCNICOS</span></b></p>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 1em; padding-top: 3em; padding-bottom: 1em; border-top: 100px; text-align:center"><b><span>Linha a Seguir</span></b></p>
-                        </div>
-                        <div class="col-md-10" style="padding-top: 1em; padding-bottom: 1em">
-                            <input type="text" asp-for="linha_seguir" style="width: 93%; height:100%">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 10px; text-align:center"><b><span>Tom de Voz</span></b></p>
-                        </div>
-                        <div class="col-md-10" style="padding-top: 1em;">
-                            <input type="text" asp-for="tom_voz" style="width: 93%;">
-                        </div>
-                    </div>
-                    <div class="row" style="padding-bottom: 1em">
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 20px; text-align:center"><b><span>Tipo de Letra</span></b></p>
-                        </div>
-                        <div class="col-md-4" style="padding-top: 1em;">
-                            <select asp-for="tipo_letra" style="color: black">
-                                <option value="default">Escolher...</option>
-                                <option value="arial">Arial</option>
-                                <option value="tnr">Times New Roman</option>
-                                <option value="centuryGothic">CenturyGothic</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <p style="font-size: 15px; padding-left: 1em; padding-top: 2em; padding-bottom: 1em; border-top: 20px; text-align:center"><b><span>Cores</span></b></p>
-                        </div>
-                        <div class="col-md-4" style="padding-top: 1em;">
-                            <select asp-for="cor" style="color: black">
-                                <option value="default">Escolher...</option>
-                                <option value="arial">Preto</option>
-                                <option value="tnr">Cinzento</option>
-                                <option value="centuryGothic">Branco</option>
-                            </select>
+                <div class="container" style="background-color: whitesmoke; border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 2em; padding-bottom:2em">
+                    <p style="font-size: 25px; padding-top: 1em; text-align: center"><b><span>Aspectos Técnicos (Opcional)</span></b></p>
+
+                    <div class="row" style="padding-bottom: 2em;">
+                        <div class="col-md-12">
+                            <label for="linha_seguir"><b>Linha a seguir</b></label>
+                            <textarea asp-for="linha_seguir" rows="7" cols="132" placeholder="Linha a seguir" id="caixa_maior"></textarea>
+                            <span asp-validation-for="linha_seguir" class="text-danger"></span>
                         </div>
                     </div>
 
-
+                    <div class="row" style="padding-bottom: 2em">
+                        <div class="col-md-12">
+                            <label for="tom_voz"><b>Tom de voz </b></label>
+                            <input type="text" name="tom_voz" asp-for="tom_voz" placeholder="Tom de voz">
+                            <span asp-validation-for="tom_voz" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="container" style="padding-top: 1em; padding-bottom: 2em;">
@@ -269,7 +226,9 @@
                         </div>
                     </div>
                 </div>
+
             </form>
+
         }
         else
         {
@@ -288,7 +247,6 @@
                 </div>
             </div>
         }
-
 
     </body>
 
