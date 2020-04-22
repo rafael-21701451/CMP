@@ -42,24 +42,39 @@ namespace CMP.Controllers
             string sql = "";
             int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
             Compra compra = new Compra();
-            string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            if (ModelState.IsValid)
             {
-                if (temCompraPorConfirmar(idCliente))
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    compra = getCompraByCliente(idCliente);
-
-                    sql = $"Update Compra SET sub_total='{Convert.ToString(compra.subTotal + product.preco).Replace(',', '.')}', total='{Convert.ToString(compra.subTotal + product.preco + ((compra.subTotal + product.preco) * 0.23)).Replace(',', '.')}' Where id='{compra.id}'";
-                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    if (temCompraPorConfirmar(idCliente))
                     {
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                        connection.Close();
+                        compra = getCompraByCliente(idCliente);
+
+                        sql = $"Update Compra SET sub_total='{Convert.ToString(compra.subTotal + product.preco).Replace(',', '.')}', total='{Convert.ToString(compra.subTotal + product.preco + ((compra.subTotal + product.preco) * 0.23)).Replace(',', '.')}' Where id='{compra.id}'";
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            connection.Open();
+                            command.ExecuteNonQuery();
+                            connection.Close();
+                        }
                     }
-                }
-                else
-                {
-                    sql = $"Insert Into Compra (sub_total, iva, total, estado_id, cliente_id) Values ('{Convert.ToString(product.preco).Replace(',', '.')}','{23}','{Convert.ToString(product.preco + ((product.preco) * 0.23)).Replace(',', '.')}','{getEstadoByNome("Por Pagar")}','{idCliente}')";
+                    else
+                    {
+                        sql = $"Insert Into Compra (sub_total, iva, total, estado_id, cliente_id) Values ('{Convert.ToString(product.preco).Replace(',', '.')}','{23}','{Convert.ToString(product.preco + ((product.preco) * 0.23)).Replace(',', '.')}','{getEstadoByNome("Por Pagar")}','{idCliente}')";
+                        using (SqlCommand command = new SqlCommand(sql, connection))
+                        {
+                            command.CommandType = System.Data.CommandType.Text;
+                            connection.Open();
+                            command.ExecuteNonQuery();
+                            connection.Close();
+                        }
+
+                        compra = getCompraByCliente(idCliente);
+                    }
+
+
+                    sql = $"Insert Into Produto_Compra (valor_desconto, compra_id, produto_id) Values ('{0}','{compra.id}','{product.id}')";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.CommandType = System.Data.CommandType.Text;
@@ -68,52 +83,45 @@ namespace CMP.Controllers
                         connection.Close();
                     }
 
-                    compra = getCompraByCliente(idCliente);
-                }
-               
+                    int pc_id = -1;
 
-                sql = $"Insert Into Produto_Compra (valor_desconto, compra_id, produto_id) Values ('{0}','{compra.id}','{product.id}')";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    command.CommandType = System.Data.CommandType.Text;
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
-                }
-
-                int pc_id = -1;
-
-                sql = $"SELECT top 1 * FROM Produto_Compra WHERE compra_id={compra.id} ORDER BY id DESC";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    sql = $"SELECT top 1 * FROM Produto_Compra WHERE compra_id={compra.id} ORDER BY id DESC";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
                     {
-                        while (dataReader.Read())
+                        connection.Open();
+                        using (SqlDataReader dataReader = command.ExecuteReader())
                         {
-                            pc_id = Convert.ToInt32(dataReader["id"]);
+                            while (dataReader.Read())
+                            {
+                                pc_id = Convert.ToInt32(dataReader["id"]);
+                            }
                         }
+                        connection.Close();
                     }
-                    connection.Close();
+
+                    sql = $"Insert Into Briefing (empresa, setor, historia_empresa,objetivo_negocio, estrategia, produtos_comercializados, marca, imagem_corporativa" +
+                        $",posicionamento,publico_alvo,concorrentes,objetivos,resultados_esperados,permissas,restricoes,data_entrega,cronograma_1,cronograma_2,cronograma_3" +
+                        $",linha_seguir,tom_voz,tipo_letra,cor,aceite,produto_compra_id) " +
+                        $"Values ('{briefing.empresa}','{briefing.setor}','{briefing.historia_empresa}','{briefing.objetivo_negocio}','{briefing.estrategia}','{briefing.produtos_comercializados}','{briefing.marca}','{briefing.imagem_corporativa}'" +
+                        $",'{briefing.posicionamento}','{briefing.publico_alvo}','{briefing.concorrentes}','{briefing.objetivos}','{briefing.resultados_esperados}','{briefing.permissas}','{briefing.restricoes}','{string.Format("{0:yyyy-MM-dd}", briefing.data_entrega)}','{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_1)}','{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_2)}','{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_3)}'" +
+                        $",'{briefing.linha_seguir}','{briefing.tom_voz}','{briefing.tipo_letra}','{briefing.cor}','false','{pc_id}')";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        command.CommandType = System.Data.CommandType.Text;
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                    }
+
+
                 }
-
-                sql = $"Insert Into Briefing (empresa, setor, historia_empresa,objetivo_negocio, estrategia, produtos_comercializados, marca, imagem_corporativa" +
-                    $",posicionamento,publico_alvo,concorrentes,objetivos,resultados_esperados,permissas,restricoes,data_entrega,cronograma_1,cronograma_2,cronograma_3" +
-                    $",linha_seguir,tom_voz,tipo_letra,cor,aceite,produto_compra_id) " +
-                    $"Values ('{briefing.empresa}','{briefing.setor}','{briefing.historia_empresa}','{briefing.objetivo_negocio}','{briefing.estrategia}','{briefing.produtos_comercializados}','{briefing.marca}','{briefing.imagem_corporativa}'" +
-                    $",'{briefing.posicionamento}','{briefing.publico_alvo}','{briefing.concorrentes}','{briefing.objetivos}','{briefing.resultados_esperados}','{briefing.permissas}','{briefing.restricoes}','{string.Format("{0:yyyy-MM-dd}", briefing.data_entrega)}','{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_1)}','{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_2)}','{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_3)}'" +
-                    $",'{briefing.linha_seguir}','{briefing.tom_voz}','{briefing.tipo_letra}','{briefing.cor}','false','{pc_id}')";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    command.CommandType = System.Data.CommandType.Text;
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
-                }
-
-
+                return RedirectToAction("Index", "Carrinho");
             }
-            return RedirectToAction("Index","Carrinho");
+            else
+            {
+                return View();
+            }
+           
         }
 
 

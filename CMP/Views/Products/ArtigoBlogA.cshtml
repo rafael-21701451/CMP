@@ -78,7 +78,7 @@
                         <div class="col-md-7" style="padding-top: 1em;">
                             <div>
                                 <label for="empresa"><b>Empresa </b></label>
-                                <input type="text" name="nome" asp-for="empresa" placeholder="Empresa">
+                                <input type="text" name="empresa" asp-for="empresa" placeholder="Empresa">
                                 <span asp-validation-for="empresa" class="text-danger"></span>
                             </div>
                         </div>
@@ -257,9 +257,9 @@
                             <label for="tipo_letra"><b>Tipo de Letra </b></label>
                             <select asp-for="tipo_letra" style="color: black">
                                 <option value="default">Escolher...</option>
-                                <option value="arial">Arial</option>
-                                <option value="tnr">Times New Roman</option>
-                                <option value="centuryGothic">CenturyGothic</option>
+                                <option value="Arial">Arial</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="Century Gothic">Century Gothic</option>
                             </select>
                         </div>
                         <div class="col-md-2">
@@ -269,9 +269,9 @@
                             <label for="cores"><b>Cores </b></label>
                             <select asp-for="cor" style="color: black">
                                 <option value="default">Escolher...</option>
-                                <option value="arial">Preto</option>
-                                <option value="tnr">Cinzento</option>
-                                <option value="centuryGothic">Branco</option>
+                                <option value="Preto">Preto</option>
+                                <option value="Cinzento">Cinzento</option>
+                                <option value="Branco">Branco</option>
                             </select>
                         </div>
                     </div>
