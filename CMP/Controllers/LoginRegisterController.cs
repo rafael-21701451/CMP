@@ -129,11 +129,6 @@ namespace CMP.Controllers
                     valid = false;
                     ModelState.AddModelError("nome", "Nome obrigatório");
                 }
-                if (String.IsNullOrEmpty(dados.morada))
-                {
-                    valid = false;
-                    ModelState.AddModelError("morada", "Morada obrigatória");
-                }
                 if (String.IsNullOrEmpty(dados.username))
                 {
                     valid = false;
@@ -206,7 +201,7 @@ namespace CMP.Controllers
                         connection.Close();
                     }
 
-                    sql = $"Insert Into Cliente (nome, morada, account_id, role_id,group_id) Values ('{dados.nome}','{dados.morada}','{id}','{1}','{1}')"; //INSERE SEMPRE DO TIPO USER
+                    sql = $"Insert Into Cliente (nome, account_id, role_id,group_id) Values ('{dados.nome}','{id}','{1}','{1}')"; //INSERE SEMPRE DO TIPO USER
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.CommandType = System.Data.CommandType.Text;
