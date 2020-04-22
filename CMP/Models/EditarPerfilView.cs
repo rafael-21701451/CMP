@@ -16,6 +16,7 @@ namespace CMP.Models
         [Required(ErrorMessage = "Username obrigatório")]
         public string username { get; set; }
 
+        [EmailAddress(ErrorMessage = "Emaill inválido")]
         [Required(ErrorMessage = "Email obrigatório")]
         public string email { get; set; }
 

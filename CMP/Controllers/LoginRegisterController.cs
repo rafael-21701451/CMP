@@ -56,6 +56,11 @@ namespace CMP.Controllers
                 valid = false;
                 ModelState.AddModelError("password", "Password obrigatória");
             }
+            if (!IsValidEmail(dados.email))
+            {
+                valid = false;
+                ModelState.AddModelError("email", "Tem de introduzir um email válido");
+            }
             if (valid == false)
             {
                 return View("Index");
@@ -66,7 +71,11 @@ namespace CMP.Controllers
             byte[] mPasswordBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(password);
             byte[] mPasswordHash = hasher.ComputeHash(mPasswordBytes);
             password = Convert.ToBase64String(mPasswordHash, 0, mPasswordHash.Length);
-
+            if (!IsValidEmail(dados.email))
+            {
+                ModelState.AddModelError("email", "Tem de introduzir um email válido");
+                return View("Index");
+            }
             if (!verificarConta(email, password))
             {
                 ModelState.AddModelError("password", "Email e/ou password incorreta");

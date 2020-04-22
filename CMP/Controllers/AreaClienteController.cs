@@ -15,6 +15,7 @@ using System.Security.Claims;
 
 namespace CMP.Controllers
 {
+    [Authorize]
     public class AreaClienteController : Controller
     {
 
