@@ -23,6 +23,15 @@
                 border-radius: 4px;
             }
 
+            input[type=date], select {
+                width: 100%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                box-sizing: border-box;
+                border: 1px solid grey;
+                border-radius: 4px;
+            }
+
             #caixa_maior {
                 padding: 12px 20px;
                 margin: 8px 0;
@@ -193,6 +202,35 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="font-size: 25px; padding-top: 1em; text-align: center"><b><span>Datas</span></b></p>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-bottom: 2em">
+                        <div class="col-md-3">
+                            <label for="cronograma_1"><b>Fase 1 </b></label>
+                            <input type="date" name="cronograma_1" asp-for="cronograma_1">
+                            <span asp-validation-for="cronograma_1" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="cronograma_2"><b>Fase 2 </b></label>
+                            <input type="date" name="cronograma_2" asp-for="cronograma_2">
+                            <span asp-validation-for="cronograma_2" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="cronograma_3"><b>Fase 3 </b></label>
+                            <input type="date" name="cronograma_3" asp-for="cronograma_3">
+                            <span asp-validation-for="cronograma_3" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="data_entrega"><b>Entrega Final </b></label>
+                            <input type="date" name="data_entrega" asp-for="data_entrega">
+                            <span asp-validation-for="data_entrega" class="text-danger"></span>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="container" style="background-color: whitesmoke; border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 2em; padding-bottom:2em">
@@ -206,11 +244,35 @@
                         </div>
                     </div>
 
-                    <div class="row" style="padding-bottom: 2em">
+                    <div class="row" style="padding-bottom: 2em;">
                         <div class="col-md-12">
-                            <label for="tom_voz"><b>Tom de voz </b></label>
+                            <label for="tom_voz"><b>Tom de voz</b></label>
                             <input type="text" name="tom_voz" asp-for="tom_voz" placeholder="Tom de voz">
                             <span asp-validation-for="tom_voz" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-bottom: 2em">
+                        <div class="col-md-5">
+                            <label for="tipo_letra"><b>Tipo de Letra </b></label>
+                            <select asp-for="tipo_letra" style="color: black">
+                                <option value="default">Escolher...</option>
+                                <option value="arial">Arial</option>
+                                <option value="tnr">Times New Roman</option>
+                                <option value="centuryGothic">CenturyGothic</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-5">
+                            <label for="cores"><b>Cores </b></label>
+                            <select asp-for="cor" style="color: black">
+                                <option value="default">Escolher...</option>
+                                <option value="arial">Preto</option>
+                                <option value="tnr">Cinzento</option>
+                                <option value="centuryGothic">Branco</option>
+                            </select>
                         </div>
                     </div>
                 </div>
