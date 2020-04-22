@@ -11,7 +11,7 @@
 
     <body>
         <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
-            <p style="font-size: 40px; "><b><span>Briefing X</span></b></p>
+            <p style="font-size: 40px; "><b><span>Briefing @Model.id</span></b></p>
         </div>
 
         <div class="container" style=" border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 2em; padding-bottom:2em">
@@ -20,69 +20,69 @@
             <div class="row" style="padding-bottom: 2em; margin-top: 1em">
                 <div class="col-md-7" style="padding-top: 1em;">
                     <div>
-                        <label for="empresa"><b>Empresa: </b></label>
+                        <label for="empresa"><b>Empresa: @Model.empresa</b></label>
                     </div>
                 </div>
                 <div class="col-md-1" style="padding-top: 1em;">
                 </div>
                 <div class="col-md-4" style="padding-top: 1em;">
                     <div>
-                        <label for="setor"><b>Setor: </b></label>
+                        <label for="setor"><b>Setor: @Model.setor</b></label>
                     </div>
                 </div>
             </div>
 
             <div class="row" style="padding-bottom: 2em;">
                 <div class="col-md-12">
-                    <label for="historia_empresa"><b>História da Empresa: </b></label>
+                    <label for="historia_empresa"><b>História da Empresa: @Model.historia_empresa</b></label>
                 </div>
             </div>
 
             <div class="row" style="padding-bottom: 2em">
                 <div class="col-md-12">
-                    <label for="objetivo_negocio"><b>Objetivo Negócio: </b></label>
+                    <label for="objetivo_negocio"><b>Objetivo Negócio: @Model.objetivo_negocio</b></label>
                 </div>
             </div>
 
             <div class="row" style="padding-bottom: 2em">
                 <div class="col-md-12">
-                    <label for="estrategia"><b>Estratégia: </b></label>
+                    <label for="estrategia"><b>Estratégia: @Model.estrategia</b></label>
                 </div>
             </div>
 
             <div class="row" style="padding-bottom: 2em;">
                 <div class="col-md-6">
-                    <label for="rodutos_comercializados"><b>Produtos/Serviços comercializados: </b></label>
+                    <label for="rodutos_comercializados"><b>Produtos/Serviços comercializados: @Model.produtos_comercializados</b></label>
                 </div>
                 <div class="col-md-1">
 
                 </div>
                 <div class="col-md-5">
                     <div class="row" style="padding-right:1em">
-                        <label for="marca"><b>Marca: </b></label>
+                        <label for="marca"><b>Marca: @Model.marca</b></label>
 
                     </div>
                     <div class="row" style="padding-right:1em; padding-top:2.8em">
-                        <label for="imagem_corporativa"><b>Imagem Corporativa: </b></label>
+                        <label for="imagem_corporativa"><b>Imagem Corporativa: @Model.imagem_corporativa</b></label>
                     </div>
                 </div>
             </div>
 
             <div class="row" style="padding-bottom: 2em">
                 <div class="col-md-12">
-                    <label for="posicionamento"><b>Posicionamento: </b></label>
+                    <label for="posicionamento"><b>Posicionamento: @Model.posicionamento</b></label>
                 </div>
             </div>
 
             <div class="row" style="padding-bottom: 2em">
                 <div class="col-md-7" style="padding-top: 1em;">
-                    <label for="publico_alvo"><b>Público-Alvo: </b></label>
+                    <label for="publico_alvo"><b>Público-Alvo: @Model.publico_alvo</b></label>
                 </div>
                 <div class="col-md-1" style="padding-top: 1em;">
                 </div>
                 <div class="col-md-4" style="padding-top: 1em;">
                     <div>
-                        <label for="concorrentes"><b>Concorrentes: </b></label>
+                        <label for="concorrentes"><b>Concorrentes: @Model.concorrentes</b></label>
                     </div>
                 </div>
             </div>
@@ -97,25 +97,25 @@
 
             <div class="row" style="padding-bottom: 2em;">
                 <div class="col-md-12">
-                    <label for="objetivos"><b>Objetivos e metas: </b></label>
+                    <label for="objetivos"><b>Objetivos e metas: @Model.objetivos</b></label>
                 </div>
             </div>
 
             <div class="row" style="padding-bottom: 2em">
                 <div class="col-md-12">
-                    <label for="resultados_esperados"><b>Resultados Esperados: </b></label>
+                    <label for="resultados_esperados"><b>Resultados Esperados: @Model.resultados_esperados</b></label>
                 </div>
             </div>
 
             <div class="row" style="padding-bottom: 2em">
                 <div class="col-md-12">
-                    <label for="permissas"><b>Permissas: </b></label>
+                    <label for="permissas"><b>Permissas: @Model.permissas</b></label>
                 </div>
             </div>
 
             <div class="row" style="padding-bottom: 2em">
                 <div class="col-md-12">
-                    <label for="restricoes"><b>Restrições: </b></label>
+                    <label for="restricoes"><b>Restrições: @Model.restricoes</b></label>
                 </div>
             </div>
 
@@ -127,16 +127,16 @@
 
             <div class="row" style="padding-bottom: 2em">
                 <div class="col-md-3">
-                    <label for="cronograma_1"><b>Fase 1: </b></label>
+                    <label for="cronograma_1"><b>Fase 1: @Model.cronograma_1</b></label>
                 </div>
                 <div class="col-md-3">
-                    <label for="cronograma_2"><b>Fase 2: </b></label>
+                    <label for="cronograma_2"><b>Fase 2: @Model.cronograma_2</b></label>
                 </div>
                 <div class="col-md-3">
-                    <label for="cronograma_3"><b>Fase 3: </b></label>
+                    <label for="cronograma_3"><b>Fase 3: @Model.cronograma_3</b></label>
                 </div>
                 <div class="col-md-3">
-                    <label for="data_entrega"><b>Entrega Final: </b></label>
+                    <label for="data_entrega"><b>Entrega Final: @Model.data_entrega</b></label>
                 </div>
             </div>
 
@@ -149,25 +149,25 @@
 
             <div class="row" style="padding-bottom: 2em;">
                 <div class="col-md-12">
-                    <label for="linha_seguir"><b>Linha a seguir: </b></label>
+                    <label for="linha_seguir"><b>Linha a seguir: @Model.linha_seguir</b></label>
                 </div>
             </div>
 
             <div class="row" style="padding-bottom: 2em;">
                 <div class="col-md-12">
-                    <label for="tom_voz"><b>Tom de voz: </b></label>
+                    <label for="tom_voz"><b>Tom de voz: @Model.tom_voz</b></label>
                 </div>
             </div>
 
             <div class="row" style="padding-bottom: 2em">
                 <div class="col-md-5">
-                    <label for="tipo_letra"><b>Tipo de Letra: </b></label>
+                    <label for="tipo_letra"><b>Tipo de Letra: @Model.tipo_letra</b></label>
                 </div>
                 <div class="col-md-2">
 
                 </div>
                 <div class="col-md-5">
-                    <label for="cores"><b>Cores: </b></label>
+                    <label for="cores"><b>Cores: @Model.cor</b></label>
                 </div>
             </div>
         </div>
