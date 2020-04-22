@@ -19,6 +19,18 @@
             color: black;
             width: 110px;
         }
+        #botaoB {
+            display: block;
+            background-color: white;
+            font-family: 'Century Gothic';
+            border-radius: 8px;
+            border: 2px solid #ff01f2;
+            padding-right: 1em;
+            padding-left: 1em;
+            color: black;
+            width: 160px;
+        }
+
         hr.separar {
             border: 1px solid gray;
         }
@@ -58,9 +70,12 @@
                             </center>
                         </div>
 
-                        <div class="col-md-3" style="padding-top: 2em; font-size: 20px; text-align: center; font-family: 'Century Gothic';">
-                            <p style="margin-top: 1em"><b><span>@p.categoria</span></b></p>
+                        <div class="col-md-3" style="padding-top: 1.3em; font-size: 20px; text-align: center; font-family: 'Century Gothic';">
+                            <p><b><span>@p.categoria</span></b></p>
                             <p><span>@p.nome</span></p>
+                            <center>
+                                <a id="botaoB" asp-action="Remover" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button"><b>Ver Briefing</b></a>
+                            </center>
                         </div>
 
                         <div class="col-md-3" style="padding-top: 2em; font-family: 'Century Gothic';">
