@@ -22,7 +22,7 @@ namespace CMP.Controllers
             _configuration = configuration;
         }
 
-        public IActionResult VerBriefing(int idBriefing)
+        public IActionResult Briefing(int idBriefing)
         {
             Briefing briefing = new Briefing();
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -68,6 +68,10 @@ namespace CMP.Controllers
             return View(briefing);
         }
 
+        public IActionResult verBriefing()
+        {
+            return View();
+        }
        
 
         public IActionResult Pagamento()
