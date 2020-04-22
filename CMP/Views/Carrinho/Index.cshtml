@@ -28,7 +28,19 @@
             padding-right: 1em;
             padding-left: 1em;
             color: black;
-            width: 160px;
+            width: 180px;
+        }
+
+        #botaoRedondo {
+            display: block;
+            background-color: white;
+            font-family: 'Century Gothic';
+            text-align: center;
+            border-radius: 50%;
+            border: 2px solid #ff01f2;
+            color: black;
+            height: 30px;
+            width: 30px;
         }
 
         hr.separar {
@@ -78,11 +90,19 @@
                             </center>
                         </div>
 
-                        <div class="col-md-3" style="padding-top: 2em; font-family: 'Century Gothic';">
+                        <div class="col-md-1" style="padding-top: 2em; font-family: 'Century Gothic';">
                             <p style="font-size: 20px; text-align: center; margin-top: 3em"><span>@p.preco€</span></p>
                         </div>
-
-                        <div class="col-md-3" style="padding-top: 3em; font-family: 'Century Gothic';">
+                        <div class="col-md-1" style="padding-top: 3em; font-family: 'Century Gothic';">
+                            <a id="botaoRedondo" asp-action="Remover" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button" style=" margin-top: 3em;float: right"><b>-</b></a>
+                        </div>
+                        <div class="col-md-1" style="padding-top: 6em; font-family: 'Century Gothic'; text-align: center">
+                            1
+                        </div>
+                        <div class="col-md-1" style="padding-top: 3em; font-family: 'Century Gothic';">
+                            <a id="botaoRedondo" asp-action="Remover" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button" style=" margin-top: 3em;float: left"><b>+</b></a>
+                        </div>
+                        <div class="col-md-2" style="padding-top: 3em; font-family: 'Century Gothic';">
                             <center>
                                 <a id="botao" asp-action="Remover" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button" style=" margin-top: 3em"><b>REMOVER</b></a>
                             </center>
@@ -119,7 +139,7 @@
                                 <p style="font-size: 15px; text-align: right;"><span>Total (c/IVA)</span></p>
                             </div>
                             <div class="col-md-5">
-                                <p style="font-size: 15px; text-align: left;"><span><b>@Model.total€</b></span></p>
+                                <p style="font-size: 15px; text-align: left; "><span><b>@Model.total€</b></span></p>
                             </div>
                         </div>
                     </div>
