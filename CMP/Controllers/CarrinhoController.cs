@@ -22,13 +22,13 @@ namespace CMP.Controllers
             _configuration = configuration;
         }
 
-        public IActionResult Briefing(int idBriefing)
+        public IActionResult VerBriefing(int idProdutoCompra)
         {
             Briefing briefing = new Briefing();
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = $"SELECT * FROM Briefing Where id={idBriefing}";
+                string sql = $"SELECT * FROM Briefing Where produto_compra_id={idProdutoCompra}";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -66,13 +66,7 @@ namespace CMP.Controllers
                 }
             }
             return View(briefing);
-        }
-
-        public IActionResult verBriefing()
-        {
-            return View();
-        }
-       
+        }   
 
         public IActionResult Pagamento()
         {
