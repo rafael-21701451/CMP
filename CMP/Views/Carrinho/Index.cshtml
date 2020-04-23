@@ -32,7 +32,7 @@
         }
 
         #botaoRedondo {
-            display: block;
+            display: inline-block;
             background-color: white;
             font-family: 'Century Gothic';
             text-align: center;
@@ -86,22 +86,20 @@
                             <p><b><span>@p.categoria</span></b></p>
                             <p><span>@p.nome</span></p>
                             <center>
-                                <a id="botaoBriefing" asp-action="Briefing" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button"><b>VER BRIEFING</b></a>
+                                <a id="botaoBriefing" asp-action="VerBriefing" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button"><b>VER BRIEFING</b></a>
                             </center>
                         </div>
 
                         <div class="col-md-1" style="padding-top: 2em; font-family: 'Century Gothic';">
                             <p style="font-size: 20px; text-align: center; margin-top: 3em"><span>@p.preco€</span></p>
                         </div>
-                        <div class="col-md-1" style="padding-top: 3em; font-family: 'Century Gothic';">
+                        <div class="col-md-3" style="padding-top: 3em; font-family: 'Century Gothic';">
                             <a id="botaoRedondo" asp-action="Remover" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button" style=" margin-top: 3em;float: right"><b>-</b></a>
-                        </div>
-                        <div class="col-md-1" style="padding-top: 6em; font-family: 'Century Gothic'; text-align: center">
                             1
-                        </div>
-                        <div class="col-md-1" style="padding-top: 3em; font-family: 'Century Gothic';">
                             <a id="botaoRedondo" asp-action="Remover" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button" style=" margin-top: 3em;float: left"><b>+</b></a>
+
                         </div>
+                      
                         <div class="col-md-2" style="padding-top: 3em; font-family: 'Century Gothic';">
                             <center>
                                 <a id="botao" asp-action="Remover" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button" style=" margin-top: 3em"><b>REMOVER</b></a>
