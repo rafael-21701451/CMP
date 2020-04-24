@@ -85,6 +85,76 @@ namespace CMP.Controllers
             }
         }
 
+        public IActionResult Adicionar(int idProdutoCompra)
+        {
+            Product pc = getProductIDByProduto_Compra(idProdutoCompra);
+            Product pc2 = getProductByID(pc);
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"Update Produto_Compra SET quantidade='{pc2.quantidade + 1}' Where id='{idProdutoCompra}'";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+                int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
+                Compra compra = getCompraByCliente(idCliente);
+
+                sql = $"Update Compra SET sub_total='{Convert.ToString(compra.subTotal + pc2.preco).Replace(',', '.')}', total='{Convert.ToString(compra.subTotal + pc2.preco + ((compra.subTotal + pc2.preco) * 0.23)).Replace(',', '.')}' Where id='{compra.id}'";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+
+            }
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Decrementar(int idProdutoCompra)
+        {
+            Product pc = getProductIDByProduto_Compra(idProdutoCompra);
+            Product pc2 = getProductByID(pc);
+            if(pc2.quantidade-1 == 0)
+            {
+                Remover(idProdutoCompra);
+            }
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"Update Produto_Compra SET quantidade='{pc2.quantidade - 1}' Where id='{idProdutoCompra}'";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+                int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
+                Compra compra = getCompraByCliente(idCliente);
+
+                sql = $"Update Compra SET sub_total='{Convert.ToString(compra.subTotal - pc2.preco).Replace(',', '.')}', total='{Convert.ToString(compra.subTotal - pc2.preco + ((compra.subTotal - pc2.preco) * 0.23)).Replace(',', '.')}' Where id='{compra.id}'";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+
+            }
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         public IActionResult Pagamento(FinalizarCompraView finalizar)
         {
@@ -278,6 +348,7 @@ namespace CMP.Controllers
                                 Product produto = new Product();
                                 produto.idProdutoCompra = Convert.ToInt32(dataReader["id"]);
                                 produto.id = Convert.ToInt32(dataReader["produto_id"]);
+                                produto.quantidade = Convert.ToInt32(dataReader["quantidade"]);
                                 ProdutoCompra.Add(produto);
                             }
                         }
@@ -309,6 +380,7 @@ namespace CMP.Controllers
                                 product.preco = Convert.ToDouble(dataReader["preco"]);
                                 product.categoria = getProductCategory(product.id);
                                 product.idProdutoCompra = p.idProdutoCompra;
+                                product.quantidade = p.quantidade;
                             }
                         }
                     }
@@ -335,6 +407,7 @@ namespace CMP.Controllers
                             if (Convert.ToInt32(dataReader["id"]) == pc)
                             {
                                 product.id = Convert.ToInt32(dataReader["produto_id"]);
+                                product.quantidade = Convert.ToInt32(dataReader["quantidade"]);
                             }
                         }
                     }

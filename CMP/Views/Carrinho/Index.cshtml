@@ -94,9 +94,9 @@
                             <p style="font-size: 20px; text-align: center; margin-top: 3em"><span><b>@p.preco€</b></span></p>
                         </div>
                         <div class="col-md-2" style="padding-top: 3em; font-family: 'Century Gothic';">
-                            <a id="botaoRedondo" asp-action="Remover" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button" style=" margin-top: 3em"><b>-</b></a>
-                            <b>1</b>
-                            <a id="botaoRedondo" asp-action="Remover" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button" style=" margin-top: 3em"><b>+</b></a>
+                            <a id="botaoRedondo" asp-action="Decrementar" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button" style=" margin-top: 3em"><b>-</b></a>
+                            <b>@p.quantidade</b>
+                            <a id="botaoRedondo" asp-action="Adicionar" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button" style=" margin-top: 3em"><b>+</b></a>
                         </div>
                       
                         <div class="col-md-2" style="padding-top: 3em; font-family: 'Century Gothic';">

@@ -74,7 +74,7 @@ namespace CMP.Controllers
                     }
 
 
-                    sql = $"Insert Into Produto_Compra (valor_desconto, compra_id, produto_id) Values ('{0}','{compra.id}','{product.id}')";
+                    sql = $"Insert Into Produto_Compra (valor_desconto, compra_id, produto_id, quantidade) Values ('{0}','{compra.id}','{product.id}','{1}')";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.CommandType = System.Data.CommandType.Text;
