@@ -483,6 +483,7 @@ namespace CMP.Controllers
                                 Product produto = new Product();
                                 produto.idProdutoCompra = Convert.ToInt32(dataReader["id"]);
                                 produto.id = Convert.ToInt32(dataReader["produto_id"]);
+                                produto.quantidade = Convert.ToInt32(dataReader["quantidade"]);
                                 ProdutoCompra.Add(produto);
                             }
                         }
@@ -514,6 +515,7 @@ namespace CMP.Controllers
                                 product.preco = Convert.ToDouble(dataReader["preco"]);
                                 product.categoria = getProductCategory(product.id);
                                 product.idProdutoCompra = p.idProdutoCompra;
+                                product.quantidade = p.quantidade;
                             }
                         }
                     }

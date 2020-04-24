@@ -52,10 +52,10 @@ namespace CMP.Controllers
                             briefing.resultados_esperados = Convert.ToString(dataReader["resultados_esperados"]);
                             briefing.permissas = Convert.ToString(dataReader["permissas"]);
                             briefing.restricoes = Convert.ToString(dataReader["restricoes"]);
-                            briefing.data_entrega = Convert.ToDateTime(dataReader["data_entrega"]);
-                            briefing.cronograma_1 = Convert.ToDateTime(dataReader["cronograma_1"]);
-                            briefing.cronograma_2 = Convert.ToDateTime(dataReader["cronograma_2"]);
-                            briefing.cronograma_3 = Convert.ToDateTime(dataReader["cronograma_3"]);
+                            briefing.data_entrega = Convert.ToDateTime(dataReader["data_entrega"]).Date;
+                            briefing.cronograma_1 = Convert.ToDateTime(dataReader["cronograma_1"]).Date;
+                            briefing.cronograma_2 = Convert.ToDateTime(dataReader["cronograma_2"]).Date;
+                            briefing.cronograma_3 = Convert.ToDateTime(dataReader["cronograma_3"]).Date;
                             briefing.linha_seguir = Convert.ToString(dataReader["linha_seguir"]);
                             briefing.tom_voz = Convert.ToString(dataReader["tom_voz"]);
                             briefing.tipo_letra = Convert.ToString(dataReader["tipo_letra"]);

@@ -190,11 +190,11 @@
                                     <span>
                                         Quantidade:
                                     </span>
-                                </b> X
+                                </b> @p.quantidade
                             </p>
                             <br>
                             <center>
-                                <a id="botaoBriefing" asp-action="VerBriefing" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button"><b>VER BRIEFING</b></a>
+                                <a id="botaoBriefing" asp-action="VerBriefing" asp-controller="Carrinho" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button"><b>VER BRIEFING</b></a>
 
                             </center>
                         </div>

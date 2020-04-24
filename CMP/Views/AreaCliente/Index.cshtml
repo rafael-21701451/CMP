@@ -204,12 +204,12 @@
                                     <p style="font-size: 19px; margin-top: 5px">
                                     <b><span>
                                         Quantidade:
-                                    </span></b> X</p>
+                                    </span></b> @p.quantidade</p>
                                     <br>
                                 </div>
                                 <div class="align-items-center">
                                     <center>
-                                        <a id="botaoBriefing" asp-action="VerBriefing" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button"><b>VER BRIEFING</b></a>
+                                        <a id="botaoBriefing" asp-action="VerBriefing" asp-controller="Carrinho" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button"><b>VER BRIEFING</b></a>
                                     </center>
                                 </div>
                             </div>
