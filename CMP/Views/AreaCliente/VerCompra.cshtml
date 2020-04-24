@@ -15,9 +15,21 @@
         font-family: 'Century Gothic';
     }
 
-        .btn-group button:hover {
-            background-color: whitesmoke;
-        }
+    .btn-group button:hover {
+        background-color: whitesmoke;
+    }
+
+    #botaoBriefing {
+        display: block;
+        background-color: white;
+        font-family: 'Century Gothic';
+        border-radius: 8px;
+        border: 2px solid #ff01f2;
+        padding-right: 1em;
+        padding-left: 1em;
+        color: black;
+        width: 100px;
+    }
 </style>
 
 <body>
@@ -172,7 +184,13 @@
                             <p><b><span>@p.categoria </span></b></p>
                             <p><span>@p.nome</span></p>
                         </div>
-                        <div class="col-md-4" style="margin-top:1em">
+                        <div class="col-md-2" style="margin-top:9em; font-size:10px">
+                            <center>
+                                <a id="botaoBriefing" asp-action="VerBriefing" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button"><b>VER BRIEFING</b></a>
+
+                            </center>
+                        </div>
+                        <div class="col-md-2" style="margin-top:1em">
                             <p style="margin-top: 3em"><span>@p.preco€</span></p>
                         </div>
                     </div>
