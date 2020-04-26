@@ -24,48 +24,57 @@ namespace CMP.Controllers
 
         public IActionResult VerBriefing(int idProdutoCompra)
         {
-            Briefing briefing = new Briefing();
-            string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
+            if (pcPertenceCliente(idProdutoCompra, idCliente))
             {
-                string sql = $"SELECT * FROM Briefing Where produto_compra_id={idProdutoCompra}";
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                Briefing briefing = new Briefing();
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    connection.Open();
-                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    string sql = $"SELECT * FROM Briefing Where produto_compra_id={idProdutoCompra}";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
                     {
-                        while (dataReader.Read())
+                        connection.Open();
+                        using (SqlDataReader dataReader = command.ExecuteReader())
                         {
-                            briefing.id = Convert.ToInt32(dataReader["id"]);
-                            briefing.empresa = Convert.ToString(dataReader["empresa"]);
-                            briefing.setor = Convert.ToString(dataReader["setor"]);
-                            briefing.historia_empresa = Convert.ToString(dataReader["historia_empresa"]);
-                            briefing.objetivo_negocio = Convert.ToString(dataReader["objetivo_negocio"]);
-                            briefing.estrategia = Convert.ToString(dataReader["estrategia"]);
-                            briefing.produtos_comercializados = Convert.ToString(dataReader["produtos_comercializados"]);
-                            briefing.marca = Convert.ToString(dataReader["marca"]);
-                            briefing.imagem_corporativa = Convert.ToString(dataReader["imagem_corporativa"]);
-                            briefing.posicionamento = Convert.ToString(dataReader["posicionamento"]);
-                            briefing.publico_alvo = Convert.ToString(dataReader["publico_alvo"]);
-                            briefing.concorrentes = Convert.ToString(dataReader["concorrentes"]);
-                            briefing.objetivos = Convert.ToString(dataReader["objetivos"]);
-                            briefing.resultados_esperados = Convert.ToString(dataReader["resultados_esperados"]);
-                            briefing.permissas = Convert.ToString(dataReader["permissas"]);
-                            briefing.restricoes = Convert.ToString(dataReader["restricoes"]);
-                            briefing.data_entrega = Convert.ToDateTime(dataReader["data_entrega"]).Date;
-                            briefing.cronograma_1 = Convert.ToDateTime(dataReader["cronograma_1"]).Date;
-                            briefing.cronograma_2 = Convert.ToDateTime(dataReader["cronograma_2"]).Date;
-                            briefing.cronograma_3 = Convert.ToDateTime(dataReader["cronograma_3"]).Date;
-                            briefing.linha_seguir = Convert.ToString(dataReader["linha_seguir"]);
-                            briefing.tom_voz = Convert.ToString(dataReader["tom_voz"]);
-                            briefing.tipo_letra = Convert.ToString(dataReader["tipo_letra"]);
-                            briefing.cor = Convert.ToString(dataReader["cor"]);
+                            while (dataReader.Read())
+                            {
+                                briefing.id = Convert.ToInt32(dataReader["id"]);
+                                briefing.empresa = Convert.ToString(dataReader["empresa"]);
+                                briefing.setor = Convert.ToString(dataReader["setor"]);
+                                briefing.historia_empresa = Convert.ToString(dataReader["historia_empresa"]);
+                                briefing.objetivo_negocio = Convert.ToString(dataReader["objetivo_negocio"]);
+                                briefing.estrategia = Convert.ToString(dataReader["estrategia"]);
+                                briefing.produtos_comercializados = Convert.ToString(dataReader["produtos_comercializados"]);
+                                briefing.marca = Convert.ToString(dataReader["marca"]);
+                                briefing.imagem_corporativa = Convert.ToString(dataReader["imagem_corporativa"]);
+                                briefing.posicionamento = Convert.ToString(dataReader["posicionamento"]);
+                                briefing.publico_alvo = Convert.ToString(dataReader["publico_alvo"]);
+                                briefing.concorrentes = Convert.ToString(dataReader["concorrentes"]);
+                                briefing.objetivos = Convert.ToString(dataReader["objetivos"]);
+                                briefing.resultados_esperados = Convert.ToString(dataReader["resultados_esperados"]);
+                                briefing.permissas = Convert.ToString(dataReader["permissas"]);
+                                briefing.restricoes = Convert.ToString(dataReader["restricoes"]);
+                                briefing.data_entrega = Convert.ToDateTime(dataReader["data_entrega"]).Date;
+                                briefing.cronograma_1 = Convert.ToDateTime(dataReader["cronograma_1"]).Date;
+                                briefing.cronograma_2 = Convert.ToDateTime(dataReader["cronograma_2"]).Date;
+                                briefing.cronograma_3 = Convert.ToDateTime(dataReader["cronograma_3"]).Date;
+                                briefing.linha_seguir = Convert.ToString(dataReader["linha_seguir"]);
+                                briefing.tom_voz = Convert.ToString(dataReader["tom_voz"]);
+                                briefing.tipo_letra = Convert.ToString(dataReader["tipo_letra"]);
+                                briefing.cor = Convert.ToString(dataReader["cor"]);
+                            }
                         }
+                        connection.Close();
                     }
-                    connection.Close();
                 }
+                return View(briefing);
             }
-            return View(briefing);
+            else
+            {
+                return RedirectToAction("MinhasEncomendas", "AreaCliente");
+            }
+            
         }   
 
         public IActionResult Pagamento()
@@ -153,6 +162,53 @@ namespace CMP.Controllers
 
             }
             return RedirectToAction("Index");
+        }
+
+        public Boolean compraPertenceCliente(int idCompra, int idCliente)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Compra WHERE id={idCompra}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["cliente_id"]) == idCliente)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return false;
+        }
+
+        public bool pcPertenceCliente (int idPC, int idCliente)
+        {
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string sql = $"SELECT * FROM Produto_Compra WHERE id={idPC}";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        using (SqlDataReader dataReader = command.ExecuteReader())
+                        {
+                        while (dataReader.Read())
+                            {
+                            return compraPertenceCliente(Convert.ToInt32(dataReader["compra_id"]), idCliente);
+                            }
+                        }
+                        connection.Close();
+                    }
+                }
+                return false;
         }
 
         [HttpPost]

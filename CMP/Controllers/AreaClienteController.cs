@@ -98,37 +98,46 @@ namespace CMP.Controllers
 
         public IActionResult VerCompra(int id)
         {
-            CompraView encomenda = new CompraView();
-            encomenda.compra = new Compra();
-            encomenda.compra.id = id;
-            encomenda.compra.total = getPrecoCompraByID(id);
-            string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
+            if (compraPertenceCliente(id, idCliente))
             {
-                string sql = $"SELECT * FROM Compra WHERE id={id}";
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                CompraView encomenda = new CompraView();
+                encomenda.compra = new Compra();
+                encomenda.compra.id = id;
+                encomenda.compra.total = getPrecoCompraByID(id);
+                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    connection.Open();
-                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    string sql = $"SELECT * FROM Compra WHERE id={id}";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
                     {
-                        while (dataReader.Read())
+                        connection.Open();
+                        using (SqlDataReader dataReader = command.ExecuteReader())
                         {
-                           encomenda.estado = getNomeEstado(Convert.ToInt32(dataReader["estado_id"]));
+                            while (dataReader.Read())
+                            {
+                                encomenda.estado = getNomeEstado(Convert.ToInt32(dataReader["estado_id"]));
+                            }
                         }
+                        connection.Close();
                     }
-                    connection.Close();
                 }
+                encomenda.fatura = new FinalizarCompraView();
+                encomenda.fatura = getFatura(id);
+                List<Product> ProdutosCompra = getProdutosCompra(id);
+                List<Product> produtos = new List<Product>();
+                foreach (Product p in ProdutosCompra)
+                {
+                    produtos.Add(getProductByID(p));
+                }
+                encomenda.produtos = produtos;
+                return View(encomenda);
             }
-            encomenda.fatura = new FinalizarCompraView();
-            encomenda.fatura = getFatura(id);
-            List<Product> ProdutosCompra = getProdutosCompra(id);
-            List<Product> produtos = new List<Product>();
-            foreach (Product p in ProdutosCompra)
+            else
             {
-                produtos.Add(getProductByID(p));
+                return RedirectToAction("MinhasEncomendas");
             }
-            encomenda.produtos = produtos;
-            return View(encomenda);
+
         }
 
         public IActionResult Index()
@@ -245,6 +254,31 @@ namespace CMP.Controllers
                 }
             }
             return View(compras);
+        }
+
+        public Boolean compraPertenceCliente(int idCompra,int idCliente)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Compra WHERE id={idCompra}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["cliente_id"]) == idCliente)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return false;
         }
 
         public string getNomeEstado(int idEstado)
