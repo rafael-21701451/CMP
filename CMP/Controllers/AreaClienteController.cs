@@ -12,6 +12,7 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
 using System.Security.Claims;
+using System.Security.Policy;
 
 namespace CMP.Controllers
 {
@@ -297,6 +298,7 @@ namespace CMP.Controllers
                             briefing.tipo_letra = Convert.ToString(dataReader["tipo_letra"]);
                             briefing.cor = Convert.ToString(dataReader["cor"]);
                             briefing.aceite = Convert.ToBoolean(dataReader["aceite"]);
+                            briefing.produtoCompraID = Convert.ToInt32(dataReader["produto_compra_id"]);
                             if (briefing.aceite)
                             {
                                 briefings.Add(briefing);
@@ -306,11 +308,136 @@ namespace CMP.Controllers
                     connection.Close();
                 }
             }
+            List<BriefingPorAceitar> briefingPorAceitar = new List<BriefingPorAceitar>();
+            foreach (Briefing b in briefings)
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string sql = $"SELECT * FROM Produto_Compra WHERE id = {b.produtoCompraID}";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        using (SqlDataReader dataReader = command.ExecuteReader())
+                        {
+                            while (dataReader.Read())
+                            {
+                                BriefingPorAceitar bpa = new BriefingPorAceitar();
+                                bpa.id = b.id;
+                                bpa.produto = getProductByID(Convert.ToInt32(dataReader["produto_id"]));
+                                bpa.comprador = getComprador(Convert.ToInt32(dataReader["compra_id"]));
+                                if (getEstado(Convert.ToInt32(dataReader["compra_id"])).Equals("Planeamento"))
+                                {
+                                    briefingPorAceitar.Add(bpa);
+                                }
+                            }
+                        }
+                        connection.Close();
+                    }
+                }
+            }        
+            return View(briefingPorAceitar);
+        }
 
+        public String getEstado(int idCompra)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Compra WHERE id = {idCompra}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["id"]) == idCompra)
+                            {
+                                return getNomeEstado(Convert.ToInt32(dataReader["estado_id"]));
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
+        }
 
+        public String getComprador(int idCompra)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Compra WHERE id = {idCompra}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["id"]) == idCompra)
+                            {
+                                return getNomeComprador(Convert.ToInt32(dataReader["cliente_id"]));
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
+        }
 
+        public String getNomeComprador(int idCliente)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Cliente WHERE id = {idCliente}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["id"]) == idCliente)
+                            {
+                                return Convert.ToString(dataReader["nome"]);
 
-            return View();
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
+        }
+
+        public String getProductByID(int pID)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produto";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["id"]) == pID)
+                            {
+                               return Convert.ToString(dataReader["nome"]);
+                        
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
         }
 
         public Boolean compraPertenceCliente(int idCompra,int idCliente)

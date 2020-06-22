@@ -94,5 +94,7 @@ namespace CMP.Models
 
         public Boolean aceite { get; set; }
 
+        public int produtoCompraID { get; set; }
+
     }
 }

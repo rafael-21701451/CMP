@@ -14,9 +14,10 @@
         width: 250px;
         font-family: 'Century Gothic';
     }
-    .btn-group button:hover {
+
+        .btn-group button:hover {
             background-color: whitesmoke;
-    }
+        }
 </style>
 
 <body>
@@ -39,16 +40,13 @@
                     <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
                 </div>
             </div>
-            <div class="col-md-9" >
+            <div class="col-md-9">
                 <table style="text-align: center" class="table table-bordered table-sm table-striped table-hover">
                     <thead>
                         <tr>
-                            <a asp-action="Index"><button><b>Briefings Por Aceitar</b></button></a>
-                            <button><b>Projetos Por Atribuir</b></button>
-                            <button><b>Projetos Atribuídos</b></button>
-                            <button><b>Projetos Por Validar</b></button>
-                            <button><b>Minhas Mensagens</b></button>
-                            <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
+                            <th>ID</th>
+                            <th>Produto</th>
+                            <th>Comprador</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -70,7 +68,7 @@
                             }
                         }
                     </tbody>
-                </table>     
+                </table>
             </div>
         </div>
     </div>
