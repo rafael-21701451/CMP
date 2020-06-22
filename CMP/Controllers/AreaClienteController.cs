@@ -259,7 +259,6 @@ namespace CMP.Controllers
 
         public IActionResult BriefingsPorAceitar()
         {
-            int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
             List<Briefing> briefings = new List<Briefing>();
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -299,7 +298,7 @@ namespace CMP.Controllers
                             briefing.cor = Convert.ToString(dataReader["cor"]);
                             briefing.aceite = Convert.ToBoolean(dataReader["aceite"]);
                             briefing.produtoCompraID = Convert.ToInt32(dataReader["produto_compra_id"]);
-                            if (briefing.aceite)
+                            if (!briefing.aceite)
                             {
                                 briefings.Add(briefing);
                             }
