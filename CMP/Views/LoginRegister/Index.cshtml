@@ -105,23 +105,26 @@
                     <form method="post">
                         <div>
                             <label for="email"><b>Email </b></label>
-                            <input type="text" name="email" asp-for="email"  placeholder="Email">
+                            <input type="text" name="email" asp-for="email" placeholder="Email">
                             <span asp-validation-for="email" class="text-danger"></span>
                         </div>
                         <div>
                             <br>
                             <label for="password"><b>Password </b></label>
-                            <input type="password" name="password" asp-for="password"  placeholder="Password">
+                            <input type="password" name="password" asp-for="password" placeholder="Password">
                             <span asp-validation-for="password" class="text-danger"></span>
                         </div>
                         <div>
-                            <input type="checkbox" data-val="true" asp-for="sessao"  id="sessao" name="sessao" value="true" /> Manter sessão iniciada.
+                            <input type="checkbox" data-val="true" asp-for="sessao" id="sessao" name="sessao" value="true" /> Manter sessão iniciada.
                             <input name="sessao" type="hidden" value="false">
                         </div>
                         <div>
                             <input type="submit" value="Entrar" asp-action="Login">
                         </div>
                     </form>
+                    <div class="row" style="padding-top: 9em; padding-left: 8em;">
+                        <b>É Produtor ou Content Manager? <u><a asp-controller="LoginRegister" asp-action="LoginCMProducer" ; style="color: black; font-size: 16px;">Clique aqui</a></u></b>
+                    </div>
                 </div>
 
                 <div class="col-md-6" id="conta" style="padding-top: 2em;border-left: 1px solid grey;height: 900px;">
@@ -162,4 +165,4 @@
                 </div>
                 </div>
             </div>
-    </body>
+           </body>
