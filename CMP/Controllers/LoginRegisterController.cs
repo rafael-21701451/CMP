@@ -34,6 +34,11 @@ namespace CMP.Controllers
             return View();
         }
 
+        public IActionResult LoginCMProducer()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginRegistarView dados)
         {
