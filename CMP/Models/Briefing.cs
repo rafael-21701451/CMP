@@ -92,5 +92,7 @@ namespace CMP.Models
 
         public string cor { get; set; }
 
+        public Boolean aceite { get; set; }
+
     }
 }
