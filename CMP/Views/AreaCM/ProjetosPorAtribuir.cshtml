@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ProjetoPorAtribuir>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    .btn-group button {
+        background-color: white;
+        border: 1px solid whitesmoke;
+        color: black;
+        padding: 10px 24px;
+        cursor: pointer;
+        display: block;
+        width: 250px;
+        font-family: 'Century Gothic';
+    }
+
+        .btn-group button:hover {
+            background-color: whitesmoke;
+        }
+</style>
+
+<body>
+    <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
+        <p style="font-size: 40px; "><b><span>ÁREA CONTENT MANAGER</span></b></p>
+        <p style="font-size: 20px; "><span>Bem-vindo à sua área, <b>@User.Claims.ElementAt(1).Value</b>!</span></p>
+    </div>
+
+    <div class="container">
+        <div class="row" style="padding-bottom: 2em;">
+            <div class="btn-group">
+                <div class="col-md-3">
+                    <a asp-action="BriefingsPorAceitar"><button><b>Briefings Por Aceitar</b></button></a>
+                    <a asp-action="ProjetosPorAtribuir"><button><b>Projetos Por Atribuir</b></button></a>
+                    <button><b>Projetos Atribuídos</b></button>
+                    <button><b>Projetos Por Validar</b></button>
+                    <button><b>Minhas Mensagens</b></button>
+                    <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <table style="text-align: center" class="table table-bordered table-sm table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Produto</th>
+                            <th>Comprador</th>
+                            <th>ID Compra</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model == null)
+                        {
+                            <tr>
+                                <td colspan="7" class="text-center">No Model Data</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var p in Model)
+                            {
+                                <tr style="transform: rotate(0);">
+                                    <th scope="row"><a asp-action="VerBriefing" asp-route-idBriefing="@p.id" class="stretched-link" style="color:black">@p.id</a></th>
+                                    <td style="text-align:center">@p.produto</td>
+                                    <td style="text-align:center">@p.comprador</td>
+                                    <td style="text-align:center">@p.idCompra</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
