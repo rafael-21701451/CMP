@@ -212,7 +212,7 @@ namespace CMP.Controllers
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), authProperties);
-                return RedirectToAction("Index", "AreaCliente");
+                return RedirectToAction("Index", "AreaCM");
             }
             else
             {
@@ -224,7 +224,7 @@ namespace CMP.Controllers
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), authProperties);
-                return RedirectToAction("Index", "AreaCliente");
+                return RedirectToAction("Index", "AreaCM");
             }
         }
 

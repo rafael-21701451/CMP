@@ -22,21 +22,19 @@
 
 <body>
     <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
-        <p style="font-size: 40px; "><b><span>ÁREA CLIENTE</span></b></p>
-        <p style="font-size: 20px; "><span>Bem-vindo à sua área de cliente, <b>@User.Claims.ElementAt(1).Value</b>!</span></p>
+        <p style="font-size: 40px; "><b><span>ÁREA CONTENT MANAGER</span></b></p>
+        <p style="font-size: 20px; "><span>Bem-vindo à sua área, <b>@User.Claims.ElementAt(1).Value</b>!</span></p>
     </div>
 
     <div class="container">
         <div class="row" style="padding-bottom: 2em;">
             <div class="btn-group">
                 <div class="col-md-3">
-                    <a asp-action="DadosPessoais"><button><b>Dados Pessoais</b></button></a>
-                    <a asp-action="MinhasEncomendas"><button style="background-color:whitesmoke"><b>Minhas Encomendas</b></button></a>
-                    <button><b>Meus Produtos</b></button>
-                    <button><b>Meus Favoritos</b></button>
-                    <button><b>Meus Comentários</b></button>
+                    <a asp-action="BriefingsPorAceitar"><button><b>Briefings Por Aceitar</b></button></a>
+                    <button><b>Projetos Por Atribuir</b></button>
+                    <button><b>Projetos Atribuídos</b></button>
+                    <button><b>Projetos Por Validar</b></button>
                     <button><b>Minhas Mensagens</b></button>
-                    <button><b>Minhas Avaliações</b></button>
                     <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
                 </div>
             </div>
@@ -61,7 +59,7 @@
                             @foreach (var p in Model)
                             {
                                 <tr style="transform: rotate(0);">
-                                    <th scope="row"><a asp-action="VerCompra" asp-route-id="@p.id" class="stretched-link" style="color:black">@p.id</a></th>
+                                    <th scope="row"><a asp-action="VerBriefing" asp-route-idBriefing="@p.id" class="stretched-link" style="color:black">@p.id</a></th>
                                     <td style="text-align:center">@p.produto</td>
                                     <td style="text-align:center">@p.comprador</td>
                                 </tr>

@@ -32,7 +32,14 @@
                 }
                 else
                 {
-                    <a class="image" asp-area="" asp-controller="AreaCliente" asp-action="Index"><img src="~/images/user.png" width="30" height="30"></a>
+                    if (User.Claims.ElementAt(3).Value.Equals("Cliente"))
+                    {
+                        <a class="image" asp-area="" asp-controller="AreaCliente" asp-action="Index"><img src="~/images/user.png" width="30" height="30"></a>
+                    }
+                    else if (User.Claims.ElementAt(3).Value.Equals("Content Manager"))
+                    {
+                        <a class="image" asp-area="" asp-controller="AreaCM" asp-action="Index"><img src="~/images/user.png" width="30" height="30"></a>
+                    }
                 }
             </div>
             <div class="col-md-1 text-center mt-4">
