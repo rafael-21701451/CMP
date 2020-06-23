@@ -34,6 +34,134 @@ namespace CMP.Controllers
         {    
             return View();
         }
+
+        public IActionResult ProjetosAtribuidos()
+        {
+            List<ProjetoAtribuido> projetosAtribuidos = new List<ProjetoAtribuido>();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor_Projeto WHERE content_manager_id={this.User.Claims.ElementAt(2).Value}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            ProjetoAtribuido pa = new ProjetoAtribuido();
+                            pa.nomeProdutor = getNomeProdutorByID(Convert.ToInt32(dataReader["produtor_id"]));
+                            pa.id = getIdProjeto(Convert.ToInt32(dataReader["projeto_id"]));
+                            if (getEstadoProjeto(pa.id))
+                            {
+                                pa.estado = "Concluído";
+                            }
+                            else
+                            {
+                                pa.estado = "Em progresso";
+                            }
+                            int briefingID = getIdBriefing(pa.id);
+                            int pcID = getPCByBriefingID(briefingID);
+                            pa.produto = getProductByPCID(pcID);
+                            projetosAtribuidos.Add(pa);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return View(projetosAtribuidos);
+        }
+        public int getIdProjeto(int idProjeto)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Projeto WHERE id={idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                           return Convert.ToInt32(dataReader["id"]);
+                          
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
+        public int getIdBriefing(int idProjeto)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Projeto WHERE id={idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToInt32(dataReader["id_briefing"]);
+
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
+        public Boolean getEstadoProjeto(int idProjeto)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Projeto WHERE id={idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToBoolean(dataReader["versao_final"]);
+
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return false;
+        }
+
+        public String getNomeProdutorByID(int idProdutor)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor WHERE id={idProdutor}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToString(dataReader["nome"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
+        }
+
         public IActionResult Produtores(int idProjeto)
         {
             List<Produtor> produtores = new List<Produtor>();
