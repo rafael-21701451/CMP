@@ -730,7 +730,7 @@ namespace CMP.Controllers
                                 product.id = Convert.ToInt32(dataReader["id"]);
                                 product.nome = Convert.ToString(dataReader["nome"]);
                                 product.preco = Convert.ToDouble(dataReader["preco"]);
-                                product.categoria = getProductCategory(Convert.ToInt32(dataReader["produto_id"]));
+                                product.categoria = getProductCategory(Convert.ToInt32(dataReader["categoria_id"]));
                                 product.idProdutoCompra = p.idProdutoCompra;
                                 product.quantidade = p.quantidade;
                             }

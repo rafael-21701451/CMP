@@ -83,7 +83,7 @@
                     <div class="col-md-4" style="margin-top:2em; font-size:20px; text-align: center;">                     
                         <br>
                         <center>
-                            <a id="botaoAtribuirProjeto" asp-action="ConfirmarProjeto" class="button"><b>ATRIBUIR PROJETO</b></a>
+                            <a id="botaoAtribuirProjeto" asp-action="ConfirmarProjeto"  asp-route-idProjeto="@Model.projetoSelecionado" asp-route-idProdutor="@Model.id"class="button"><b>ATRIBUIR PROJETO</b></a>
                         </center>
                     </div>
                 </div>

@@ -89,6 +89,87 @@ namespace CMP.Controllers
             return View(p);
         }
 
+        public IActionResult ConfirmarProjeto(int idProdutor, int idProjeto)
+        {
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"Update Projeto SET versao=1 WHERE id={idProjeto} ";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+                int idCompra = -1;
+
+                
+                sql = $"SELECT * FROM Projeto WHERE id={idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            int pcID = getPCByBriefingID(Convert.ToInt32(dataReader["id_briefing"]));
+                            idCompra = getCompraByPCID(pcID);
+                        }
+                    }
+                    connection.Close();
+                }
+
+                int idEstado = -1;
+                idEstado = getEstadoByNome("Produção");
+
+                sql = $"Update Compra SET estado_id={idEstado} WHERE id={idCompra} ";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+                sql = $"Insert Into Produtor_Projeto (produtor_id, projeto_id, content_manager_id) Values ({idProdutor},{idProjeto},{this.User.Claims.ElementAt(2).Value})";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.CommandType = System.Data.CommandType.Text;
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+            return RedirectToAction("Index", "AreaCM");
+        }
+
+        public int getEstadoByNome(string nomeEstado)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Estado";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToString(dataReader["estado"]).Equals(nomeEstado))
+                            {
+                                return Convert.ToInt32(dataReader["id"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
         public int getProjetosAtuais(int idProdutor)
         {
             int numProjetos = 0;
