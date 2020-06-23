@@ -35,6 +35,11 @@ namespace CMP.Controllers
             return View();
         }
 
+        public IActionResult VerProjetoAtribuido()
+        {
+            return View();
+        }
+
         public IActionResult ProjetosAtribuidos()
         {
             List<ProjetoAtribuido> projetosAtribuidos = new List<ProjetoAtribuido>();

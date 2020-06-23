@@ -10,7 +10,7 @@ namespace CMP.Models
         public int id { get; set; }
         public string produto { get; set; }
         public string nomeProdutor { get; set; }
-
         public string estado { get; set; }
+        public string categoriaProduto { get; set; }
     }
 }
