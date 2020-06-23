@@ -35,10 +35,49 @@ namespace CMP.Controllers
             return View();
         }
 
-        public IActionResult VerProjetoAtribuido()
+        public IActionResult VerProjetoAtribuido(int idProjeto)
         {
-            return View();
+            ProjetoAtribuido pa = new ProjetoAtribuido();
+            pa.id = getIdProjeto(idProjeto);
+            if (getEstadoProjeto(pa.id))
+            {
+                pa.estado = "Concluído";
+            }
+            else
+            {
+                pa.estado = "Em progresso";
+            }
+            int briefingID = getIdBriefing(pa.id);
+            int pcID = getPCByBriefingID(briefingID);
+            pa.produto = getProductByPCID(pcID);
+            pa.categoriaProduto = getProductCategoryByPCID(pcID);
+            pa.nomeProdutor = getIDProjetoProdutor(idProjeto);
+            return View(pa);
         }
+
+        public String getIDProjetoProdutor(int idProjeto)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor_Projeto WHERE projeto_id={idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return getNomeProdutorByID(Convert.ToInt32(dataReader["produtor_id"]));
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
+        }
+
+
 
         public IActionResult ProjetosAtribuidos()
         {
