@@ -35,6 +35,11 @@ namespace CMP.Controllers
             return View();
         }
 
+        public IActionResult ProjetosPorAtribuir()
+        {
+            return View();
+        }
+
         public IActionResult BriefingsPorAceitar()
         {
             List<Briefing> briefings = new List<Briefing>();
@@ -303,6 +308,33 @@ namespace CMP.Controllers
                     }
                 }
                 return View(briefing);
-            }
         }
+
+        public IActionResult AceitarBriefing(int idBriefing)
+        {
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"Update briefing SET aceite='true'  WHERE id={idBriefing} ";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+                sql = $"Insert Into Projeto (versao, versao_final, id_briefing) Values (1,'false',{idBriefing})";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.CommandType = System.Data.CommandType.Text;
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+            return RedirectToAction("Index", "AreaCM");
+
+        }
+    }
 }
