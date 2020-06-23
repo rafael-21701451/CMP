@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Produtores>
+﻿@model IEnumerable<Produtor>
 @{
     ViewData["Title"] = "Index";
 }
@@ -39,11 +39,18 @@
                 </div>
             </div>
             <div class="col-md-9">
+                <div class="row" style="font-size: 20px; text-align: center; font-family: 'Century Gothic'">
+                    <div class="col-md-12">
+                        <center>
+                            <p style="font-size: 20px;"><span><b>Selecione um produtor</b></span></p>
+                        </center>
+                    </div>
+                </div>
                 <table style="text-align: center" class="table table-bordered table-sm table-striped table-hover">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Produtor</th>
+                            <th>Nome</th>
                             <th>Especialidade</th>
                             <th>Projetos Atuais</th>
                         </tr>
@@ -60,7 +67,7 @@
                             @foreach (var p in Model)
                             {
                                 <tr style="transform: rotate(0);">
-                                    <th scope="row"><a asp-action="VerProjetoPorAtribuir" asp-route-idProjeto="@p.id" class="stretched-link" style="color:black">@p.id</a></th>
+                                    <th scope="row"><a asp-action="ConfirmarProdutor" asp-route-idProdutor="@p.id" class="stretched-link" style="color:black">@p.id</a></th>
                                     <td style="text-align:center">@p.produtor</td>
                                     <td style="text-align:center">@p.especialidade</td>
                                     <td style="text-align:center">@p.projetosAtuais</td>

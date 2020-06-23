@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CMP.Models
 {
-    public class Produtores
+    public class Produtor
     {
         public int id { get; set; }
         public string produtor { get; set; }

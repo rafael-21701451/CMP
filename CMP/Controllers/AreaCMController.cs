@@ -36,7 +36,88 @@ namespace CMP.Controllers
         }
         public IActionResult Produtores()
         {
-            return View();
+            List<Produtor> produtores = new List<Produtor>();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            Produtor p = new Produtor();
+                            p.id = Convert.ToInt32(dataReader["id"]);
+                            p.especialidade = Convert.ToString(dataReader["area"]);
+                            p.produtor = Convert.ToString(dataReader["nome"]);
+                            p.projetosAtuais = getProjetosAtuais(p.id);
+                            produtores.Add(p);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return View(produtores);
+        }
+
+        public IActionResult ConfirmarProdutor(int idProdutor)
+        {
+            Produtor produtor = new Produtor();
+            return View(produtor);
+        }
+
+        public int getProjetosAtuais(int idProdutor)
+        {
+            int numProjetos = 0;
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor_Projeto WHERE produtor_id={idProdutor}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            numProjetos = verificarSeProjetoJaTerminou(Convert.ToInt32(dataReader["projeto_id"]));
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return numProjetos;
+        }
+
+        public int verificarSeProjetoJaTerminou(int projetoid)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Projeto WHERE id={projetoid}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (!Convert.ToBoolean(dataReader["versao_final"]))
+                            {
+                                return 1;
+                            }
+                            else
+                            {
+                                return 0;
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return 0;
         }
 
         public IActionResult ProjetosPorAtribuir()

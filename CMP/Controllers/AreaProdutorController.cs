@@ -30,8 +30,11 @@ namespace CMP.Controllers
 
         public IActionResult Index()
         {
+           
             return View();
         }
+
+       
 
         public async Task<ActionResult> Logout()
         {
