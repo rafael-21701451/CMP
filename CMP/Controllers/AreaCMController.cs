@@ -34,7 +34,7 @@ namespace CMP.Controllers
         {    
             return View();
         }
-        public IActionResult Produtores()
+        public IActionResult Produtores(int idProjeto)
         {
             List<Produtor> produtores = new List<Produtor>();
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -53,6 +53,7 @@ namespace CMP.Controllers
                             p.especialidade = Convert.ToString(dataReader["area"]);
                             p.produtor = Convert.ToString(dataReader["nome"]);
                             p.projetosAtuais = getProjetosAtuais(p.id);
+                            p.projetoSelecionado = idProjeto;
                             produtores.Add(p);
                         }
                     }
@@ -62,10 +63,30 @@ namespace CMP.Controllers
             return View(produtores);
         }
 
-        public IActionResult ConfirmarProdutor(int idProdutor)
+        public IActionResult ConfirmarProdutor(int idProdutor, int idProjeto)
         {
-            Produtor produtor = new Produtor();
-            return View(produtor);
+            Produtor p = new Produtor();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor WHERE id={idProdutor}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            p.id = Convert.ToInt32(dataReader["id"]);
+                            p.especialidade = Convert.ToString(dataReader["area"]);
+                            p.produtor = Convert.ToString(dataReader["nome"]);
+                            p.projetoSelecionado = idProjeto;
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return View(p);
         }
 
         public int getProjetosAtuais(int idProdutor)

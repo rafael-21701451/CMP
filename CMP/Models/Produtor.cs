@@ -12,5 +12,6 @@ namespace CMP.Models
         public string especialidade { get; set; }
         public int projetosAtuais { get; set; }
 
+        public int projetoSelecionado { get; set; }
     }
 }
