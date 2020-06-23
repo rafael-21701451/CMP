@@ -4,6 +4,20 @@
 }
     <head>
         <style>
+            #botao {
+                background-color: white;
+                font-family: 'Century Gothic';
+                text-align: center;
+                border-radius: 8px;
+                padding-right: 1em;
+                padding-left: 1em;
+                color: black;
+                display: block;
+                width: 120px;
+                height: 60px;
+                vertical-align: middle;
+                display: table-cell;
+            }
         </style>
     </head>
 
@@ -171,4 +185,17 @@
             </div>
         </div>
 
-    </body>
+        <div class="container" style="margin-top: 1em; padding-bottom:1em">
+            <div class="row" style="padding-bottom: 2em;">
+                <div class="col-md-2">
+                    <a asp-action="RejeitarBriefing" id="botao" class="button" style="border: 2px solid #DC143C"><b>REJEITAR</b></a>
+                </div>
+                <div class="col-md-8">
+
+                </div>
+                <div class="col-md-2">
+                    <a asp-action="AceitarBriefing" id="botao" class="button" style="border: 2px solid #32CD32;"><b>ACEITAR</b></a>
+                </div>
+            </div>
+        </div>
+</body>
