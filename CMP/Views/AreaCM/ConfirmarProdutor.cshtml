@@ -77,12 +77,13 @@
                     </div>
                     <div class="col-md-4" style=" margin-top: 2em">
                         <p><b><span>@Model.produtor </span></b></p>
-                        <p><b>Especilidade: </b><span>@Model.especialidade</span></p>
+                        <p><b>Especilaidade: </b><span>@Model.especialidade</span></p>
+                        <p><b>ID Projeto: </b><span>@Model.projetoSelecionado</span></p>
                     </div>
                     <div class="col-md-4" style="margin-top:2em; font-size:20px; text-align: center;">                     
                         <br>
                         <center>
-                            <a id="botaoAtribuirProjeto" asp-action="Produtores" class="button"><b>ATRIBUIR PROJETO</b></a>
+                            <a id="botaoAtribuirProjeto" asp-action="ConfirmarProjeto" class="button"><b>ATRIBUIR PROJETO</b></a>
                         </center>
                     </div>
                 </div>
