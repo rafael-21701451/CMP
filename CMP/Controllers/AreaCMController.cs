@@ -31,8 +31,11 @@ namespace CMP.Controllers
       
 
         public IActionResult Index()
+        {    
+            return View();
+        }
+        public IActionResult Produtores()
         {
-     
             return View();
         }
 
