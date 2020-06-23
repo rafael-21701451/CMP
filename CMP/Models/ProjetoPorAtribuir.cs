@@ -11,5 +11,7 @@ namespace CMP.Models
         public string produto { get; set; }
         public string comprador { get; set; }
         public int idCompra { get; set; }
+
+        public int idPC { get; set; }
     }
 }

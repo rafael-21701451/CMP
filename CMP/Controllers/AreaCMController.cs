@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
 using System.Security.Claims;
 using System.Security.Policy;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2;
 
 namespace CMP.Controllers
 {
@@ -37,7 +38,218 @@ namespace CMP.Controllers
 
         public IActionResult ProjetosPorAtribuir()
         {
-            return View();
+            List <ProjetoPorAtribuir> projetosPorAtribuir = new List<ProjetoPorAtribuir>();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Projeto WHERE versao = 1";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            ProjetoPorAtribuir ppa = new ProjetoPorAtribuir();
+                            ppa.id = Convert.ToInt32(dataReader["id"]);
+                            int pcID = getPCByBriefingID(Convert.ToInt32(dataReader["id_briefing"]));
+                            ppa.produto = getProductByPCID(pcID);
+                            ppa.comprador = getCompradorByPCID(pcID);
+                            ppa.idCompra = getCompraByPCID(pcID);
+                            projetosPorAtribuir.Add(ppa);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return View(projetosPorAtribuir);
+        }
+
+        public IActionResult VerProjetoPorAtribuir(int idProjeto)
+        {
+            ProjetoView ppa = new ProjetoView();
+            ppa.projetoID = idProjeto;
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Projeto WHERE id = {idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            int pcID = getPCByBriefingID(Convert.ToInt32(dataReader["id_briefing"]));
+                            ppa.descProduto = getProductByPCID(pcID);
+                            ppa.produto = getProductCategoryByPCID(pcID);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return View(ppa);
+        }
+
+        public String getProductCategoryByPCID(int pcid)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produto_Compra WHERE id = {pcid}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return getProductCategoryByID(Convert.ToInt32(dataReader["produto_id"]));
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
+
+        }
+
+        public String getProductCategoryByID(int pID)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produto WHERE id={pID}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            
+                                return getProductCategory(Convert.ToInt32(dataReader["categoria_id"]));
+                            
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
+        }
+
+        public String getProductCategory(int id)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Categoria";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["id"]) == id)
+                            {
+                                return Convert.ToString(dataReader["nome"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return null;
+        }
+
+        public int getPCByBriefingID(int idBriefing)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Briefing WHERE id = {idBriefing}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToInt32(dataReader["produto_compra_id"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
+        public String getProductByPCID(int pcid)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produto_Compra WHERE id = {pcid}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return getProductByID(Convert.ToInt32(dataReader["produto_id"]));
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
+
+        }
+
+        public String getCompradorByPCID(int pcid)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produto_Compra WHERE id = {pcid}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return getComprador(Convert.ToInt32(dataReader["compra_id"]));
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
+        }
+
+        public int getCompraByPCID(int pcid)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produto_Compra WHERE id = {pcid}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToInt32(dataReader["compra_id"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
         }
 
         public IActionResult BriefingsPorAceitar()
@@ -324,7 +536,7 @@ namespace CMP.Controllers
 
                 }
 
-                sql = $"Insert Into Projeto (versao, versao_final, id_briefing) Values (1,'false',{idBriefing})";
+                sql = $"Insert Into Projeto (versao, versao_final, id_briefing) Values (0,'false',{idBriefing})";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.CommandType = System.Data.CommandType.Text;
