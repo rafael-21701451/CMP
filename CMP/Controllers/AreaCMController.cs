@@ -42,7 +42,7 @@ namespace CMP.Controllers
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = $"SELECT * FROM Projeto WHERE versao = 1";
+                string sql = $"SELECT * FROM Projeto WHERE versao = 0";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
