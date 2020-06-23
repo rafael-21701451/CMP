@@ -13,7 +13,7 @@ namespace CMP.Models
 
         public String descProduto { get; set; }
 
-        public String briefingID { get; set; }
+        public int briefingID { get; set; }
 
     }
 }

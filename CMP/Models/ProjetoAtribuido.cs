@@ -12,5 +12,7 @@ namespace CMP.Models
         public string nomeProdutor { get; set; }
         public string estado { get; set; }
         public string categoriaProduto { get; set; }
+
+        public int briefingId { get; set; }
     }
 }
