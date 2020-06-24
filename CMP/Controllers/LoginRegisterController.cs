@@ -393,7 +393,7 @@ namespace CMP.Controllers
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    string sql = $"Insert Into Account (username, email, password, newsletter) Values ('{dados.username}','{dados.emailReg}','{password}','false')";
+                    string sql = $"Insert Into Account (username, email, password, newsletter, new_messages) Values ('{dados.username}','{dados.emailReg}','{password}','false','false')";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.CommandType = System.Data.CommandType.Text;

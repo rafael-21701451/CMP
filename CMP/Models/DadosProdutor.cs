@@ -10,5 +10,7 @@ namespace CMP.Models
         public int projetosAtuais { get; set; }
         public int projetosEmAprovacao { get; set; }
         public int projetosFinalizados { get; set; }
+
+        public Boolean temMensagens { get; set; }
     }
 }

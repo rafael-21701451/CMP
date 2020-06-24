@@ -253,6 +253,104 @@ namespace CMP.Controllers
             return RedirectToAction("Index","AreaCM");
         }
 
+        public IActionResult RazaoRejeicao(int idProjeto)
+        {
+            RejectionView rv = new RejectionView();
+            rv.idProjeto = idProjeto;
+            return View(rv);
+        }
+
+        [HttpPost]
+        public IActionResult RazaoRejeicao(RejectionView rv)
+        {
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                int idCompra = -1;
+                String sql = $"SELECT * FROM Projeto WHERE id={rv.idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            int pcID = getPCByBriefingID(Convert.ToInt32(dataReader["id_briefing"]));
+                            idCompra = getCompraByPCID(pcID);
+                        }
+                    }
+                    connection.Close();
+                }
+
+                int idEstado = -1;
+                idEstado = getEstadoByNome("Produção");
+
+                sql = $"Update Compra SET estado_id={idEstado} WHERE id={idCompra}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+                int idRemetente = -1;
+                sql = $"SELECT * FROM Content_Manager WHERE id={Convert.ToInt32(this.User.Claims.ElementAt(2).Value)}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            idRemetente = Convert.ToInt32(dataReader["account_id"]);
+                        }
+                    }
+                    connection.Close();
+                }
+
+                int idDestinatario = -1;
+                sql = $"SELECT * FROM Produtor_Projeto WHERE projeto_id={rv.idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            idDestinatario = getAccountIDProdutorByID(Convert.ToInt32(dataReader["produtor_id"]));
+                        }
+                    }
+                    connection.Close();
+                }
+
+                sql = $"Insert Into Mensagem (Mensagem, Remetente, Destinatario, Assunto) Values ('{rv.mensagem}',{idRemetente},{idDestinatario},'Projeto #{rv.idProjeto} rejeitado')";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+                sql = $"Update Account SET new_messages='true' WHERE id={idDestinatario}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+
+            }
+
+          
+            return View(rv);
+        }
+
+
+
         public IActionResult VerProjetoPorValidar(int idProjeto)
         {
             ProjetoView ppv = new ProjetoView();
@@ -425,6 +523,28 @@ namespace CMP.Controllers
                 }
             }
             return "";
+        }
+
+        public int getAccountIDProdutorByID(int idProdutor)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor WHERE id={idProdutor}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToInt32(dataReader["account_id"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
         }
 
         public IActionResult Produtores(int idProjeto)

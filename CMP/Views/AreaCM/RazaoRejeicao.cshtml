@@ -1,9 +1,26 @@
-﻿@model ProjetoView
+﻿@model RejectionView
 @{
     ViewData["Title"] = "Index";
 }
 
     <style>
+        #botao {
+            display: block;
+            background-color: white;
+            font-family: 'Century Gothic';
+            border-radius: 8px;
+            border: 2px solid #ff01f2;
+            color: black;
+        }
+
+        #caixa_maior {
+            padding: 12px 20px;
+            margin: 8px 0;
+            resize: none;
+            border: 1px solid grey;
+            border-radius: 4px;
+        }
+
         .btn-group button {
             background-color: white;
             border: 1px solid whitesmoke;
@@ -77,57 +94,41 @@
                 <div class="col-md-3">
                     <a asp-action="BriefingsPorAceitar"><button><b>Briefings Por Aceitar</b></button></a>
                     <a asp-action="ProjetosPorAtribuir"><button><b>Projetos Por Atribuir</b></button></a>
-                    <a asp-action="ProjetosAtribuidos"><button ><b>Projetos Atribuídos</b></button></a>
+                    <a asp-action="ProjetosAtribuidos"><button><b>Projetos Atribuídos</b></button></a>
                     <a asp-action="ProjetosPorValidar"><button style="background-color:whitesmoke"><b>Projetos Por Validar</b></button></a>
                     <button><b>Minhas Mensagens</b></button>
                     <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
                 </div>
             </div>
+
             <div class="col-md-9" style="border: 1px solid whitesmoke; padding-bottom:1em;">
                 <div class="row" style="font-size: 20px; text-align: center; font-family: 'Century Gothic'">
                     <div class="col-md-12">
                         <center>
-                            <p style="font-size: 20px;"><span><b>Projeto #@Model.projetoID</b></span></p>
+                            <p style="font-size: 20px;"><span><b>Indique as razões para rejeitar o projeto</b></span></p>
                         </center>
                     </div>
                 </div>
-                <div class="row" style="text-align: center; font-size: 20px;">
-                    <div class="col-md-4" style="padding-top: 1em;">
-                        <center>
-                            <img src="~/images/artigoBlogOpcao.png" width="200" height="150" padding-right="100">
-                        </center>
-                    </div>
-                    <div class="col-md-4" style=" margin-top: 2em">
-                        <p><b><span>@Model.produto </span></b></p>
-                        <p><span>@Model.descProduto</span></p>
-                    </div>
-                    <div class="col-md-4" style="margin-top:2em; font-size:10px">
-                        <p>
+                <form method="post">
 
-                        </p>
-                        <br>
-                        <center>
-                            <a id="botaoBriefing" asp-action="VerBriefingAceite" asp-route-idBriefing="@Model.briefingID" class="button"><b>VER BRIEFING</b></a>
-                        </center>
-                        <p>
-
-                        </p>
-                        <br>
-                        <center>
-                            <a id="botaoBriefing" class="button"><b>DOWNLOAD PROJETO</b></a>
-                        </center>
+                    <div class="row" style="font-size: 20px; text-align: center; font-family: 'Century Gothic'">
+                        <div class="col-md-12">
+                            <textarea asp-for="mensagem" rows="15" cols="70" placeholder="Mensagem de rejeição" id="caixa_maior"></textarea>
+                            <span asp-validation-for="mensagem" class="text-danger"></span>
+                        </div>
+                        <input type="hidden" asp-for="idProjeto" id="idProjeto" value="@Model.idProjeto">
                     </div>
-                </div>
-                <div class="row" style="padding-bottom: 2em; padding-top: 2em">
+                    <div class="row">
                         <div class="col-md-8">
                         </div>
-                        <div class="col-md-2";>
-                            <a asp-action="RazaoRejeicao" asp-route-idProjeto="@Model.projetoID" id="botao" class="button" style="border: 2px solid #DC143C; "><b>REJEITAR</b></a>
+                        <div class="col-md-4">
+                            <center>
+                                <button id="botao" asp-action="RazaoRejeicao" type="submit" class="button" style="font-family: 'Century Gothic'; "><b>ENVIAR</b></button>
+                            </center>
                         </div>
-                        <div class="col-md-2">
-                            <a asp-action="ValidarProjeto" asp-route-idProjeto="@Model.projetoID" id="botao" class="button" style="border: 2px solid #32CD32;"><b>VALIDAR</b></a>
-                        </div>
-                </div>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>

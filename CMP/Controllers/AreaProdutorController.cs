@@ -31,10 +31,49 @@ namespace CMP.Controllers
         public IActionResult Index()
         {
             DadosProdutor dp = new DadosProdutor();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor WHERE id={Convert.ToInt32(this.User.Claims.ElementAt(2).Value)}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            dp.temMensagens = temMensagens(Convert.ToInt32(dataReader["account_id"]));
+                        }
+                    }
+                    connection.Close();
+                }
+            }
             dp.projetosAtuais = getProjetosAtuais(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
             dp.projetosFinalizados = getProjetosFinalizados(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
             dp.projetosEmAprovacao = getProjetosPorAprovar(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
             return View(dp);
+        }
+
+        public Boolean temMensagens(int accID)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Account WHERE id={accID}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToBoolean(dataReader["new_messages"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return false;
         }
 
         public int getProjetosAtuais(int idProdutor)

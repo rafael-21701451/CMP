@@ -11,6 +11,9 @@ namespace CMP.Models
         public int projetosPorAtribuir { get; set; }
         public int projetosAtribuidos { get; set; }
         public int projetosPorValidar { get; set; }
+        public Boolean temMensagens { get; set; }
+
+
 
     }
 }
