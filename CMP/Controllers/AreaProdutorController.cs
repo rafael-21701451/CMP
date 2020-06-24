@@ -35,7 +35,35 @@ namespace CMP.Controllers
 
         public IActionResult ProjetosEmAprovacao()
         {
-            return View();
+            List<ProjetoAprovacao> projetosAprovacao = new List<ProjetoAprovacao>();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor_Projeto WHERE produtor_id={this.User.Claims.ElementAt(2).Value}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            ProjetoAprovacao pa = new ProjetoAprovacao();
+                            pa.id = getIdProjeto(Convert.ToInt32(dataReader["projeto_id"]));
+                            int briefingID = getIdBriefing(pa.id);
+                            int pcID = getPCByBriefingID(briefingID);
+                            pa.produto = getProductByPCID(pcID);
+                            pa.atribuidor = getNomeCMByID(Convert.ToInt32(dataReader["content_manager_id"]));
+                            int idCompra = getCompraByPCID(pcID);
+                            if(getEstadoIDByNome("Aceitação") == getEstadoIDCompra(idCompra) || getEstadoIDByNome("Concluído") == getEstadoIDCompra(idCompra) || getEstadoIDByNome("Validação") == getEstadoIDCompra(idCompra))
+                            {
+                                projetosAprovacao.Add(pa);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return View(projetosAprovacao);
         }
 
         public IActionResult ProjetosFinalizados()
@@ -90,6 +118,50 @@ namespace CMP.Controllers
             return RedirectToAction("Index", "AreaProdutor");
         }
 
+        public int getEstadoIDByNome(String estado)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Estado WHERE estado = '{estado}'";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToInt32(dataReader["id"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
+        public int getEstadoIDCompra(int idCompra)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Compra WHERE id = {idCompra}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToInt32(dataReader["estado_id"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
         public int getCompraByPCID(int pcid)
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -138,6 +210,60 @@ namespace CMP.Controllers
         }
 
         public IActionResult VerProjetoAtual(int idProjeto)
+        {
+            ProjetoView ppa = new ProjetoView();
+            ppa.projetoID = idProjeto;
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Projeto WHERE id = {idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            int pcID = getPCByBriefingID(Convert.ToInt32(dataReader["id_briefing"]));
+                            ppa.descProduto = getProductByPCID(pcID);
+                            ppa.produto = getProductCategoryByPCID(pcID);
+                            ppa.briefingID = Convert.ToInt32(dataReader["id_briefing"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return View(ppa);
+        }
+
+        public IActionResult VerProjetoPorAprovar(int idProjeto)
+        {
+            ProjetoView ppa = new ProjetoView();
+            ppa.projetoID = idProjeto;
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Projeto WHERE id = {idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            int pcID = getPCByBriefingID(Convert.ToInt32(dataReader["id_briefing"]));
+                            ppa.descProduto = getProductByPCID(pcID);
+                            ppa.produto = getProductCategoryByPCID(pcID);
+                            ppa.briefingID = Convert.ToInt32(dataReader["id_briefing"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return View(ppa);
+        }
+
+        public IActionResult VerProjetoFinalizado(int idProjeto)
         {
             ProjetoView ppa = new ProjetoView();
             ppa.projetoID = idProjeto;
