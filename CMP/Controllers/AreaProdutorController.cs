@@ -68,7 +68,35 @@ namespace CMP.Controllers
 
         public IActionResult ProjetosFinalizados()
         {
-            return View();
+            List<ProjetoFinalizado> projetosAprovacao = new List<ProjetoFinalizado>();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor_Projeto WHERE produtor_id={this.User.Claims.ElementAt(2).Value}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            ProjetoFinalizado pf = new ProjetoFinalizado();
+                            pf.id = getIdProjeto(Convert.ToInt32(dataReader["projeto_id"]));
+                            int briefingID = getIdBriefing(pf.id);
+                            int pcID = getPCByBriefingID(briefingID);
+                            pf.produto = getProductByPCID(pcID);
+                            pf.atribuidor = getNomeCMByID(Convert.ToInt32(dataReader["content_manager_id"]));
+                            int idCompra = getCompraByPCID(pcID);
+                            if (getEstadoIDByNome("Entregue") == getEstadoIDCompra(idCompra))
+                            {
+                                projetosAprovacao.Add(pf);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return View(projetosAprovacao);
         }
 
 
