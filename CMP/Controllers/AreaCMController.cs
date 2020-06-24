@@ -38,20 +38,14 @@ namespace CMP.Controllers
         {
             ProjetoAtribuido pa = new ProjetoAtribuido();
             pa.id = getIdProjeto(idProjeto);
-            if (getEstadoProjeto(pa.id))
-            {
-                pa.estado = "Concluído";
-            }
-            else
-            {
-                pa.estado = "Em progresso";
-            }
             int briefingID = getIdBriefing(pa.id);
             int pcID = getPCByBriefingID(briefingID);
             pa.produto = getProductByPCID(pcID);
             pa.categoriaProduto = getProductCategoryByPCID(pcID);
             pa.nomeProdutor = getIDProjetoProdutor(idProjeto);
             pa.briefingId = briefingID;
+            int idCompra = getCompraByPCID(pcID);
+            pa.estado = getEstado(idCompra);
             return View(pa);
         }
 
@@ -96,17 +90,11 @@ namespace CMP.Controllers
                             ProjetoAtribuido pa = new ProjetoAtribuido();
                             pa.nomeProdutor = getNomeProdutorByID(Convert.ToInt32(dataReader["produtor_id"]));
                             pa.id = getIdProjeto(Convert.ToInt32(dataReader["projeto_id"]));
-                            if (getEstadoProjeto(pa.id))
-                            {
-                                pa.estado = "Concluído";
-                            }
-                            else
-                            {
-                                pa.estado = "Em progresso";
-                            }
                             int briefingID = getIdBriefing(pa.id);
                             int pcID = getPCByBriefingID(briefingID);
                             pa.produto = getProductByPCID(pcID);
+                            int idCompra = getCompraByPCID(pcID);
+                            pa.estado = getEstado(idCompra);
                             projetosAtribuidos.Add(pa);
                         }
                     }
@@ -137,6 +125,8 @@ namespace CMP.Controllers
             }
             return -1;
         }
+
+
 
         public int getIdBriefing(int idProjeto)
         {
