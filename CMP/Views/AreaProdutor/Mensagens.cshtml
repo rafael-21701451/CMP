@@ -41,9 +41,8 @@
                 <table style="text-align: center" class="table table-bordered table-sm table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Produto</th>
-                            <th>Atribuído por</th>
+                            <th>Assunto</th>
+                            <th>Remetente</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,8 +57,7 @@
                             @foreach (var p in Model)
                             {
                                 <tr style="transform: rotate(0);">
-                                    <th scope="row"><a asp-action="VerMensagem" asp-route-idProjeto="@p.id" class="stretched-link" style="color:black">@p.id</a></th>
-                                    <td style="text-align:center">@p.assunto</td>
+                                    <th scope="row"><a asp-action="VerMensagem" asp-route-idProjeto="@p.id" class="stretched-link" style="color:black">@p.assunto</a></th>
                                     <td style="text-align:center">@p.remetente</td>
                                 </tr>
                             }

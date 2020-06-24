@@ -54,6 +54,84 @@ namespace CMP.Controllers
             return View(dp);
         }
 
+        public IActionResult Mensagens()
+        {
+            List<MensagemProdutor> mensagens = new List<MensagemProdutor>();
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+              
+
+                int idConta = -1;
+                string sql = $"SELECT * FROM Produtor WHERE id={Convert.ToInt32(this.User.Claims.ElementAt(2).Value)}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            idConta = Convert.ToInt32(dataReader["account_id"]);
+                        }
+                    }
+                    connection.Close();
+                }
+
+               
+
+                sql = $"Update Account SET new_messages='false' WHERE id={idConta}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+                 sql = $"SELECT * FROM Mensagem WHERE Destinatario={idConta}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            MensagemProdutor msg = new MensagemProdutor();
+                            msg.id = Convert.ToInt32(dataReader["id"]);
+                            msg.assunto = Convert.ToString(dataReader["Assunto"]);
+                            msg.remetente = getNomeCMbyAccountID(Convert.ToInt32(dataReader["Remetente"]));
+                            mensagens.Add(msg);
+                        }
+                    }
+                    connection.Close();
+                }
+
+            }
+            return View(mensagens);
+        }
+
+        public String getNomeCMbyAccountID(int idAccount) {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Content_Manager WHERE account_id={idAccount}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToString(dataReader["nome"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
+        }
+
+
         public Boolean temMensagens(int accID)
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");

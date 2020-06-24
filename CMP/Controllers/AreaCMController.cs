@@ -294,6 +294,16 @@ namespace CMP.Controllers
 
                 }
 
+                sql = $"Update Projeto SET versao_final='false' WHERE id={rv.idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+
                 int idRemetente = -1;
                 sql = $"SELECT * FROM Content_Manager WHERE id={Convert.ToInt32(this.User.Claims.ElementAt(2).Value)}";
                 using (SqlCommand command = new SqlCommand(sql, connection))
@@ -344,9 +354,7 @@ namespace CMP.Controllers
 
 
             }
-
-          
-            return View(rv);
+            return RedirectToAction("Index");
         }
 
 
