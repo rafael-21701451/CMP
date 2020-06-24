@@ -28,9 +28,28 @@ namespace CMP.Controllers
             _configuration = configuration;
         }
 
-        public IActionResult VerMensagem()
+        public IActionResult VerMensagem(int idMensagem)
         {
-            return View();
+            MensagemProdutor mensagem = new MensagemProdutor();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Mensagem WHERE id={idMensagem}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            mensagem.assunto = Convert.ToString(dataReader["Assunto"]);
+                            mensagem.textoMensagem = Convert.ToString(dataReader["Mensagem"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return View(mensagem);
         }
 
         public IActionResult Index()

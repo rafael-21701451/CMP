@@ -4,7 +4,82 @@
 }
 
 <style>
+    #botao {
+        display: block;
+        background-color: white;
+        font-family: 'Century Gothic';
+        border-radius: 8px;
+        border: 2px solid #ff01f2;
+        color: black;
+    }
 
+    #caixa_maior {
+        padding: 12px 20px;
+        margin: 8px 0;
+        resize: none;
+        border: 1px solid grey;
+        border-radius: 4px;
+    }
+
+    .btn-group button {
+        background-color: white;
+        border: 1px solid whitesmoke;
+        color: black;
+        padding: 10px 24px;
+        cursor: pointer;
+        display: block;
+        width: 250px;
+        font-family: 'Century Gothic';
+    }
+
+        .btn-group button:hover {
+            background-color: whitesmoke;
+        }
+
+    #botaoBriefing {
+        display: block;
+        background-color: white;
+        font-family: 'Century Gothic';
+        border-radius: 8px;
+        border: 2px solid #ff01f2;
+        padding-right: 1em;
+        padding-left: 1em;
+        color: black;
+        width: auto;
+        vertical-align: middle;
+        display: table-cell;
+        font-size: 14px;
+    }
+
+    #botaoUploadProjeto {
+        display: block;
+        background-color: white;
+        font-family: 'Century Gothic';
+        border-radius: 8px;
+        border: 2px solid #ff01f2;
+        padding-right: 1em;
+        padding-left: 1em;
+        color: black;
+        width: 100px;
+        vertical-align: middle;
+        display: table-cell;
+        font-size: 14px;
+    }
+
+    #botao {
+        background-color: white;
+        font-family: 'Century Gothic';
+        text-align: center;
+        border-radius: 8px;
+        padding-right: 1em;
+        padding-left: 1em;
+        color: black;
+        display: block;
+        width: 120px;
+        height: 50px;
+        vertical-align: middle;
+        display: table-cell;
+    }
 </style>
 
 <body>
@@ -20,7 +95,7 @@
                     <a asp-action="ProjetosAtuais"><button><b>Projetos Atuais</b></button></a>
                     <a asp-action="ProjetosEmAprovacao"><button><b>Projetos Em Aprovação</b></button></a>
                     <a asp-action="ProjetosFinalizados"><button><b>Projetos Finalizados</b></button></a>
-                    <a asp-action="Mensagens"><button  style="background-color:whitesmoke"><b>Minhas Mensagens</b></button></a>
+                    <a asp-action="Mensagens"><button style="background-color:whitesmoke"><b>Minhas Mensagens</b></button></a>
                     <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
                 </div>
             </div>
@@ -28,14 +103,14 @@
                 <div class="row" style="font-size: 20px; text-align: center; font-family: 'Century Gothic'">
                     <div class="col-md-12">
                         <center>
-                            <p style="font-size: 20px;"><span><b>Assunto: @Model.assunto</b></span></p>
+                            <p style="font-size: 20px;"><span><b>@Model.assunto</b></span></p>
                         </center>
                     </div>
                 </div>
-                <div class="row" style="text-align: center; font-size: 20px;">
-                    <div class="col-md-12" style="padding-top: 1em;">
-                        <p><span>@Model.textoMensagem</span></p>
-                    </div>        
+                <div class="row" style="font-size: 16px; text-align: left; font-family: 'Century Gothic'">
+                    <div class="col-md-12">
+                            <p style="        font-size: 16px;"><span>@Model.textoMensagem</span></p>
+                    </div>
                 </div>
             </div>
         </div>
