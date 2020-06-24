@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProjetoAtual>
+﻿@model IEnumerable<MensagemProdutor>
 @{
     ViewData["Title"] = "Index";
 }
@@ -30,10 +30,10 @@
         <div class="row" style="padding-bottom: 2em;">
             <div class="btn-group">
                 <div class="col-md-3">
-                    <a asp-action="ProjetosAtuais"><button style="background-color:whitesmoke"><b>Projetos Atuais</b></button></a>
+                    <a asp-action="ProjetosAtuais"><button><b>Projetos Atuais</b></button></a>
                     <a asp-action="ProjetosEmAprovacao"><button><b>Projetos Em Aprovação</b></button></a>
                     <a asp-action="ProjetosFinalizados"><button><b>Projetos Finalizados</b></button></a>
-                    <a asp-action="Mensagens"><button><b>Minhas Mensagens</b></button></a>
+                    <a asp-action="Mensagens"><button style="background-color:whitesmoke"><b>Minhas Mensagens</b></button></a>
                     <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
                 </div>
             </div>
@@ -58,9 +58,9 @@
                             @foreach (var p in Model)
                             {
                                 <tr style="transform: rotate(0);">
-                                    <th scope="row"><a asp-action="VerProjetoAtual" asp-route-idProjeto="@p.id" class="stretched-link" style="color:black">@p.id</a></th>
-                                    <td style="text-align:center">@p.produto</td>
-                                    <td style="text-align:center">@p.atribuidor</td>
+                                    <th scope="row"><a asp-action="VerMensagem" asp-route-idProjeto="@p.id" class="stretched-link" style="color:black">@p.id</a></th>
+                                    <td style="text-align:center">@p.assunto</td>
+                                    <td style="text-align:center">@p.remetente</td>
                                 </tr>
                             }
                         }
