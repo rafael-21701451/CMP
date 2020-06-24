@@ -28,16 +28,7 @@ namespace CMP.Controllers
             _configuration = configuration;
         }
 
-        public IActionResult ProjetosEmAprovacao()
-        {
-            return View();
-        }
-
-        public IActionResult ProjetosFinalizados()
-        {
-            return View();
-        }
-
+      
         public IActionResult Index()
         {    
             return View();

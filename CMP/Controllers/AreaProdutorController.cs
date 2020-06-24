@@ -33,6 +33,17 @@ namespace CMP.Controllers
             return View();
         }
 
+        public IActionResult ProjetosEmAprovacao()
+        {
+            return View();
+        }
+
+        public IActionResult ProjetosFinalizados()
+        {
+            return View();
+        }
+
+
         public IActionResult UploadProjeto(int idProjeto)
         {
             string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
