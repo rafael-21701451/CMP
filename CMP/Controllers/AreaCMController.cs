@@ -82,6 +82,42 @@ namespace CMP.Controllers
             return View(pa);
         }
 
+        public IActionResult validarProjeto(int idProjeto)
+        {
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                int idCompra = -1;
+                String sql = $"SELECT * FROM Projeto WHERE id={idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            int pcID = getPCByBriefingID(Convert.ToInt32(dataReader["id_briefing"]));
+                            idCompra = getCompraByPCID(pcID);
+                        }
+                    }
+                    connection.Close();
+                }
+
+                int idEstado = -1;
+                idEstado = getEstadoByNome("Concluído");
+
+                sql = $"Update Compra SET estado_id={idEstado} WHERE id={idCompra}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+            }
+            return RedirectToAction("Index","AreaCM");
+        }
+
         public IActionResult VerProjetoPorValidar(int idProjeto)
         {
             ProjetoView ppv = new ProjetoView();
