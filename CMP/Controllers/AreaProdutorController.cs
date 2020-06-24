@@ -33,6 +33,99 @@ namespace CMP.Controllers
             return View();
         }
 
+        public IActionResult UploadProjeto(int idProjeto)
+        {
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                int versaoProjeto = VerVersaoProjeto(idProjeto);
+                string sql = $"Update Projeto SET versao={versaoProjeto}+1, versao_final='true' WHERE id={idProjeto} ";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+                int idCompra = -1;
+                sql = $"SELECT * FROM Projeto WHERE id={idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            int pcID = getPCByBriefingID(Convert.ToInt32(dataReader["id_briefing"]));
+                            idCompra = getCompraByPCID(pcID);
+                        }
+                    }
+                    connection.Close();
+                }
+
+                int idEstado = -1;
+                idEstado = getEstadoByNome("Aceitação");
+
+                sql = $"Update Compra SET estado_id={idEstado} WHERE id={idCompra}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+            }
+            return RedirectToAction("Index", "AreaProdutor");
+        }
+
+        public int getCompraByPCID(int pcid)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produto_Compra WHERE id = {pcid}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToInt32(dataReader["compra_id"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
+        public int getEstadoByNome(string nomeEstado)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Estado";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToString(dataReader["estado"]).Equals(nomeEstado))
+                            {
+                                return Convert.ToInt32(dataReader["id"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
         public IActionResult VerProjetoAtual(int idProjeto)
         {
             ProjetoView ppa = new ProjetoView();
@@ -58,6 +151,28 @@ namespace CMP.Controllers
                 }
             }
             return View(ppa);
+        }
+
+        public int VerVersaoProjeto(int idProjeto)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Projeto WHERE id = {idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToInt32(dataReader["versao"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
         }
 
         public String getProductCategoryByPCID(int pcid)
