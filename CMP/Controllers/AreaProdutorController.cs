@@ -34,14 +34,15 @@ namespace CMP.Controllers
             return View();
         }
 
-       
-
         public async Task<ActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
 
-
+        public IActionResult ProjetosAtuais()
+        {
+            return View();
+        }
     }
 }
