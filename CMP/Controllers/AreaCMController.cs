@@ -34,6 +34,39 @@ namespace CMP.Controllers
             return View();
         }
 
+        public IActionResult ProjetosPorValidar()
+        {
+            List<ProjetoPorValidar> projetosPorValidar = new List<ProjetoPorValidar>();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor_Projeto WHERE content_manager_id={this.User.Claims.ElementAt(2).Value}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            ProjetoPorValidar ppv = new ProjetoPorValidar();
+                            ppv.produtor = getNomeProdutorByID(Convert.ToInt32(dataReader["produtor_id"]));
+                            ppv.id = getIdProjeto(Convert.ToInt32(dataReader["projeto_id"]));
+                            int briefingID = getIdBriefing(ppv.id);
+                            int pcID = getPCByBriefingID(briefingID);
+                            ppv.produto = getProductByPCID(pcID);
+                            int idCompra = getCompraByPCID(pcID);
+                            if (getEstado(idCompra).Equals("Aceitação"))
+                            {
+                                projetosPorValidar.Add(ppv);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return View(projetosPorValidar);
+        }
+
         public IActionResult VerProjetoAtribuido(int idProjeto)
         {
             ProjetoAtribuido pa = new ProjetoAtribuido();
@@ -47,6 +80,33 @@ namespace CMP.Controllers
             int idCompra = getCompraByPCID(pcID);
             pa.estado = getEstado(idCompra);
             return View(pa);
+        }
+
+        public IActionResult VerProjetoPorValidar(int idProjeto)
+        {
+            ProjetoView ppv = new ProjetoView();
+            ppv.projetoID = idProjeto;
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Projeto WHERE id = {idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            int pcID = getPCByBriefingID(Convert.ToInt32(dataReader["id_briefing"]));
+                            ppv.descProduto = getProductByPCID(pcID);
+                            ppv.produto = getProductCategoryByPCID(pcID);
+                            ppv.briefingID = Convert.ToInt32(dataReader["id_briefing"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return View(ppv);
         }
 
         public String getIDProjetoProdutor(int idProjeto)

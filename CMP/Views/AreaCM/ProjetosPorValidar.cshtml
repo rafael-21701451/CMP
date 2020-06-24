@@ -59,7 +59,7 @@
                             @foreach (var p in Model)
                             {
                                 <tr style="transform: rotate(0);">
-                                    <th scope="row"><a asp-action="VerProjetoAtribuido" asp-route-idProjeto="@p.id" class="stretched-link" style="color:black">@p.id</a></th>
+                                    <th scope="row"><a asp-action="VerProjetoPorValidar" asp-route-idProjeto="@p.id" class="stretched-link" style="color:black">@p.id</a></th>
                                     <td style="text-align:center">@p.produto</td>
                                     <td style="text-align:center">@p.produtor</td>
                                 </tr>
