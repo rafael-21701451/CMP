@@ -97,6 +97,74 @@ namespace CMP.Controllers
             }
         }
 
+        public IActionResult ConfirmarRececao(int idProdutoCompra)
+        {
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+               
+                int idCompra = getCompraByPCID(idProdutoCompra);
+               
+                int idEstado = -1;
+                idEstado = getEstadoByNome("Validação");
+
+                string sql = $"Update Compra SET estado_id={idEstado} WHERE id={idCompra}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+            }
+            return RedirectToAction("VerCompra");
+        }
+
+        public IActionResult ValidarProduto(int idProdutoCompra)
+        {
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                int idCompra = getCompraByPCID(idProdutoCompra);
+
+                int idEstado = -1;
+                idEstado = getEstadoByNome("Entregue");
+
+                string sql = $"Update Compra SET estado_id={idEstado} WHERE id={idCompra}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+            }
+            return RedirectToAction("VerCompra");
+        }
+
+        public int getCompraByPCID(int pcid)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produto_Compra WHERE id = {pcid}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToInt32(dataReader["compra_id"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
         public IActionResult VerCompra(int id)
         {
             int idCliente = getidCliente(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
