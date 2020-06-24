@@ -1,0 +1,124 @@
+﻿@model ProjetoView
+@{
+    ViewData["Title"] = "Index";
+}
+
+    <style>
+        .btn-group button {
+            background-color: white;
+            border: 1px solid whitesmoke;
+            color: black;
+            padding: 10px 24px;
+            cursor: pointer;
+            display: block;
+            width: 250px;
+            font-family: 'Century Gothic';
+        }
+
+            .btn-group button:hover {
+                background-color: whitesmoke;
+            }
+
+        #botaoBriefing {
+            display: block;
+            background-color: white;
+            font-family: 'Century Gothic';
+            border-radius: 8px;
+            border: 2px solid #ff01f2;
+            padding-right: 1em;
+            padding-left: 1em;
+            color: black;
+            width: auto;
+            vertical-align: middle;
+            display: table-cell;
+            font-size: 14px;
+        }
+
+        #botaoUploadProjeto {
+            display: block;
+            background-color: white;
+            font-family: 'Century Gothic';
+            border-radius: 8px;
+            border: 2px solid #ff01f2;
+            padding-right: 1em;
+            padding-left: 1em;
+            color: black;
+            width: 100px;
+            vertical-align: middle;
+            display: table-cell;
+            font-size: 14px;
+        }
+
+        #botao {
+            background-color: white;
+            font-family: 'Century Gothic';
+            text-align: center;
+            border-radius: 8px;
+            padding-right: 1em;
+            padding-left: 1em;
+            color: black;
+            display: block;
+            width: 120px;
+            height: 50px;
+            vertical-align: middle;
+            display: table-cell;
+        }
+    </style>
+
+<body>
+    <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
+        <p style="font-size: 40px; "><b><span>ÁREA PRODUTOR</span></b></p>
+        <p style="font-size: 20px; "><span>Bem-vindo à sua área, <b>@User.Claims.ElementAt(1).Value</b>!</span></p>
+    </div>
+
+    <div class="container">
+        <div class="row" style="padding-bottom: 2em;">
+            <div class="btn-group">
+                <div class="col-md-3">
+                    <a asp-action="BriefingsPorAceitar"><button><b>Briefings Por Aceitar</b></button></a>
+                    <a asp-action="ProjetosPorAtribuir"><button><b>Projetos Por Atribuir</b></button></a>
+                    <a asp-action="ProjetosAtribuidos"><button ><b>Projetos Atribuídos</b></button></a>
+                    <a asp-action="ProjetosPorValidar"><button style="background-color:whitesmoke"><b>Projetos Por Validar</b></button></a>
+                    <button><b>Minhas Mensagens</b></button>
+                    <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
+                </div>
+            </div>
+            <div class="col-md-9" style="border: 1px solid whitesmoke; padding-bottom:1em;">
+                <div class="row" style="font-size: 20px; text-align: center; font-family: 'Century Gothic'">
+                    <div class="col-md-12">
+                        <center>
+                            <p style="font-size: 20px;"><span><b>Projeto #@Model.projetoID</b></span></p>
+                        </center>
+                    </div>
+                </div>
+                <div class="row" style="text-align: center; font-size: 20px;">
+                    <div class="col-md-4" style="padding-top: 1em;">
+                        <center>
+                            <img src="~/images/artigoBlogOpcao.png" width="200" height="150" padding-right="100">
+                        </center>
+                    </div>
+                    <div class="col-md-4" style=" margin-top: 2em">
+                        <p><b><span>@Model.produto </span></b></p>
+                        <p><span>@Model.descProduto</span></p>
+                    </div>
+                    <div class="col-md-4" style="margin-top:2em; font-size:10px">
+                        <p>
+
+                        </p>
+                        <br>
+                        <center>
+                            <a id="botaoBriefing" asp-action="VerBriefingAceite" asp-route-idBriefing="@Model.briefingID" class="button"><b>VER BRIEFING</b></a>
+                        </center>
+                        <p>
+
+                        </p>
+                        <br>
+                        <center>
+                            <a id="botaoBriefing" class="button"><b>DOWNLOAD PROJETO</b></a>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
