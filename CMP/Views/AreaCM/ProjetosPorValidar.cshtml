@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Produtor>
+﻿@model IEnumerable<ProjetoPorValidar>
 @{
     ViewData["Title"] = "Index";
 }
@@ -31,28 +31,20 @@
             <div class="btn-group">
                 <div class="col-md-3">
                     <a asp-action="BriefingsPorAceitar"><button><b>Briefings Por Aceitar</b></button></a>
-                    <a asp-action="ProjetosPorAtribuir"><button style="background-color:whitesmoke"><b>Projetos Por Atribuir</b></button></a>
+                    <a asp-action="ProjetosPorAtribuir"><button><b>Projetos Por Atribuir</b></button></a>
                     <a asp-action="ProjetosAtribuidos"><button><b>Projetos Atribuídos</b></button></a>
-                    <a asp-action="ProjetosPorValidar"><button><b>Projetos Por Validar</b></button></a>
+                    <a asp-action="ProjetosPorValidar"><button style="background-color:whitesmoke"><b>Projetos Por Validar</b></button></a>
                     <button><b>Minhas Mensagens</b></button>
                     <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
                 </div>
             </div>
             <div class="col-md-9">
-                <div class="row" style="font-size: 20px; text-align: center; font-family: 'Century Gothic'">
-                    <div class="col-md-12">
-                        <center>
-                            <p style="font-size: 20px;"><span><b>Selecione um produtor</b></span></p>
-                        </center>
-                    </div>
-                </div>
                 <table style="text-align: center" class="table table-bordered table-sm table-striped table-hover">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Nome</th>
-                            <th>Especialidade</th>
-                            <th>Projetos Atuais</th>
+                            <th>Produto</th>
+                            <th>Produtor</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,10 +59,9 @@
                             @foreach (var p in Model)
                             {
                                 <tr style="transform: rotate(0);">
-                                    <th scope="row"><a asp-action="ConfirmarProdutor" asp-route-idProjeto="@p.projetoSelecionado" asp-route-idProdutor="@p.id"  class="stretched-link" style="color:black">@p.id</a></th>
+                                    <th scope="row"><a asp-action="VerProjetoAtribuido" asp-route-idProjeto="@p.id" class="stretched-link" style="color:black">@p.id</a></th>
+                                    <td style="text-align:center">@p.produto</td>
                                     <td style="text-align:center">@p.produtor</td>
-                                    <td style="text-align:center">@p.especialidade</td>
-                                    <td style="text-align:center">@p.projetosAtuais</td>
                                 </tr>
                             }
                         }
