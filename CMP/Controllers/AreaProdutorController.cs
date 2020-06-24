@@ -31,8 +31,102 @@ namespace CMP.Controllers
         public IActionResult Index()
         {
             DadosProdutor dp = new DadosProdutor();
+            dp.projetosAtuais = getProjetosAtuais(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
+            dp.projetosFinalizados = getProjetosFinalizados(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
+            dp.projetosEmAprovacao = getProjetosPorAprovar(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
             return View(dp);
         }
+
+        public int getProjetosAtuais(int idProdutor)
+        {
+            int count = 0;
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor_Projeto WHERE produtor_id={idProdutor}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            int id = getIdProjeto(Convert.ToInt32(dataReader["projeto_id"]));
+                            int briefingID = getIdBriefing(id);
+                            int pcID = getPCByBriefingID(briefingID);
+                            if (!getEstadoProjeto(id))
+                            {
+                                count++;
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return count;
+        }
+
+        public int getProjetosPorAprovar(int idProdutor)
+        {
+            int count = 0;
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor_Projeto WHERE produtor_id={idProdutor}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            int id = getIdProjeto(Convert.ToInt32(dataReader["projeto_id"]));
+                            int briefingID = getIdBriefing(id);
+                            int pcID = getPCByBriefingID(briefingID);
+                            int idCompra = getCompraByPCID(pcID);
+                            if (getEstadoIDByNome("Aceitação") == getEstadoIDCompra(idCompra) || getEstadoIDByNome("Concluído") == getEstadoIDCompra(idCompra) || getEstadoIDByNome("Validação") == getEstadoIDCompra(idCompra))
+                            {
+                                count++;
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return count;
+        }
+
+        public int getProjetosFinalizados(int idProdutor)
+        {
+            int count = 0;
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor_Projeto WHERE produtor_id={idProdutor}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            int id = getIdProjeto(Convert.ToInt32(dataReader["projeto_id"]));
+                            int briefingID = getIdBriefing(id);
+                            int pcID = getPCByBriefingID(briefingID);
+                            int idCompra = getCompraByPCID(pcID);
+                            if (getEstadoIDByNome("Entregue") == getEstadoIDCompra(idCompra))
+                            {
+                                count++;
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return count;
+        }
+
+
 
         public IActionResult ProjetosEmAprovacao()
         {
