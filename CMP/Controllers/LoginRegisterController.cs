@@ -279,7 +279,7 @@ namespace CMP.Controllers
             var claims = new[] {
                                 new Claim(ClaimTypes.Name, email),//0
                                 new Claim("nome", getNomeProdutorByEmail(email)),//1
-                                new Claim("id", Convert.ToString(getIdByEmail(email))),//2
+                                new Claim("id", Convert.ToString(getIDProdutorByEmail(email))),//2
                                 new Claim("role",Convert.ToString("Produtor"))//3
                             };
 
@@ -296,7 +296,7 @@ namespace CMP.Controllers
                 }
             }
 
-            if (!dados.sessaoCM)
+            if (!dados.sessaoProdutor)
             {
                 var authProperties = new AuthenticationProperties
                 {
@@ -686,12 +686,62 @@ namespace CMP.Controllers
             return -1;
         }
 
+        public int getIDProdutorByEmail(String email)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Account";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToString(dataReader["email"]).Equals(email))
+                            {
+                                return getIDProdutor(Convert.ToInt32(dataReader["id"]));
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
         public int getIDCM(int id)
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string sql = $"SELECT * FROM Content_Manager";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["account_id"]) == id)
+                            {
+                                return Convert.ToInt32(dataReader["id"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
+        public int getIDProdutor(int id)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
