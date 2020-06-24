@@ -9,7 +9,7 @@ namespace CMP.Models
     {
         public int id { get; set; }
         public String assunto { get; set; }
-
         public String remetente { get; set; }
+        public String textoMensagem { get; set; }
     }
 }

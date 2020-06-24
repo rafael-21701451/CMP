@@ -28,6 +28,11 @@ namespace CMP.Controllers
             _configuration = configuration;
         }
 
+        public IActionResult VerMensagem()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             DadosProdutor dp = new DadosProdutor();
