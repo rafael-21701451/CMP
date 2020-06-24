@@ -32,8 +32,142 @@ namespace CMP.Controllers
         public IActionResult Index()
         {
             DadosCM dcm = new DadosCM();
+            dcm.briefingsPorAceitar = getBriefingsPorAceitar(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
+            dcm.projetosPorAtribuir = getProjetosPorAtribuir(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
+            dcm.projetosAtribuidos = getProjetosAtribuidos(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
+            dcm.projetosPorValidar = getProjetosPorValidar(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
             return View(dcm);
         }
+
+        public int getBriefingsPorAceitar(int idCM)
+        {
+            int count = 0;
+            List<Briefing> briefings = new List<Briefing>();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Briefing";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            Briefing briefing = new Briefing();
+                            briefing.aceite = Convert.ToBoolean(dataReader["aceite"]);
+                            briefing.produtoCompraID = Convert.ToInt32(dataReader["produto_compra_id"]);
+                            if (!briefing.aceite)
+                            {
+                                briefings.Add(briefing);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            foreach (Briefing b in briefings)
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string sql = $"SELECT * FROM Produto_Compra WHERE id = {b.produtoCompraID}";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        using (SqlDataReader dataReader = command.ExecuteReader())
+                        {
+                            while (dataReader.Read())
+                            {
+                                if (getEstado(Convert.ToInt32(dataReader["compra_id"])).Equals("Planeamento"))
+                                {
+                                    count++;
+                                }
+                            }
+                        }
+                        connection.Close();
+                    }
+                }
+            }        
+            return count;
+        }
+
+        public int getProjetosPorAtribuir(int idCM)
+        {
+            int count = 0;
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Projeto WHERE versao = 0";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            count++;
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return count;
+        }
+
+        public int getProjetosAtribuidos(int idCM)
+        {
+            int count = 0;
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor_Projeto WHERE content_manager_id={idCM}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            count++;
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return count;
+        }
+
+        public int getProjetosPorValidar(int idCM)
+        {
+            int count = 0;
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor_Projeto WHERE content_manager_id={idCM}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            int id = getIdProjeto(Convert.ToInt32(dataReader["projeto_id"]));
+                            int briefingID = getIdBriefing(id);
+                            int pcID = getPCByBriefingID(briefingID);
+                            int idCompra = getCompraByPCID(pcID);
+                            if (getEstado(idCompra).Equals("Aceitação"))
+                            {
+                                count++;
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return count;
+        }
+
+
 
         public IActionResult ProjetosPorValidar()
         {
