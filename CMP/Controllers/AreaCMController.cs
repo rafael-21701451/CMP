@@ -30,8 +30,9 @@ namespace CMP.Controllers
 
       
         public IActionResult Index()
-        {    
-            return View();
+        {
+            DadosCM dcm = new DadosCM();
+            return View(dcm);
         }
 
         public IActionResult ProjetosPorValidar()
