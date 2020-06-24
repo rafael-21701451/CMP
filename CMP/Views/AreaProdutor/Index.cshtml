@@ -1,4 +1,4 @@
-﻿@model UltimaCompra
+﻿@model DadosProdutor
 @{
     ViewData["Title"] = "Index";
 }
@@ -37,198 +37,6 @@
 </style>
 
 <body>
-    @if (@User.Claims.ElementAt(3).Value.Equals("Cliente"))
-    {
-        <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
-            <p style="font-size: 40px; "><b><span>ÁREA CLIENTE</span></b></p>
-            <p style="font-size: 20px; "><span>Bem-vindo à sua área de cliente, <b>@User.Claims.ElementAt(1).Value</b>!</span></p>
-        </div>
-
-        <div class="container">
-            <div class="row" style="padding-bottom: 2em;">
-                <div class="btn-group">
-                    <div class="col-md-3">
-                        <a asp-action="DadosPessoais"><button><b>Dados Pessoais</b></button></a>
-                        <a asp-action="MinhasEncomendas"><button><b>Minhas Encomendas</b></button></a>
-                        <button><b>Meus Produtos</b></button>
-                        <button><b>Meus Favoritos</b></button>
-                        <button><b>Meus Comentários</b></button>
-                        <button><b>Minhas Mensagens</b></button>
-                        <button><b>Minhas Avaliações</b></button>
-                        <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
-                    </div>
-                </div>
-
-                <div class="col-md-9" style="border: 1px solid whitesmoke; padding-top:1em">
-                    @if (Model.produtos == null || Model.produtos.Count() == 0)
-                    {
-                        <center>
-                            <p style="font-size: 20px;"><span><b>Não tem nenhuma compra efetuada!</b></span></p>
-                        </center>
-                    }
-                    else
-                    {
-                        <center>
-                            <p style="font-size: 20px;"><span><b>Acompanhe o progresso das suas últimas compras!</b></span></p>
-                        </center>
-
-                        <div class="row text-center" style="font-size: 12px;">
-                            <div class="col-sm-2">
-                                <div class="card">
-                                    <div class="card-body" style="background-color: #99FFCC">
-                                        <p class="card-text">Planeamento</p>
-                                    </div>
-                                </div>
-                            </div>
-                            @if (Model.estado.Equals("Produção") || Model.estado.Equals("Aceitação") || Model.estado.Equals("Concluído") || Model.estado.Equals("Validação") || Model.estado.Equals("Entregue"))
-                            {
-                                <div class="col-sm-2">
-                                    <div class="card">
-                                        <div class="card-body" style="background-color: #99FFCC">
-                                            <p class="card-text">Produção</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="col-sm-2">
-                                    <div class="card">
-                                        <div class="card-body" style="background-color: whitesmoke">
-                                            <p class="card-text">Produção</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                            @if (Model.estado.Equals("Aceitação") || Model.estado.Equals("Concluído") || Model.estado.Equals("Validação") || Model.estado.Equals("Entregue"))
-                            {
-                                <div class="col-sm-2">
-                                    <div class="card">
-                                        <div class="card-body" style="background-color: #99FFCC">
-                                            <p class="card-text">Aceitação</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="col-sm-2">
-                                    <div class="card">
-                                        <div class="card-body" style="background-color: whitesmoke">
-                                            <p class="card-text">Aceitação</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                            @if (Model.estado.Equals("Concluído") || Model.estado.Equals("Validação") || Model.estado.Equals("Entregue"))
-                            {
-                                <div class="col-sm-2">
-                                    <div class="card">
-                                        <div class="card-body" style="background-color: #99FFCC">
-                                            <p class="card-text">Concluído</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="col-sm-2">
-                                    <div class="card">
-                                        <div class="card-body" style="background-color: whitesmoke">
-                                            <p class="card-text">Concluído</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                            @if (Model.estado.Equals("Validação") || Model.estado.Equals("Entregue"))
-                            {
-                                <div class="col-sm-2">
-                                    <div class="card">
-                                        <div class="card-body" style="background-color: #99FFCC">
-                                            <p class="card-text">Validação</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="col-sm-2">
-                                    <div class="card">
-                                        <div class="card-body" style="background-color: whitesmoke">
-                                            <p class="card-text">Validação</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                            @if (Model.estado.Equals("Entregue"))
-                            {
-                                <div class="col-sm-2">
-                                    <div class="card">
-                                        <div class="card-body" style="background-color: #99FFCC">
-                                            <p class="card-text">Entregue</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="col-sm-2">
-                                    <div class="card">
-                                        <div class="card-body" style="background-color: whitesmoke">
-                                            <p class="card-text">Entregue</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-
-                        @foreach (var p in Model.produtos)
-                        {
-                            <div class="row" style="width:100%; padding-top:1em">
-                                <div class="col-md-6">
-                                    <p style="font-size: 25px; text-align: center; margin-top: 5px"><b><span>@p.categoria</span></b></p>
-                                    <center>
-                                        <img src="~/images/artigoBlogOpcao.png" width="300" height="245">
-                                    </center>
-                                    <p style="font-size: 19px; text-align: center; margin-top: 5px"><b><span>@p.nome</span></b></p>
-                                </div>
-                                <div class="col-md-6" style="padding-top: 5em">
-                                    <div class="row">
-                                        <p style="font-size: 20px; text-align: center; margin-top: 5px">
-                                            <span>
-                                                O seu <b>@p.categoria</b> está neste momento
-                                                a ser produzido pelos nossos redatores.
-                                            </span>
-                                        </p>
-                                        <br>
-                                    </div>
-                                    <div class="text-center">
-                                        <p style="font-size: 19px; margin-top: 5px">
-                                            <b>
-                                                <span>
-                                                    Quantidade:
-                                                </span>
-                                            </b> @p.quantidade
-                                        </p>
-                                        <br>
-                                    </div>
-                                    <div class="align-items-center">
-                                        <center>
-                                            <a id="botaoBriefing" asp-action="VerBriefing" asp-controller="Carrinho" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button"><b>VER BRIEFING</b></a>
-                                        </center>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <hr class="separar" />
-                        }
-                    }
-                </div>
-            </div>
-        </div>
-    }
-    else if (@User.Claims.ElementAt(3).Value.Equals("Produtor"))
-    {
         <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
             <p style="font-size: 40px; "><b><span>ÁREA PRODUTOR</span></b></p>
             <p style="font-size: 20px; "><span>Bem-vindo à sua área, <b>@User.Claims.ElementAt(1).Value</b>!</span></p>
@@ -247,12 +55,17 @@
                 </div>
 
                 <div class="col-md-9" style="border: 1px solid whitesmoke; padding-top:1em">
-                        <center>
-                            <p style="font-size: 20px;"><span><b>Meter aqui contagem de coisas</b></span></p>
-                        </center>
+                    <div class="row" style="font-size: 20px; text-align: center">
+                        <div class="col-md-12">
+                            <center>
+                                <img src="~/images/userPhoto.png" width="300" height="250">
+                            </center>
+                            <p><span><b>Projetos Atuais: </b>@Model.projetosAtuais</span></p>
+                            <p><span><b>Projetos Em Aprovação: </b>@Model.projetosEmAprovacao</span></p>
+                            <p><span><b>Projetos Finalizados: </b>@Model.projetosFinalizados</span></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    }
-
 </body>

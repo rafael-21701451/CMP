@@ -30,7 +30,8 @@ namespace CMP.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            DadosProdutor dp = new DadosProdutor();
+            return View(dp);
         }
 
         public IActionResult ProjetosEmAprovacao()
