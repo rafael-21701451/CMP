@@ -1,0 +1,187 @@
+﻿@model Briefing
+@{
+    ViewData["Title"] = "Briefing";
+}
+<head>
+    <style>
+        #botao {
+            background-color: white;
+            font-family: 'Century Gothic';
+            text-align: center;
+            border-radius: 8px;
+            padding-right: 1em;
+            padding-left: 1em;
+            color: black;
+            display: block;
+            width: 120px;
+            height: 60px;
+            vertical-align: middle;
+            display: table-cell;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
+        <p style="font-size: 40px; "><b><span>Briefing #@Model.id</span></b></p>
+    </div>
+
+    <div class="container" style=" border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 2em; padding-bottom:2em">
+        <p style="font-size: 25px; padding-top: 1em; text-align: center"><b><span>Informações sobre a sua empresa</span></b></p>
+
+        <div class="row" style="padding-bottom: 2em; margin-top: 1em">
+            <div class="col-md-7" style="padding-top: 1em;">
+                <div>
+                    <span for="empresa"><b>Empresa: </b>@Model.empresa</span>
+                </div>
+            </div>
+            <div class="col-md-1" style="padding-top: 1em;">
+            </div>
+            <div class="col-md-4" style="padding-top: 1em;">
+                <div>
+                    <span for="setor"><b>Setor: </b>@Model.setor</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 2em;">
+            <div class="col-md-12">
+                <span for="historia_empresa" style="display:inline-block;width:?;"><b>História da Empresa: </b> @Model.historia_empresa</span>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 2em">
+            <div class="col-md-12">
+                <span for="objetivo_negocio"><b>Objetivo Negócio: </b>@Model.objetivo_negocio</span>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 2em">
+            <div class="col-md-12">
+                <span for="estrategia"><b>Estratégia: </b>@Model.estrategia</span>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 2em;">
+            <div class="col-md-6">
+                <span for="rodutos_comercializados"><b>Produtos/Serviços comercializados: </b>@Model.produtos_comercializados</span>
+            </div>
+            <div class="col-md-1">
+
+            </div>
+            <div class="col-md-5">
+                <div class="row" style="padding-right:1em">
+                    <label for="marca"><b>Marca: </b>@Model.marca</label>
+
+                </div>
+                <div class="row" style="padding-right:1em; padding-top:2.8em">
+                    <label for="imagem_corporativa"><b>Imagem Corporativa: </b>@Model.imagem_corporativa</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 2em">
+            <div class="col-md-12">
+                <label for="posicionamento"><b>Posicionamento: </b>@Model.posicionamento</label>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 2em">
+            <div class="col-md-7" style="padding-top: 1em;">
+                <label for="publico_alvo"><b>Público-Alvo: </b>@Model.publico_alvo</label>
+            </div>
+            <div class="col-md-1" style="padding-top: 1em;">
+            </div>
+            <div class="col-md-4" style="padding-top: 1em;">
+                <div>
+                    <label for="concorrentes"><b>Concorrentes: </b>@Model.concorrentes</label>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+    </div>
+
+
+    <div class="container" style="border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 1em; padding-bottom:1em">
+        <p style="font-size: 25px; padding-top: 1em; text-align: center"><b><span>Informações sobre o projeto</span></b></p>
+
+        <div class="row" style="padding-bottom: 2em;">
+            <div class="col-md-12">
+                <label for="objetivos"><b>Objetivos e metas: </b>@Model.objetivos</label>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 2em">
+            <div class="col-md-12">
+                <label for="resultados_esperados"><b>Resultados Esperados: </b>@Model.resultados_esperados</label>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 2em">
+            <div class="col-md-12">
+                <label for="permissas"><b>Permissas: </b>@Model.permissas</label>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 2em">
+            <div class="col-md-12">
+                <label for="restricoes"><b>Restrições: </b>@Model.restricoes</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <p style="font-size: 25px; padding-top: 1em; text-align: center"><b><span>Datas</span></b></p>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 2em">
+            <div class="col-md-3">
+                <label for="cronograma_1"><b>Fase 1: </b>@Model.cronograma_1</label>
+            </div>
+            <div class="col-md-3">
+                <label for="cronograma_2"><b>Fase 2: </b>@Model.cronograma_2</label>
+            </div>
+            <div class="col-md-3">
+                <label for="cronograma_3"><b>Fase 3: </b>@Model.cronograma_3</label>
+            </div>
+            <div class="col-md-3">
+                <label for="data_entrega"><b>Entrega Final: </b>@Model.data_entrega</label>
+            </div>
+        </div>
+
+        <hr>
+
+    </div>
+
+    <div class="container" style="border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 1em; padding-bottom:1em">
+        <p style="font-size: 25px; padding-top: 1em; text-align: center"><b><span>Aspectos Técnicos (Opcional)</span></b></p>
+
+        <div class="row" style="padding-bottom: 2em;">
+            <div class="col-md-12">
+                <label for="linha_seguir"><b>Linha a seguir: </b>@Model.linha_seguir</label>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 2em;">
+            <div class="col-md-12">
+                <label for="tom_voz"><b>Tom de voz: </b>@Model.tom_voz</label>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 2em">
+            <div class="col-md-5">
+                <label for="tipo_letra"><b>Tipo de Letra: </b>@Model.tipo_letra</label>
+            </div>
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-5">
+                <label for="cores"><b>Cores: </b>@Model.cor</label>
+            </div>
+        </div>
+    </div>
+</body>
