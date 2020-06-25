@@ -29,30 +29,16 @@ namespace CMP.Controllers
 
         public IActionResult Mensagens()
         {
-            List<MensagemProdutor> mensagens = new List<MensagemProdutor>();
+            List<MensagemCliente> mensagens = new List<MensagemCliente>();
             string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
 
-                int idConta = -1;
-                string sql = $"SELECT * FROM Cliente WHERE id={Convert.ToInt32(this.User.Claims.ElementAt(2).Value)}";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    using (SqlDataReader dataReader = command.ExecuteReader())
-                    {
-                        while (dataReader.Read())
-                        {
-                            idConta = Convert.ToInt32(dataReader["account_id"]);
-                        }
-                    }
-                    connection.Close();
-                }
+                int idConta = Convert.ToInt32(this.User.Claims.ElementAt(2).Value);
 
 
-
-                sql = $"Update Account SET new_messages='false' WHERE id={idConta}";
+                String sql = $"Update Account SET new_messages='false' WHERE id={idConta}";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -69,7 +55,7 @@ namespace CMP.Controllers
                     {
                         while (dataReader.Read())
                         {
-                            MensagemProdutor msg = new MensagemProdutor();
+                            MensagemCliente msg = new MensagemCliente();
                             msg.id = Convert.ToInt32(dataReader["id"]);
                             msg.assunto = Convert.ToString(dataReader["Assunto"]);
                             mensagens.Add(msg);
@@ -449,23 +435,7 @@ namespace CMP.Controllers
                 produtos.Add(getProductByID(p));
             }
             compra.produtos = produtos;
-            string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                string sql = $"SELECT * FROM Produtor WHERE id={Convert.ToInt32(this.User.Claims.ElementAt(2).Value)}";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    connection.Open();
-                    using (SqlDataReader dataReader = command.ExecuteReader())
-                    {
-                        while (dataReader.Read())
-                        {
-                            compra.temMensagens = temMensagens(Convert.ToInt32(dataReader["account_id"]));
-                        }
-                    }
-                    connection.Close();
-                }
-            }
+            compra.temMensagens = temMensagens(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
             return View(compra);
         }
 

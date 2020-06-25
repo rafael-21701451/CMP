@@ -36,7 +36,148 @@ namespace CMP.Controllers
             dcm.projetosPorAtribuir = getProjetosPorAtribuir(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
             dcm.projetosAtribuidos = getProjetosAtribuidos(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
             dcm.projetosPorValidar = getProjetosPorValidar(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Content_Manager WHERE id={Convert.ToInt32(this.User.Claims.ElementAt(2).Value)}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            dcm.temMensagens = temMensagens(Convert.ToInt32(dataReader["account_id"]));
+                        }
+                    }
+                    connection.Close();
+                }
+            }
             return View(dcm);
+        }
+
+        public Boolean temMensagens(int accID)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Account WHERE id={accID}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToBoolean(dataReader["new_messages"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return false;
+        }
+
+        public IActionResult Mensagens()
+        {
+            List<MensagemCM> mensagens = new List<MensagemCM>();
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+
+                int idConta = -1;
+                string sql = $"SELECT * FROM Content_Manager WHERE id={Convert.ToInt32(this.User.Claims.ElementAt(2).Value)}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            idConta = Convert.ToInt32(dataReader["account_id"]);
+                        }
+                    }
+                    connection.Close();
+                }
+
+
+
+                sql = $"Update Account SET new_messages='false' WHERE id={idConta}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+                sql = $"SELECT * FROM Mensagem WHERE Destinatario={idConta}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            MensagemCM msg = new MensagemCM();
+                            msg.id = Convert.ToInt32(dataReader["id"]);
+                            msg.assunto = Convert.ToString(dataReader["Assunto"]);
+                            msg.remetente = getNomeClientebyAccountID(Convert.ToInt32(dataReader["Remetente"]));
+                            mensagens.Add(msg);
+                        }
+                    }
+                    connection.Close();
+                }
+
+            }
+            return View(mensagens);
+        }
+
+        public String getNomeClientebyAccountID(int idAccount)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Cliente WHERE account_id={idAccount}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToString(dataReader["nome"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
+        }
+
+        public IActionResult VerMensagem(int idMensagem)
+        {
+            MensagemCM mensagem = new MensagemCM();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Mensagem WHERE id={idMensagem}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            mensagem.assunto = Convert.ToString(dataReader["Assunto"]);
+                            mensagem.textoMensagem = Convert.ToString(dataReader["Mensagem"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return View(mensagem);
         }
 
         public int getBriefingsPorAceitar(int idCM)
