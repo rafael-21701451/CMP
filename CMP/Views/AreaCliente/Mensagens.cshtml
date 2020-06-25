@@ -45,7 +45,6 @@
                     <thead>
                         <tr>
                             <th>Assunto</th>
-                            <th>Remetente</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,7 +60,6 @@
                             {
                                 <tr style="transform: rotate(0);">
                                     <th scope="row"><a asp-action="RazaoRejeicao" asp-route-idMensagem="@p.id" class="stretched-link" style="color:black">@p.assunto</a></th>
-                                    <td style="text-align:center">@p.remetente</td>
                                 </tr>
                             }
                         }

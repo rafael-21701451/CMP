@@ -45,6 +45,12 @@
         </div>
 
         <div class="container">
+            @if (Model.temMensagens)
+            {
+                <div class="text-center" style="padding-top:1em; padding-bottom: 1em;">
+                    <p style="font-size: 20px; color:red"><b><span>TEM MENSAGENS POR LER</span></b></p>
+                </div>
+            }
             <div class="row" style="padding-bottom: 2em;">
                 <div class="btn-group">
                     <div class="col-md-3">

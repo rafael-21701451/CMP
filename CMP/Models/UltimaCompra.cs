@@ -13,5 +13,7 @@ namespace CMP.Models
 
         public string estado { get; set; }
 
+        public Boolean temMensagens { get; set; }
+
     }
 }
