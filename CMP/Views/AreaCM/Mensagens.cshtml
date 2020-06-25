@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BriefingPorAceitar>
+﻿@model IEnumerable<MensagemCM>
 @{
     ViewData["Title"] = "Index";
 }
@@ -30,11 +30,11 @@
         <div class="row" style="padding-bottom: 2em;">
             <div class="btn-group">
                 <div class="col-md-3">
-                    <a asp-action="BriefingsPorAceitar"><button style="background-color:whitesmoke"><b>Briefings Por Aceitar</b></button></a>
+                    <a asp-action="BriefingsPorAceitar"><button><b>Briefings Por Aceitar</b></button></a>
                     <a asp-action="ProjetosPorAtribuir"><button><b>Projetos Por Atribuir</b></button></a>
                     <a asp-action="ProjetosAtribuidos"><button><b>Projetos Atribuídos</b></button></a>
                     <a asp-action="ProjetosPorValidar"><button><b>Projetos Por Validar</b></button></a>
-                    <a asp-action="Mensagens"><button"><b>Minhas Mensagens</b></button></a>
+                    <a asp-action="Mensagens"><button style="background-color:whitesmoke"><b>Minhas Mensagens</b></button></a>
                     <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
                 </div>
             </div>
@@ -44,7 +44,8 @@
                         <tr>
                             <th>ID</th>
                             <th>Produto</th>
-                            <th>Comprador</th>
+                            <th>Produtor</th>
+                            <th>Estado</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,9 +60,8 @@
                             @foreach (var p in Model)
                             {
                                 <tr style="transform: rotate(0);">
-                                    <th scope="row"><a asp-action="VerBriefing" asp-route-idBriefing="@p.id" class="stretched-link" style="color:black">@p.id</a></th>
-                                    <td style="text-align:center">@p.produto</td>
-                                    <td style="text-align:center">@p.comprador</td>
+                                    <th scope="row"><a asp-action="VerMensagem" asp-route-idMensagem="@p.id" class="stretched-link" style="color:black">@p.assunto</a></th>
+                                    <td style="text-align:center">@p.remetente</td>
                                 </tr>
                             }
                         }
