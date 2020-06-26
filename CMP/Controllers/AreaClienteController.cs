@@ -78,13 +78,27 @@ namespace CMP.Controllers
         {
             if (ModelState.IsValid)
             {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
+                string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
+                    String sql = $"Update Briefing SET empresa='{briefing.empresa}', setor='{briefing.setor}'," +
+                                                        $" historia_empresa='{briefing.historia_empresa}', objetivo_negocio='{briefing.objetivo_negocio}', estrategia='{briefing.estrategia}', " +
+                                                        $" produtos_comercializados='{briefing.produtos_comercializados}', marca='{briefing.marca}',  imagem_corporativa='{briefing.imagem_corporativa}', " +
+                                                        $" posicionamento='{briefing.posicionamento}', publico_alvo='{briefing.publico_alvo}'," +
+                                                        $" concorrentes='{briefing.concorrentes}', objetivos='{briefing.objetivos}'" +
+                                                        $", resultados_esperados='{briefing.resultados_esperados}', permissas='{briefing.permissas}', " +
+                                                        $"restricoes='{briefing.restricoes}', data_entrega='{string.Format("{0:yyyy-MM-dd}", briefing.data_entrega)}', cronograma_1='{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_1)}', cronograma_2='{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_2)}'" +
+                                                        $",cronograma_3='{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_3)}'," +
+                                                        $"" +
+                                                        $"linha_seguir='{briefing.linha_seguir}', tom_voz='{briefing.linha_seguir}', tipo_letra='{briefing.tipo_letra}', cor='{briefing.cor}', revisao='false'" +
+                                                        $"Where id={briefing.id}"; 
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
 
-
-
-
+                    }
                 }
                 return RedirectToAction("Index");
             }
