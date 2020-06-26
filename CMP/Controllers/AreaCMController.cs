@@ -187,7 +187,7 @@ namespace CMP.Controllers
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = $"SELECT * FROM Briefing";
+                string sql = $"SELECT * FROM Briefing WHERE revisao='false'";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -498,6 +498,97 @@ namespace CMP.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult RazaoRejeicaoBriefing(int idBriefing)
+        {
+            RejectionView rv = new RejectionView();
+            rv.idProjeto = idBriefing;
+            return View(rv);
+        }
+
+        [HttpPost]
+        public IActionResult RazaoRejeicaoBriefing(RejectionView rv)
+        {
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                int idCompra = -1;
+                String sql = $"SELECT * FROM Briefing WHERE id={rv.idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            idCompra = getCompraByPCID(Convert.ToInt32(dataReader["produto_compra_id"]));
+                        }
+                    }
+                    connection.Close();
+                }
+
+                sql = $"Update Briefing SET revisao='true' WHERE id={rv.idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+                int idRemetente = -1;
+                sql = $"SELECT * FROM Content_Manager WHERE id={Convert.ToInt32(this.User.Claims.ElementAt(2).Value)}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            idRemetente = Convert.ToInt32(dataReader["account_id"]);
+                        }
+                    }
+                    connection.Close();
+                }
+
+                int idDestinatario = -1;
+                sql = $"SELECT * FROM Compra WHERE id={idCompra}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            idDestinatario = getAccountIDClienteByID(Convert.ToInt32(dataReader["cliente_id"]));
+                        }
+                    }
+                    connection.Close();
+                }
+
+                sql = $"Insert Into Mensagem (Mensagem, Remetente, Destinatario, Assunto) Values ('{rv.mensagem}',{idRemetente},{idDestinatario},'Briefing compra #{idCompra} rejeitado')";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+                sql = $"Update Account SET new_messages='true' WHERE id={idDestinatario}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+
+            }
+            return RedirectToAction("Index");
+        }
+
 
 
         public IActionResult VerProjetoPorValidar(int idProjeto)
@@ -680,6 +771,28 @@ namespace CMP.Controllers
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string sql = $"SELECT * FROM Produtor WHERE id={idProdutor}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToInt32(dataReader["account_id"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
+        public int getAccountIDClienteByID(int idCliente)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Cliente WHERE id={idCliente}";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -1107,7 +1220,7 @@ namespace CMP.Controllers
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = $"SELECT * FROM Briefing";
+                string sql = $"SELECT * FROM Briefing WHERE revisao='false'";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();

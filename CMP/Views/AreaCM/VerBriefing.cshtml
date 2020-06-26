@@ -190,7 +190,7 @@
                 <div class="col-md-8">
                 </div>
                 <div class="col-md-2">
-                    <a asp-action="RejeitarBriefing" id="botao" class="button" style="border: 2px solid #DC143C"><b>REJEITAR</b></a>
+                    <a asp-action="RazaoRejeicaoBriefing" asp-route-idBriefing="@Model.id" id="botao" class="button" style="border: 2px solid #DC143C"><b>REJEITAR</b></a>
                 </div>
                 <div class="col-md-2">
                     <a asp-action="AceitarBriefing" asp-route-idBriefing="@Model.id" id="botao" class="button" style="border: 2px solid #32CD32;"><b>ACEITAR</b></a>

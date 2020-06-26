@@ -101,10 +101,10 @@ namespace CMP.Controllers
 
                     sql = $"Insert Into Briefing (empresa, setor, historia_empresa,objetivo_negocio, estrategia, produtos_comercializados, marca, imagem_corporativa" +
                         $",posicionamento,publico_alvo,concorrentes,objetivos,resultados_esperados,permissas,restricoes,data_entrega,cronograma_1,cronograma_2,cronograma_3" +
-                        $",linha_seguir,tom_voz,tipo_letra,cor,aceite,produto_compra_id) " +
+                        $",linha_seguir,tom_voz,tipo_letra,cor,aceite,produto_compra_id,revisao) " +
                         $"Values ('{briefing.empresa}','{briefing.setor}','{briefing.historia_empresa}','{briefing.objetivo_negocio}','{briefing.estrategia}','{briefing.produtos_comercializados}','{briefing.marca}','{briefing.imagem_corporativa}'" +
                         $",'{briefing.posicionamento}','{briefing.publico_alvo}','{briefing.concorrentes}','{briefing.objetivos}','{briefing.resultados_esperados}','{briefing.permissas}','{briefing.restricoes}','{string.Format("{0:yyyy-MM-dd}", briefing.data_entrega)}','{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_1)}','{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_2)}','{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_3)}'" +
-                        $",'{briefing.linha_seguir}','{briefing.tom_voz}','{briefing.tipo_letra}','{briefing.cor}','false','{pc_id}')";
+                        $",'{briefing.linha_seguir}','{briefing.tom_voz}','{briefing.tipo_letra}','{briefing.cor}','false','{pc_id}','false')";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.CommandType = System.Data.CommandType.Text;

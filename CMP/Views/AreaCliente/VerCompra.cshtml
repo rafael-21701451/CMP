@@ -209,8 +209,14 @@
                             </p>
                             <br>
                             <center>
-                                <a id="botaoBriefing" asp-action="VerBriefing" asp-controller="Carrinho" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button"><b>VER BRIEFING</b></a>
-
+                                @if (p.revisao)
+                                {
+                                    <a id="botaoBriefing" asp-action="ReverBriefing" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button"><b>REVER BRIEFING</b></a>
+                                }
+                                else
+                                {
+                                    <a id="botaoBriefing" asp-action="VerBriefing" asp-controller="Carrinho" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button"><b>VER BRIEFING</b></a>
+                                }
                             </center>
                         </div>
                         @if (Model.estado.Equals("Concluído"))
