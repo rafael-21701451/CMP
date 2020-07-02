@@ -286,12 +286,39 @@ namespace CMP.Controllers
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
+                sql = $"DELETE FROM Briefing Where produto_compra_id='{idProdutoCompra}'";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+
+                sql = $"DELETE FROM Produto_Compra WHERE id='{idProdutoCompra}'";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+
                 sql = $"Update Compra SET sub_total='{Convert.ToString(compra.subTotal - productPrices.preco).Replace(',', '.')}', total='{Convert.ToString(compra.subTotal - productPrices.preco + ((compra.subTotal - productPrices.preco) * 0.23)).Replace(',', '.')}' Where id='{compra.id}'";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
                     command.ExecuteNonQuery();
                     connection.Close();
+                }
+
+                if(compra.subTotal - productPrices.preco == 0)
+                {
+                    sql = $"DELETE FROM Compra WHERE id='{compra.id}'";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+                    }
                 }
             }
            
