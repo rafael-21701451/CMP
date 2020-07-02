@@ -90,7 +90,7 @@ namespace CMP.Controllers
                                                         $"restricoes='{briefing.restricoes}', data_entrega='{string.Format("{0:yyyy-MM-dd}", briefing.data_entrega)}', cronograma_1='{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_1)}', cronograma_2='{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_2)}'" +
                                                         $",cronograma_3='{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_3)}'," +
                                                         $"" +
-                                                        $"linha_seguir='{briefing.linha_seguir}', tom_voz='{briefing.linha_seguir}', tipo_letra='{briefing.tipo_letra}', cor='{briefing.cor}', revisao='false'" +
+                                                        $"linha_seguir='{briefing.linha_seguir}', tom_voz='{briefing.tom_voz}', tipo_letra='{briefing.tipo_letra}', cor='{briefing.cor}', revisao='false'" +
                                                         $"Where id={briefing.id}"; 
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {

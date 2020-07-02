@@ -18,172 +18,239 @@
                 vertical-align: middle;
                 display: table-cell;
             }
+
+            input[type=text], select {
+                width: 100%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                box-sizing: border-box;
+                border: 1px solid grey;
+                border-radius: 4px;
+            }
+
+            input[type=date], select {
+                width: 100%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                box-sizing: border-box;
+                border: 1px solid grey;
+                border-radius: 4px;
+            }
+
+            #caixa_maior {
+                padding: 12px 20px;
+                margin: 8px 0;
+                resize: none;
+                border: 1px solid grey;
+                border-radius: 4px;
+            }
         </style>
     </head>
 
 
     <body>
-        <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
+        <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 0.5em; margin-bottom: 20px;">
             <p style="font-size: 40px; "><b><span>Briefing #@Model.id</span></b></p>
         </div>
 
-        <div class="container" style=" border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 2em; padding-bottom:2em">
-            <p style="font-size: 25px; padding-top: 1em; text-align: center"><b><span>Informações sobre a sua empresa</span></b></p>
+        <form method="post">
+            <input type="hidden" asp-for="id" id="id" value="@Model.id">
+            <div class="container" style="background-color: whitesmoke; border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 2em; padding-bottom:2em">
+                <p style="font-size: 25px; padding-top: 1em; text-align: center"><b><span>Informações sobre a sua empresa</span></b></p>
 
-            <div class="row" style="padding-bottom: 2em; margin-top: 1em">
-                <div class="col-md-7" style="padding-top: 1em;">
-                    <div>
-                        <span for="empresa"><b>Empresa: </b>@Model.empresa</span>
+                <div class="row" style="padding-bottom: 2em; margin-top: 1em">
+                    <div class="col-md-7" style="padding-top: 1em;">
+                        <div>
+                            <label for="empresa"><b>Empresa </b></label>
+                            <input type="text" name="empresa" asp-for="empresa" placeholder="Empresa" readonly>
+                            <span asp-validation-for="empresa" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-1" style="padding-top: 1em;">
+                    </div>
+                    <div class="col-md-4" style="padding-top: 1em;">
+                        <div>
+                            <label for="setor"><b>Setor </b></label>
+                            <input type="text" name="setor" asp-for="setor" placeholder="Setor" readonly>
+                            <span asp-validation-for="setor" class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-1" style="padding-top: 1em;">
+
+                <div class="row" style="padding-bottom: 2em;">
+                    <div class="col-md-12">
+                        <label for="historia_empresa"><b>História da Empresa </b></label>
+                        <textarea asp-for="historia_empresa" rows="7" cols="132" placeholder="História da Empresa" id="caixa_maior" readonly></textarea>
+                        <span asp-validation-for="historia_empresa" class="text-danger"></span>
+                    </div>
                 </div>
-                <div class="col-md-4" style="padding-top: 1em;">
-                    <div>
-                        <span for="setor"><b>Setor: </b>@Model.setor</span>
+
+                <div class="row" style="padding-bottom: 2em">
+                    <div class="col-md-12">
+                        <label for="objetivo_negocio"><b>Objetivo Negócio </b></label>
+                        <input type="text" name="objetivo_negocio" asp-for="objetivo_negocio" placeholder="Objetivo Negócio" readonly>
+                        <span asp-validation-for="objetivo_negocio" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-bottom: 2em">
+                    <div class="col-md-12">
+                        <label for="estrategia"><b>Estratégia </b></label>
+                        <input type="text" name="estrategia" asp-for="estrategia" placeholder="Estrategia" readonly>
+                        <span asp-validation-for="estrategia" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-bottom: 2em;">
+                    <div class="col-md-6">
+                        <label for="rodutos_comercializados"><b>Produtos/Serviços comercializados </b></label>
+                        <textarea asp-for="produtos_comercializados" rows="7" cols="65" placeholder="Produtos/Serviços comercializados" id="caixa_maior" readonly></textarea>
+                        <span asp-validation-for="produtos_comercializados" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-1">
+
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row" style="padding-right:1em">
+                            <label for="marca"><b>Marca </b></label>
+                            <input type="text" name="marca" asp-for="marca" placeholder="Marca" readonly>
+                            <span asp-validation-for="marca" class="text-danger"></span>
+                        </div>
+                        <div class="row" style="padding-right:1em; padding-top:2.8em">
+                            <label for="imagem_corporativa"><b>Imagem Corporativa </b></label>
+                            <input type="text" name="imagem_corporativa" asp-for="imagem_corporativa" placeholder="Imagem Corporativa" readonly>
+                            <span asp-validation-for="imagem_corporativa" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-bottom: 2em">
+                    <div class="col-md-12">
+                        <label for="posicionamento"><b>Posicionamento </b></label>
+                        <input type="text" name="posicionamento" asp-for="posicionamento" placeholder="Posicionamento" readonly>
+                        <span asp-validation-for="posicionamento" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-bottom: 2em">
+                    <div class="col-md-7" style="padding-top: 1em;">
+                        <label for="publico_alvo"><b>Público-Alvo </b></label>
+                        <input type="text" name="publico_alvo" asp-for="publico_alvo" placeholder="Público-Alvo" readonly>
+                        <span asp-validation-for="publico_alvo" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-1" style="padding-top: 1em;">
+                    </div>
+                    <div class="col-md-4" style="padding-top: 1em;">
+                        <div>
+                            <label for="concorrentes"><b>Concorrentes </b></label>
+                            <input type="text" name="concorrentes" asp-for="concorrentes" placeholder="Concorrentes" readonly>
+                            <span asp-validation-for="concorrentes" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="container" style="background-color: whitesmoke; border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 2em; padding-bottom:2em">
+                <p style="font-size: 25px; padding-top: 1em; text-align: center"><b><span>Informações sobre o projeto</span></b></p>
+
+                <div class="row" style="padding-bottom: 2em;">
+                    <div class="col-md-12">
+                        <label for="objetivos"><b>Objetivos e metas</b></label>
+                        <textarea asp-for="objetivos" rows="7" cols="132" placeholder="Objetivos e Metas" id="caixa_maior" readonly></textarea>
+                        <span asp-validation-for="objetivos" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-bottom: 2em">
+                    <div class="col-md-12">
+                        <label for="resultados_esperados"><b>Resultados Esperados </b></label>
+                        <input type="text" name="resultados_esperados" asp-for="resultados_esperados" placeholder="Resultados Esperados" readonly>
+                        <span asp-validation-for="resultados_esperados" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-bottom: 2em">
+                    <div class="col-md-12">
+                        <label for="permissas"><b>Permissas </b></label>
+                        <input type="text" name="permissas" asp-for="permissas" placeholder="Permissas" readonly>
+                        <span asp-validation-for="permissas" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-bottom: 2em">
+                    <div class="col-md-12">
+                        <label for="restricoes"><b>Restrições </b></label>
+                        <input type="text" name="restricoes" asp-for="restricoes" placeholder="Restrições" readonly>
+                        <span asp-validation-for="restricoes" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <p style="font-size: 25px; padding-top: 1em; text-align: center"><b><span>Datas</span></b></p>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-bottom: 2em">
+                    <div class="col-md-3">
+                        <label for="cronograma_1"><b>Fase 1 </b></label>
+                        <input type="date" name="cronograma_1" asp-for="cronograma_1" readonly>
+                        <span asp-validation-for="cronograma_1" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="cronograma_2"><b>Fase 2 </b></label>
+                        <input type="date" name="cronograma_2" asp-for="cronograma_2" readonly>
+                        <span asp-validation-for="cronograma_2" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="cronograma_3"><b>Fase 3 </b></label>
+                        <input type="date" name="cronograma_3" asp-for="cronograma_3" readonly>
+                        <span asp-validation-for="cronograma_3" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="data_entrega"><b>Entrega Final </b></label>
+                        <input type="date" name="data_entrega" asp-for="data_entrega" readonly>
+                        <span asp-validation-for="data_entrega" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="container" style="background-color: whitesmoke; border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 2em; padding-bottom:2em">
+                <p style="font-size: 25px; padding-top: 1em; text-align: center"><b><span>Aspectos Técnicos (Opcional)</span></b></p>
+
+                <div class="row" style="padding-bottom: 2em;">
+                    <div class="col-md-12">
+                        <label for="linha_seguir"><b>Linha a seguir</b></label>
+                        <textarea asp-for="linha_seguir" rows="7" cols="132" placeholder="Linha a seguir" id="caixa_maior" readonly></textarea>
+                        <span asp-validation-for="linha_seguir" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-bottom: 2em;">
+                    <div class="col-md-12">
+                        <label for="tom_voz"><b>Tom de voz</b></label>
+                        <input type="text" name="tom_voz" asp-for="tom_voz" placeholder="Tom de voz" readonly>
+                        <span asp-validation-for="tom_voz" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-bottom: 2em">
+                    <div class="col-md-5">
+                        <label for="tipo_letra"><b>Tipo de Letra </b></label>
+                        <input type="text" asp-for="tipo_letra" style="color: black" readonly>
+                    </div>
+                    <div class="col-md-2">
+
+                    </div>
+                    <div class="col-md-5">
+                        <label for="cores"><b>Cores </b></label>
+                        <input type="text" asp-for="cor" style="color: black" readonly>
                     </div>
                 </div>
             </div>
-
-            <div class="row" style="padding-bottom: 2em;">
-                <div class="col-md-12">
-                    <span for="historia_empresa" style="display:inline-block;width:?;"><b>História da Empresa: </b> @Model.historia_empresa</span>
-                </div>
-            </div>
-
-            <div class="row" style="padding-bottom: 2em">
-                <div class="col-md-12">
-                    <span for="objetivo_negocio"><b>Objetivo Negócio: </b>@Model.objetivo_negocio</span>
-                </div>
-            </div>
-
-            <div class="row" style="padding-bottom: 2em">
-                <div class="col-md-12">
-                    <span for="estrategia"><b>Estratégia: </b>@Model.estrategia</span>
-                </div>
-            </div>
-
-            <div class="row" style="padding-bottom: 2em;">
-                <div class="col-md-6">
-                    <span for="rodutos_comercializados"><b>Produtos/Serviços comercializados: </b>@Model.produtos_comercializados</span>
-                </div>
-                <div class="col-md-1">
-
-                </div>
-                <div class="col-md-5">
-                    <div class="row" style="padding-right:1em">
-                        <label for="marca"><b>Marca: </b>@Model.marca</label>
-
-                    </div>
-                    <div class="row" style="padding-right:1em; padding-top:2.8em">
-                        <label for="imagem_corporativa"><b>Imagem Corporativa: </b>@Model.imagem_corporativa</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" style="padding-bottom: 2em">
-                <div class="col-md-12">
-                    <label for="posicionamento"><b>Posicionamento: </b>@Model.posicionamento</label>
-                </div>
-            </div>
-
-            <div class="row" style="padding-bottom: 2em">
-                <div class="col-md-7" style="padding-top: 1em;">
-                    <label for="publico_alvo"><b>Público-Alvo: </b>@Model.publico_alvo</label>
-                </div>
-                <div class="col-md-1" style="padding-top: 1em;">
-                </div>
-                <div class="col-md-4" style="padding-top: 1em;">
-                    <div>
-                        <label for="concorrentes"><b>Concorrentes: </b>@Model.concorrentes</label>
-                    </div>
-                </div>
-            </div>
-
-            <hr>
-
-        </div>
-
-
-        <div class="container" style="border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 1em; padding-bottom:1em">
-            <p style="font-size: 25px; padding-top: 1em; text-align: center"><b><span>Informações sobre o projeto</span></b></p>
-
-            <div class="row" style="padding-bottom: 2em;">
-                <div class="col-md-12">
-                    <label for="objetivos"><b>Objetivos e metas: </b>@Model.objetivos</label>
-                </div>
-            </div>
-
-            <div class="row" style="padding-bottom: 2em">
-                <div class="col-md-12">
-                    <label for="resultados_esperados"><b>Resultados Esperados: </b>@Model.resultados_esperados</label>
-                </div>
-            </div>
-
-            <div class="row" style="padding-bottom: 2em">
-                <div class="col-md-12">
-                    <label for="permissas"><b>Permissas: </b>@Model.permissas</label>
-                </div>
-            </div>
-
-            <div class="row" style="padding-bottom: 2em">
-                <div class="col-md-12">
-                    <label for="restricoes"><b>Restrições: </b>@Model.restricoes</label>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <p style="font-size: 25px; padding-top: 1em; text-align: center"><b><span>Datas</span></b></p>
-                </div>
-            </div>
-
-            <div class="row" style="padding-bottom: 2em">
-                <div class="col-md-3">
-                    <label for="cronograma_1"><b>Fase 1: </b>@Model.cronograma_1</label>
-                </div>
-                <div class="col-md-3">
-                    <label for="cronograma_2"><b>Fase 2: </b>@Model.cronograma_2</label>
-                </div>
-                <div class="col-md-3">
-                    <label for="cronograma_3"><b>Fase 3: </b>@Model.cronograma_3</label>
-                </div>
-                <div class="col-md-3">
-                    <label for="data_entrega"><b>Entrega Final: </b>@Model.data_entrega</label>
-                </div>
-            </div>
-
-            <hr>
-
-        </div>
-
-        <div class="container" style="border-radius: 4px;  font-family: 'Century Gothic'; margin-top: 1em; padding-bottom:1em">
-            <p style="font-size: 25px; padding-top: 1em; text-align: center"><b><span>Aspectos Técnicos (Opcional)</span></b></p>
-
-            <div class="row" style="padding-bottom: 2em;">
-                <div class="col-md-12">
-                    <label for="linha_seguir"><b>Linha a seguir: </b>@Model.linha_seguir</label>
-                </div>
-            </div>
-
-            <div class="row" style="padding-bottom: 2em;">
-                <div class="col-md-12">
-                    <label for="tom_voz"><b>Tom de voz: </b>@Model.tom_voz</label>
-                </div>
-            </div>
-
-            <div class="row" style="padding-bottom: 2em">
-                <div class="col-md-5">
-                    <label for="tipo_letra"><b>Tipo de Letra: </b>@Model.tipo_letra</label>
-                </div>
-                <div class="col-md-2">
-
-                </div>
-                <div class="col-md-5">
-                    <label for="cores"><b>Cores: </b>@Model.cor</label>
-                </div>
-            </div>
-        </div>
+        </form>
 
         <div class="container" style="margin-top: 1em; padding-bottom:1em">
             <div class="row" style="padding-bottom: 2em;">
@@ -197,4 +264,4 @@
                 </div>
             </div>
         </div>
-</body>
+    </body>
