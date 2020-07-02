@@ -124,6 +124,7 @@ namespace CMP.Controllers
                             msg.id = Convert.ToInt32(dataReader["id"]);
                             msg.assunto = Convert.ToString(dataReader["Assunto"]);
                             msg.remetente = getNomeClientebyAccountID(Convert.ToInt32(dataReader["Remetente"]));
+                            msg.data = string.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(dataReader["data"]));
                             mensagens.Add(msg);
                         }
                     }
@@ -131,6 +132,7 @@ namespace CMP.Controllers
                 }
 
             }
+            mensagens.Reverse();
             return View(mensagens);
         }
 
@@ -475,7 +477,7 @@ namespace CMP.Controllers
                     connection.Close();
                 }
 
-                sql = $"Insert Into Mensagem (Mensagem, Remetente, Destinatario, Assunto) Values ('{rv.mensagem}',{idRemetente},{idDestinatario},'Projeto #{rv.idProjeto} rejeitado')";
+                sql = $"Insert Into Mensagem (Mensagem, Remetente, Destinatario, Assunto, Data) Values ('{rv.mensagem}',{idRemetente},{idDestinatario},'Projeto #{rv.idProjeto} rejeitado','{string.Format("{0:yyyy-MM-dd}", DateTime.Now)}')";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -566,7 +568,7 @@ namespace CMP.Controllers
                     connection.Close();
                 }
 
-                sql = $"Insert Into Mensagem (Mensagem, Remetente, Destinatario, Assunto) Values ('{rv.mensagem}',{idRemetente},{idDestinatario},'Briefing compra #{idCompra} rejeitado')";
+                sql = $"Insert Into Mensagem (Mensagem, Remetente, Destinatario, Assunto,Data) Values ('{rv.mensagem}',{idRemetente},{idDestinatario},'Briefing compra #{idCompra} rejeitado','{string.Format("{0:yyyy-MM-dd}",DateTime.Now)}')";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -959,7 +961,9 @@ namespace CMP.Controllers
                     {
                         while (dataReader.Read())
                         {
-                            numProjetos = verificarSeProjetoJaTerminou(Convert.ToInt32(dataReader["projeto_id"]));
+                            if(verificarSeProjetoJaTerminou(Convert.ToInt32(dataReader["projeto_id"])) == 1){
+                                numProjetos++;
+                            }
                         }
                     }
                     connection.Close();

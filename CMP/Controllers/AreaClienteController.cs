@@ -140,6 +140,7 @@ namespace CMP.Controllers
                             MensagemCliente msg = new MensagemCliente();
                             msg.id = Convert.ToInt32(dataReader["id"]);
                             msg.assunto = Convert.ToString(dataReader["Assunto"]);
+                            msg.data = string.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(dataReader["data"]));
                             mensagens.Add(msg);
                         }
                     }
@@ -147,6 +148,7 @@ namespace CMP.Controllers
                 }
 
             }
+            mensagens.Reverse();
             return View(mensagens);
         }
 
@@ -227,6 +229,7 @@ namespace CMP.Controllers
                                 new Claim(ClaimTypes.Name, dados.email),//0
                                 new Claim("nome", dados.nome),//1
                                 new Claim("id", Convert.ToString(getIdByEmail(dados.email))),//2
+                                new Claim("role","Cliente")//3
                             };
                 var authProperties = new AuthenticationProperties
                 {
@@ -376,7 +379,7 @@ namespace CMP.Controllers
                     connection.Close();
                 }
 
-                sql = $"Insert Into Mensagem (Mensagem, Remetente, Destinatario, Assunto) Values ('{rv.mensagem}',{Convert.ToInt32(this.User.Claims.ElementAt(2).Value)},{idDestinatario2},'Projeto #{idProjeto} rejeitado')";
+                sql = $"Insert Into Mensagem (Mensagem, Remetente, Destinatario, Assunto, Data) Values ('{rv.mensagem}',{Convert.ToInt32(this.User.Claims.ElementAt(2).Value)},{idDestinatario2},'Projeto #{idProjeto} rejeitado', '{string.Format("{0:yyyy-MM-dd}", DateTime.Now)}')";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -385,7 +388,7 @@ namespace CMP.Controllers
 
                 }
 
-                sql = $"Insert Into Mensagem (Mensagem, Remetente, Destinatario, Assunto) Values ('{rv.mensagem}',{idDestinatario2},{idDestinatario1},'Projeto #{idProjeto} rejeitado')";
+                sql = $"Insert Into Mensagem (Mensagem, Remetente, Destinatario, Assunto, Data) Values ('{rv.mensagem}',{idDestinatario2},{idDestinatario1},'Projeto #{idProjeto} rejeitado','{string.Format("{0:yyyy-MM-dd}", DateTime.Now)}')";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     connection.Open();

@@ -45,6 +45,7 @@
                     <thead>
                         <tr>
                             <th>Assunto</th>
+                            <th>Data</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,6 +61,7 @@
                             {
                                 <tr style="transform: rotate(0);">
                                     <th scope="row"><a asp-action="VerMensagem" asp-route-idMensagem="@p.id" class="stretched-link" style="color:black">@p.assunto</a></th>
+                                    <td style="text-align:center">@p.data</td>
                                 </tr>
                             }
                         }

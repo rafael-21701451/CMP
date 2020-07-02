@@ -124,6 +124,7 @@ namespace CMP.Controllers
                             msg.id = Convert.ToInt32(dataReader["id"]);
                             msg.assunto = Convert.ToString(dataReader["Assunto"]);
                             msg.remetente = getNomeCMbyAccountID(Convert.ToInt32(dataReader["Remetente"]));
+                            msg.data = string.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(dataReader["data"]));
                             mensagens.Add(msg);
                         }
                     }
@@ -131,6 +132,7 @@ namespace CMP.Controllers
                 }
 
             }
+            mensagens.Reverse();
             return View(mensagens);
         }
 

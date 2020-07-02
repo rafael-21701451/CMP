@@ -11,5 +11,7 @@ namespace CMP.Models
         public String assunto { get; set; }
         public String remetente { get; set; }
         public String textoMensagem { get; set; }
+        public string data { get; set; }
+
     }
 }
