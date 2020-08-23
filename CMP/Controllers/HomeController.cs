@@ -101,7 +101,6 @@ namespace CMP.Controllers
                 SmtpClient client = new SmtpClient("smtp.live.com");
                 client.EnableSsl = true;
                 client.UseDefaultCredentials = true;
-                client.Credentials = new NetworkCredential("rafael_lemos@live.com.pt", "Sporting7675.");
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.From = new MailAddress("rafael_lemos@live.com.pt");
                 mailMessage.To.Add(email);
