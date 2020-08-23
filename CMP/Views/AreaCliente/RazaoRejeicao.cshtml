@@ -1,0 +1,137 @@
+﻿@model RejectionView
+@{
+    ViewData["Title"] = "Index";
+}
+
+    <style>
+        #botao {
+            display: block;
+            background-color: white;
+            font-family: 'Century Gothic';
+            border-radius: 8px;
+            border: 2px solid #ff01f2;
+            color: black;
+        }
+
+        #caixa_maior {
+            padding: 12px 20px;
+            margin: 8px 0;
+            resize: none;
+            border: 1px solid grey;
+            border-radius: 4px;
+        }
+
+        .btn-group button {
+            background-color: white;
+            border: 1px solid whitesmoke;
+            color: black;
+            padding: 10px 24px;
+            cursor: pointer;
+            display: block;
+            width: 250px;
+            font-family: 'Century Gothic';
+        }
+
+            .btn-group button:hover {
+                background-color: whitesmoke;
+            }
+
+        #botaoBriefing {
+            display: block;
+            background-color: white;
+            font-family: 'Century Gothic';
+            border-radius: 8px;
+            border: 2px solid #ff01f2;
+            padding-right: 1em;
+            padding-left: 1em;
+            color: black;
+            width: auto;
+            vertical-align: middle;
+            display: table-cell;
+            font-size: 14px;
+        }
+
+        #botaoUploadProjeto {
+            display: block;
+            background-color: white;
+            font-family: 'Century Gothic';
+            border-radius: 8px;
+            border: 2px solid #ff01f2;
+            padding-right: 1em;
+            padding-left: 1em;
+            color: black;
+            width: 100px;
+            vertical-align: middle;
+            display: table-cell;
+            font-size: 14px;
+        }
+
+        #botao {
+            background-color: white;
+            font-family: 'Century Gothic';
+            text-align: center;
+            border-radius: 8px;
+            padding-right: 1em;
+            padding-left: 1em;
+            color: black;
+            display: block;
+            width: 120px;
+            height: 50px;
+            vertical-align: middle;
+            display: table-cell;
+        }
+    </style>
+
+<body>
+    <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
+        <p style="font-size: 40px; "><b><span>ÁREA CLIENTE</span></b></p>
+        <p style="font-size: 20px; "><span>Bem-vindo à sua área de cliente, <b>@User.Claims.ElementAt(1).Value</b>!</span></p>
+    </div>
+
+    <div class="container">
+        <div class="row" style="padding-bottom: 2em;">
+            <div class="btn-group">
+                <div class="col-md-3">
+                    <a asp-action="DadosPessoais"><button><b>Dados Pessoais</b></button></a>
+                    <a asp-action="MinhasEncomendas"><button><b>Minhas Encomendas</b></button></a>
+                    <button><b>Meus Produtos</b></button>
+                    <button><b>Meus Favoritos</b></button>
+                    <button><b>Meus Comentários</b></button>
+                    <a asp-action="Mensagens"><button style="background-color:whitesmoke"><b>Minhas Mensagens</b></button></a>
+                    <button><b>Minhas Avaliações</b></button>
+                    <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
+                </div>
+            </div>
+
+            <div class="col-md-9" style="border: 1px solid whitesmoke; padding-bottom:1em;">
+                <div class="row" style="font-size: 20px; text-align: center; font-family: 'Century Gothic'">
+                    <div class="col-md-12">
+                        <center>
+                            <p style="font-size: 20px;"><span><b>Indique as razões para rejeitar o produto</b></span></p>
+                        </center>
+                    </div>
+                </div>
+                <form method="post">
+
+                    <div class="row" style="font-size: 20px; text-align: center; font-family: 'Century Gothic'">
+                        <div class="col-md-12">
+                            <textarea asp-for="mensagem" rows="15" cols="70" placeholder="Mensagem de rejeição" id="caixa_maior"></textarea>
+                            <span asp-validation-for="mensagem" class="text-danger"></span>
+                        </div>
+                        <input type="hidden" asp-for="idProjeto" id="idProjeto" value="@Model.idProjeto">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                        </div>
+                        <div class="col-md-4">
+                            <center>
+                                <button id="botao" asp-action="RazaoRejeicao" type="submit" class="button" style="font-family: 'Century Gothic'; "><b>ENVIAR</b></button>
+                            </center>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</body>

@@ -1,0 +1,157 @@
+﻿@model LoginCMProdutor
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    .bar {
+        padding-top: 100px;
+        padding-bottom: 100px;
+        color: white;
+        background-color: rgba(67,67,67,1);
+        font-family: 'Century Gothic';
+        line-height: 100%;
+    }
+
+    input[type=submit] {
+        width: 15%;
+        background-color: rgb(153,153,153);
+        color: white;
+        padding: 6px 6px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        input[type=submit]:hover {
+            background-color: rgb(120,120,120);
+        }
+
+    #conta:hover {
+        background-color: whitesmoke;
+        border-radius: 4px;
+    }
+
+    #botao {
+        background-color: white;
+        font-family: 'Century Gothic';
+        border-radius: 8px;
+        border: 2px solid #ff01f2;
+        padding-right: 1em;
+        padding-left: 1em;
+        color: black;
+        display: block;
+        width: 110px;
+    }
+
+    #botao1 {
+        background-color: white;
+        font-family: 'Century Gothic';
+        border-radius: 8px;
+        border: 2px solid #ff01f2;
+        padding-right: 1em;
+        padding-left: 1em;
+        color: black;
+        width: 50%;
+        display: block;
+    }
+
+    #botao2 {
+        background-color: rgba(67,67,67,1);
+        font-family: 'Century Gothic';
+        border-radius: 8px;
+        border: 2px solid #ff01f2;
+        padding-right: 1em;
+        padding-left: 1em;
+        color: black;
+        display: block;
+        width: 130px;
+    }
+
+    .barslide {
+        padding-top: 50px;
+        padding-bottom: 50px;
+        color: white;
+        background-color: rgb(242,242,242);
+        font-family: 'Century Gothic';
+        line-height: 100%;
+    }
+
+    .textbar {
+        float: left;
+        margin: 0 20px 20px 0;
+    }
+
+    input[type=text], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 1px solid grey;
+        border-radius: 4px;
+    }
+
+    input[type=password] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 1px solid grey;
+        border-radius: 4px;
+    }
+</style>
+
+<body>
+    <div class="container" style="background-color: white">
+        <div class="row" style="padding-bottom: 1em;padding-top:1em">
+            <div class="col-md-6" id="conta" style="padding-top: 2em;border-right: 1px solid grey;height: 900px;">
+                <p style="font-size: 20px; text-align: center; margin-top: 5px"><b><span>CONTENT MANAGERS</span></b></p>
+                <form method="post">
+                    <div>
+                        <label for="emailCM"><b>Email </b></label>
+                        <input type="text" name="emailCM" asp-for="emailCM" placeholder="Email">
+                        <span asp-validation-for="emailCM" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <br>
+                        <label for="passwordCM"><b>Password </b></label>
+                        <input type="password" name="passwordCM" asp-for="passwordCM" placeholder="Password">
+                        <span asp-validation-for="passwordCM" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <input type="checkbox" data-val="true" asp-for="sessaoCM" id="sessaoCM" name="sessaoCM" value="true" /> Manter sessão iniciada.
+                        <input name="sessao" type="hidden" value="false">
+                    </div>
+                    <div>
+                        <input type="submit" value="Entrar" asp-action="LoginCM">
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-6" id="conta" style="padding-top: 2em;border-left: 1px solid grey;height: 900px;">
+                <p style="font-size: 20px; text-align: center; margin-top: 5px"><b><span>PRODUTORES</span></b></p>
+                <form method="post">
+                    <div>
+                        <label for="emailProducer"><b>Email </b></label>
+                        <input type="text" name="emailProducer" asp-for="emailProducer" placeholder="Email">
+                        <span asp-validation-for="emailProducer" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <br>
+                        <label for="passwordProducer"><b>Password </b></label>
+                        <input type="password" name="passwordProducer" asp-for="passwordProducer" placeholder="Password">
+                        <span asp-validation-for="passwordProducer" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <input type="checkbox" data-val="true" asp-for="sessaoProdutor" id="sessaoProdutor" name="sessaoProdutor" value="true" /> Manter sessão iniciada.
+                        <input name="sessao" type="hidden" value="false">
+                    </div>
+                    <div>
+                        <input type="submit" value="Entrar" asp-action="LoginProdutor">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>

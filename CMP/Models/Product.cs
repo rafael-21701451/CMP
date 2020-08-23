@@ -15,5 +15,7 @@ namespace CMP.Models
         public string categoria { get; set; }
 
         public int quantidade { get; set; }
+
+        public Boolean revisao { get; set; }
     }
 }

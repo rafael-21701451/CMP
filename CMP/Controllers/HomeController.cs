@@ -43,7 +43,27 @@ namespace CMP.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if(@User.Identity.IsAuthenticated == false)
+            {
+                return View();
+
+            }
+            else
+            {
+                if (this.User.Claims.ElementAt(3).Value.Equals("Content Manager"))
+                {
+                    return RedirectToAction("Index", "AreaCM");
+                }
+                else if (this.User.Claims.ElementAt(3).Value.Equals("Produtor"))
+                {
+                    return RedirectToAction("Index", "AreaProdutor");
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            
         }
 
         

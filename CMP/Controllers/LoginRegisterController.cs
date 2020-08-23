@@ -34,6 +34,11 @@ namespace CMP.Controllers
             return View();
         }
 
+        public IActionResult LoginCMProducer()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginRegistarView dados)
         {
@@ -86,6 +91,7 @@ namespace CMP.Controllers
                                 new Claim(ClaimTypes.Name, email),//0
                                 new Claim("nome", getNomeByEmail(email)),//1
                                 new Claim("id", Convert.ToString(getIdByEmail(email))),//2
+                                new Claim("role","Cliente")//3
                             };
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -126,6 +132,194 @@ namespace CMP.Controllers
                 return RedirectToAction("Index", "Home");
             }
             
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LoginCM(LoginCMProdutor dados)
+        {
+
+
+            bool valid = true;
+            int id = -1;
+            String email = dados.emailCM;
+            String password = dados.passwordCM;
+
+
+
+            if (String.IsNullOrEmpty(email))
+            {
+                valid = false;
+                ModelState.AddModelError("emailCM", "Email obrigatório");
+            }
+            if (String.IsNullOrEmpty(password))
+            {
+                valid = false;
+                ModelState.AddModelError("passwordCM", "Password obrigatória");
+            }
+            if (!IsValidEmail(dados.emailCM))
+            {
+                valid = false;
+                ModelState.AddModelError("emailCM", "Tem de introduzir um email válido");
+            }
+            if (valid == false)
+            {
+                return View("LoginCMProducer");
+            }
+
+            HashAlgorithm hasher;
+            hasher = new SHA256Managed();
+            byte[] mPasswordBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(password);
+            byte[] mPasswordHash = hasher.ComputeHash(mPasswordBytes);
+            password = Convert.ToBase64String(mPasswordHash, 0, mPasswordHash.Length);
+            if (!IsValidEmail(dados.emailCM))
+            {
+                ModelState.AddModelError("emailCM", "Tem de introduzir um email válido");
+                return View("LoginCMProducer");
+            }
+            if (!verificarConta(email, password))
+            {
+                ModelState.AddModelError("passwordCM", "Email e/ou password incorreta");
+                return View("LoginCMProducer");
+            }
+
+            var claims = new[] {
+                                new Claim(ClaimTypes.Name, email),//0
+                                new Claim("nome", getNomeCMByEmail(email)),//1
+                                new Claim("id", Convert.ToString(getIDCMByEmail(email))),//2
+                                new Claim("role",Convert.ToString("Content Manager"))//3
+                            };
+
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"Insert Into Session (session_date, account_id) Values ('{string.Format("{0:yyyy-MM-dd HH:mm:ss}", DateTime.Now)}','{getIdByEmail(email)}')";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.CommandType = System.Data.CommandType.Text;
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+
+            if (!dados.sessaoCM)
+            {
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = false,
+                };
+
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), authProperties);
+                return RedirectToAction("Index", "AreaCM");
+            }
+            else
+            {
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                };
+
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), authProperties);
+                return RedirectToAction("Index", "AreaCM");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LoginProdutor(LoginCMProdutor dados)
+        {
+
+
+            bool valid = true;
+            int id = -1;
+            String email = dados.emailProducer;
+            String password = dados.passwordProducer;
+
+
+
+            if (String.IsNullOrEmpty(email))
+            {
+                valid = false;
+                ModelState.AddModelError("emailProducer", "Email obrigatório");
+            }
+            if (String.IsNullOrEmpty(password))
+            {
+                valid = false;
+                ModelState.AddModelError("passwordProducer", "Password obrigatória");
+            }
+            if (!IsValidEmail(dados.emailProducer))
+            {
+                valid = false;
+                ModelState.AddModelError("emailProducer", "Tem de introduzir um email válido");
+            }
+            if (valid == false)
+            {
+                return View("LoginCMProducer");
+            }
+
+            HashAlgorithm hasher;
+            hasher = new SHA256Managed();
+            byte[] mPasswordBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(password);
+            byte[] mPasswordHash = hasher.ComputeHash(mPasswordBytes);
+            password = Convert.ToBase64String(mPasswordHash, 0, mPasswordHash.Length);
+            if (!IsValidEmail(dados.emailProducer))
+            {
+                ModelState.AddModelError("emailProducer", "Tem de introduzir um email válido");
+                return View("LoginCMProducer");
+            }
+            if (!verificarConta(email, password))
+            {
+                ModelState.AddModelError("passwordProducer", "Email e/ou password incorreta");
+                return View("LoginCMProducer");
+            }
+
+            var claims = new[] {
+                                new Claim(ClaimTypes.Name, email),//0
+                                new Claim("nome", getNomeProdutorByEmail(email)),//1
+                                new Claim("id", Convert.ToString(getIDProdutorByEmail(email))),//2
+                                new Claim("role",Convert.ToString("Produtor"))//3
+                            };
+
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"Insert Into Session (session_date, account_id) Values ('{string.Format("{0:yyyy-MM-dd HH:mm:ss}", DateTime.Now)}','{getIdByEmail(email)}')";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.CommandType = System.Data.CommandType.Text;
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+
+            if (!dados.sessaoProdutor)
+            {
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = false,
+                };
+
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), authProperties);
+                return RedirectToAction("Index", "AreaProdutor");
+            }
+            else
+            {
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                };
+
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), authProperties);
+                return RedirectToAction("Index", "AreaProdutor");
+            }
         }
 
         [HttpPost]
@@ -199,7 +393,7 @@ namespace CMP.Controllers
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    string sql = $"Insert Into Account (username, email, password, newsletter) Values ('{dados.username}','{dados.emailReg}','{password}','false')";
+                    string sql = $"Insert Into Account (username, email, password, newsletter, new_messages) Values ('{dados.username}','{dados.emailReg}','{password}','false','false')";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.CommandType = System.Data.CommandType.Text;
@@ -341,6 +535,56 @@ namespace CMP.Controllers
             return null;
         }
 
+        public String getNomeCMByEmail(String email)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Account";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToString(dataReader["email"]).Equals(email))
+                            {
+                                return getNomeCM(Convert.ToInt32(dataReader["id"]));
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return null;
+        }
+
+        public String getNomeProdutorByEmail(String email)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Account";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToString(dataReader["email"]).Equals(email))
+                            {
+                                return getNomeProdutor(Convert.ToInt32(dataReader["id"]));
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return null;
+        }
+
 
         public int getIdByEmail(String email)
         {
@@ -381,6 +625,156 @@ namespace CMP.Controllers
                         while (dataReader.Read())
                         {
                             if (Convert.ToInt32(dataReader["account_id"])==id)
+                            {
+                                return Convert.ToString(dataReader["nome"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return null;
+        }
+
+        public String getNomeCM(int id)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Content_Manager";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["account_id"]) == id)
+                            {
+                                return Convert.ToString(dataReader["nome"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return null;
+        }
+
+        public int getIDCMByEmail(String email)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Account";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToString(dataReader["email"]).Equals(email))
+                            {
+                                return getIDCM(Convert.ToInt32(dataReader["id"]));
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
+        public int getIDProdutorByEmail(String email)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Account";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToString(dataReader["email"]).Equals(email))
+                            {
+                                return getIDProdutor(Convert.ToInt32(dataReader["id"]));
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
+        public int getIDCM(int id)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Content_Manager";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["account_id"]) == id)
+                            {
+                                return Convert.ToInt32(dataReader["id"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
+        public int getIDProdutor(int id)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["account_id"]) == id)
+                            {
+                                return Convert.ToInt32(dataReader["id"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
+        public String getNomeProdutor(int id)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["account_id"]) == id)
                             {
                                 return Convert.ToString(dataReader["nome"]);
                             }

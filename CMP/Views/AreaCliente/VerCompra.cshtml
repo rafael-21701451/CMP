@@ -30,6 +30,21 @@
         color: black;
         width: 100px;
     }
+
+    #botaoVR {
+        background-color: white;
+        font-family: 'Century Gothic';
+        text-align: center;
+        border-radius: 8px;
+        padding-right: 1em;
+        padding-left: 1em;
+        color: black;
+        display: block;
+        width: 120px;
+        height: 50px;
+        vertical-align: middle;
+        display: table-cell;
+    }
 </style>
 
 <body>
@@ -47,7 +62,7 @@
                     <button><b>Meus Produtos</b></button>
                     <button><b>Meus Favoritos</b></button>
                     <button><b>Meus Comentários</b></button>
-                    <button><b>Minhas Mensagens</b></button>
+                    <a asp-action="Mensagens"><button ><b>Minhas Mensagens</b></button></a>
                     <button><b>Minhas Avaliações</b></button>
                     <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
                 </div>
@@ -194,14 +209,69 @@
                             </p>
                             <br>
                             <center>
-                                <a id="botaoBriefing" asp-action="VerBriefing" asp-controller="Carrinho" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button"><b>VER BRIEFING</b></a>
-
+                                @if (p.revisao)
+                                {
+                                    <a id="botaoBriefing" asp-action="ReverBriefing" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button"><b>REVER BRIEFING</b></a>
+                                }
+                                else
+                                {
+                                    <a id="botaoBriefing" asp-action="VerBriefing" asp-controller="Carrinho" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button"><b>VER BRIEFING</b></a>
+                                }
                             </center>
                         </div>
-                        <div class="col-md-2" style="margin-top:1em">
-                            <p style="margin-top: 3em"><span>@p.preco€</span></p>
-                        </div>
+                        @if (Model.estado.Equals("Concluído"))
+                        {
+                            <div class="col-md-2" style="margin-top:6em; font-size:10px">
+                                <p style="font-size: 14px;">
+                                    <b>
+                                        <span>
+                                            @p.preco€
+                                        </span>
+                                    </b>
+                                </p>
+                                <br>
+                                <center>
+                                    <a id="botaoBriefing" asp-action="ConfirmarRececao" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button"><b>CONFIRMAR</b></a>
+                                </center>
+                            </div>
+                        }
+                        else if (Model.estado.Equals("Validação") || Model.estado.Equals("Entregue"))
+                        {
+                            <div class="col-md-2" style="margin-top:6em; font-size:10px">
+                                <p style="font-size: 14px;">
+                                    <b>
+                                        <span>
+                                            @p.preco€
+                                        </span>
+                                    </b>
+                                </p>
+                                <br>
+                                <center>
+                                    <a id="botaoBriefing" asp-action="ConfirmarRececao" asp-route-idProdutoCompra="@p.idProdutoCompra" class="button"><b>DOWNLOAD</b></a>
+                                </center>
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="col-md-2" style="margin-top:1em">
+                                <p style="margin-top: 3em"><span>@p.preco€</span></p>
+                            </div>
+                        }
                     </div>
+                    @if (Model.estado.Equals("Validação"))
+                    {
+                        <div class="row" style="padding-bottom: 2em; padding-top: 2em">
+                            <div class="col-md-8">
+                            </div>
+                            <div class="col-md-2" ;>
+                                <a asp-action="RazaoRejeicao" asp-route-idProdutoCompra="@p.idProdutoCompra" id="botaoVR" class="button" style="border: 2px solid #DC143C; "><b>REJEITAR</b></a>
+                            </div>
+                            <div class="col-md-2">
+                                <a asp-action="ValidarProduto" asp-route-idProdutoCompra="@p.idProdutoCompra" id="botaoVR" class="button" style="border: 2px solid #32CD32;"><b>VALIDAR</b></a>
+                            </div>
+                        </div>
+                    }
                     <hr />
 
                 }

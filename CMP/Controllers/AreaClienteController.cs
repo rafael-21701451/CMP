@@ -12,6 +12,7 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
 using System.Security.Claims;
+using System.Security.Policy;
 
 namespace CMP.Controllers
 {
@@ -24,6 +25,155 @@ namespace CMP.Controllers
         public AreaClienteController(IConfiguration configuration)
         {
             _configuration = configuration;
+        }
+
+        public IActionResult ReverBriefing(int idProdutoCompra)
+        {
+            Briefing briefing = new Briefing();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Briefing Where produto_compra_id={idProdutoCompra}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            briefing.id = Convert.ToInt32(dataReader["id"]);
+                            briefing.empresa = Convert.ToString(dataReader["empresa"]);
+                            briefing.setor = Convert.ToString(dataReader["setor"]);
+                            briefing.historia_empresa = Convert.ToString(dataReader["historia_empresa"]);
+                            briefing.objetivo_negocio = Convert.ToString(dataReader["objetivo_negocio"]);
+                            briefing.estrategia = Convert.ToString(dataReader["estrategia"]);
+                            briefing.produtos_comercializados = Convert.ToString(dataReader["produtos_comercializados"]);
+                            briefing.marca = Convert.ToString(dataReader["marca"]);
+                            briefing.imagem_corporativa = Convert.ToString(dataReader["imagem_corporativa"]);
+                            briefing.posicionamento = Convert.ToString(dataReader["posicionamento"]);
+                            briefing.publico_alvo = Convert.ToString(dataReader["publico_alvo"]);
+                            briefing.concorrentes = Convert.ToString(dataReader["concorrentes"]);
+                            briefing.objetivos = Convert.ToString(dataReader["objetivos"]);
+                            briefing.resultados_esperados = Convert.ToString(dataReader["resultados_esperados"]);
+                            briefing.permissas = Convert.ToString(dataReader["permissas"]);
+                            briefing.restricoes = Convert.ToString(dataReader["restricoes"]);
+                            briefing.data_entrega = Convert.ToDateTime(dataReader["data_entrega"]).Date;
+                            briefing.cronograma_1 = Convert.ToDateTime(dataReader["cronograma_1"]).Date;
+                            briefing.cronograma_2 = Convert.ToDateTime(dataReader["cronograma_2"]).Date;
+                            briefing.cronograma_3 = Convert.ToDateTime(dataReader["cronograma_3"]).Date;
+                            briefing.linha_seguir = Convert.ToString(dataReader["linha_seguir"]);
+                            briefing.tom_voz = Convert.ToString(dataReader["tom_voz"]);
+                            briefing.tipo_letra = Convert.ToString(dataReader["tipo_letra"]);
+                            briefing.cor = Convert.ToString(dataReader["cor"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return View(briefing);
+        }
+
+        [HttpPost]
+        public IActionResult ReverBriefing(Briefing briefing)
+        {
+            if (ModelState.IsValid)
+            {
+                string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    String sql = $"Update Briefing SET empresa='{briefing.empresa}', setor='{briefing.setor}'," +
+                                                        $" historia_empresa='{briefing.historia_empresa}', objetivo_negocio='{briefing.objetivo_negocio}', estrategia='{briefing.estrategia}', " +
+                                                        $" produtos_comercializados='{briefing.produtos_comercializados}', marca='{briefing.marca}',  imagem_corporativa='{briefing.imagem_corporativa}', " +
+                                                        $" posicionamento='{briefing.posicionamento}', publico_alvo='{briefing.publico_alvo}'," +
+                                                        $" concorrentes='{briefing.concorrentes}', objetivos='{briefing.objetivos}'" +
+                                                        $", resultados_esperados='{briefing.resultados_esperados}', permissas='{briefing.permissas}', " +
+                                                        $"restricoes='{briefing.restricoes}', data_entrega='{string.Format("{0:yyyy-MM-dd}", briefing.data_entrega)}', cronograma_1='{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_1)}', cronograma_2='{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_2)}'" +
+                                                        $",cronograma_3='{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_3)}'," +
+                                                        $"" +
+                                                        $"linha_seguir='{briefing.linha_seguir}', tom_voz='{briefing.tom_voz}', tipo_letra='{briefing.tipo_letra}', cor='{briefing.cor}', revisao='false'" +
+                                                        $"Where id={briefing.id}"; 
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        connection.Close();
+
+                    }
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+
+        }
+
+        public IActionResult Mensagens()
+        {
+            List<MensagemCliente> mensagens = new List<MensagemCliente>();
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+
+                int idConta = Convert.ToInt32(this.User.Claims.ElementAt(2).Value);
+
+
+                String sql = $"Update Account SET new_messages='false' WHERE id={idConta}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+                sql = $"SELECT * FROM Mensagem WHERE Destinatario={idConta}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            MensagemCliente msg = new MensagemCliente();
+                            msg.id = Convert.ToInt32(dataReader["id"]);
+                            msg.assunto = Convert.ToString(dataReader["Assunto"]);
+                            msg.data = string.Format("{0:yyyy-MM-dd}", Convert.ToDateTime(dataReader["data"]));
+                            mensagens.Add(msg);
+                        }
+                    }
+                    connection.Close();
+                }
+
+            }
+            mensagens.Reverse();
+            return View(mensagens);
+        }
+
+        public IActionResult VerMensagem(int idMensagem)
+        {
+            MensagemCliente mensagem = new MensagemCliente();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Mensagem WHERE id={idMensagem}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            mensagem.assunto = Convert.ToString(dataReader["Assunto"]);
+                            mensagem.textoMensagem = Convert.ToString(dataReader["Mensagem"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return View(mensagem);
         }
 
         public IActionResult EditarDados(int id)
@@ -79,6 +229,7 @@ namespace CMP.Controllers
                                 new Claim(ClaimTypes.Name, dados.email),//0
                                 new Claim("nome", dados.nome),//1
                                 new Claim("id", Convert.ToString(getIdByEmail(dados.email))),//2
+                                new Claim("role","Cliente")//3
                             };
                 var authProperties = new AuthenticationProperties
                 {
@@ -94,6 +245,248 @@ namespace CMP.Controllers
             {
                 return View(dados);
             }
+        }
+
+        public IActionResult ConfirmarRececao(int idProdutoCompra)
+        {
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+               
+                int idCompra = getCompraByPCID(idProdutoCompra);
+               
+                int idEstado = -1;
+                idEstado = getEstadoByNome("Validação");
+
+                string sql = $"Update Compra SET estado_id={idEstado} WHERE id={idCompra}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+            }
+            return RedirectToAction("VerCompra");
+        }
+
+        public IActionResult ValidarProduto(int idProdutoCompra)
+        {
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                int idCompra = getCompraByPCID(idProdutoCompra);
+
+                int idEstado = -1;
+                idEstado = getEstadoByNome("Entregue");
+
+                string sql = $"Update Compra SET estado_id={idEstado} WHERE id={idCompra}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+            }
+            return RedirectToAction("VerCompra");
+        }
+        public IActionResult RazaoRejeicao(int idProdutoCompra)
+        {
+            RejectionView rv = new RejectionView();
+            rv.idProjeto = idProdutoCompra;
+            return View(rv);
+        }
+
+        [HttpPost]
+        public IActionResult RazaoRejeicao(RejectionView rv)
+        {
+            string connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                int idCompra = getCompraByPCID(rv.idProjeto);
+
+                int idEstado = -1;
+                idEstado = getEstadoByNome("Produção");
+
+                String sql = $"Update Compra SET estado_id={idEstado} WHERE id={idCompra}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+                int idBriefing = -1;
+                sql = $"SELECT * FROM Briefing WHERE produto_compra_id={rv.idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            idBriefing = Convert.ToInt32(dataReader["id"]);
+                        }
+                    }
+                    connection.Close();
+                }
+
+                int idProjeto = -1;
+                sql = $"SELECT * FROM Projeto WHERE id_briefing={idBriefing}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            idProjeto = Convert.ToInt32(dataReader["id"]);
+                        }
+                    }
+                    connection.Close();
+                }
+
+
+
+
+                sql = $"Update Projeto SET versao_final='false' WHERE id={idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+
+                int idDestinatario1 = -1;
+                int idDestinatario2 = -1;
+                sql = $"SELECT * FROM Produtor_Projeto WHERE projeto_id={idProjeto}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            idDestinatario1 = getAccountIDProdutorByID(Convert.ToInt32(dataReader["produtor_id"]));
+                            idDestinatario2 = getAccountIDCMByID(Convert.ToInt32(dataReader["content_manager_id"]));
+                        }
+                    }
+                    connection.Close();
+                }
+
+                sql = $"Insert Into Mensagem (Mensagem, Remetente, Destinatario, Assunto, Data) Values ('{rv.mensagem}',{Convert.ToInt32(this.User.Claims.ElementAt(2).Value)},{idDestinatario2},'Projeto #{idProjeto} rejeitado', '{string.Format("{0:yyyy-MM-dd}", DateTime.Now)}')";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+                sql = $"Insert Into Mensagem (Mensagem, Remetente, Destinatario, Assunto, Data) Values ('{rv.mensagem}',{idDestinatario2},{idDestinatario1},'Projeto #{idProjeto} rejeitado','{string.Format("{0:yyyy-MM-dd}", DateTime.Now)}')";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+                sql = $"Update Account SET new_messages='true' WHERE id={idDestinatario2}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+                sql = $"Update Account SET new_messages='true' WHERE id={idDestinatario1}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+
+
+            }
+            return RedirectToAction("Index");
+        }
+
+        public int getAccountIDProdutorByID(int idProdutor)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produtor WHERE id={idProdutor}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToInt32(dataReader["account_id"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
+        public int getAccountIDCMByID(int idProdutor)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Content_Manager WHERE id={idProdutor}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToInt32(dataReader["account_id"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
+        }
+
+
+
+
+        public int getCompraByPCID(int pcid)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produto_Compra WHERE id = {pcid}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToInt32(dataReader["compra_id"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return -1;
         }
 
         public IActionResult VerCompra(int id)
@@ -128,7 +521,9 @@ namespace CMP.Controllers
                 List<Product> produtos = new List<Product>();
                 foreach (Product p in ProdutosCompra)
                 {
-                    produtos.Add(getProductByID(p));
+                    Product pro = getProductByID(p);
+                    pro.revisao = p.revisao;
+                    produtos.Add(pro);
                 }
                 encomenda.produtos = produtos;
                 return View(encomenda);
@@ -148,11 +543,37 @@ namespace CMP.Controllers
             List<Product> produtos = new List<Product>();
             foreach (Product p in ProdutosCompra)
             {
-                produtos.Add(getProductByID(p));
+                Product pro = getProductByID(p);
+                pro.revisao = p.revisao;
+                produtos.Add(pro);
             }
             compra.produtos = produtos;
+            compra.temMensagens = temMensagens(Convert.ToInt32(this.User.Claims.ElementAt(2).Value));
             return View(compra);
         }
+
+        public Boolean temMensagens(int accID)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Account WHERE id={accID}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToBoolean(dataReader["new_messages"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return false;
+        }
+
 
         public IActionResult DadosPessoais()
         {
@@ -254,6 +675,188 @@ namespace CMP.Controllers
                 }
             }
             return View(compras);
+        }
+
+        public IActionResult BriefingsPorAceitar()
+        {
+            List<Briefing> briefings = new List<Briefing>();
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Briefing";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            Briefing briefing = new Briefing();
+                            briefing.id = Convert.ToInt32(dataReader["id"]);
+                            briefing.empresa = Convert.ToString(dataReader["empresa"]);
+                            briefing.setor = Convert.ToString(dataReader["setor"]);
+                            briefing.historia_empresa = Convert.ToString(dataReader["historia_empresa"]);
+                            briefing.objetivo_negocio = Convert.ToString(dataReader["objetivo_negocio"]);
+                            briefing.estrategia = Convert.ToString(dataReader["estrategia"]);
+                            briefing.produtos_comercializados = Convert.ToString(dataReader["produtos_comercializados"]);
+                            briefing.marca = Convert.ToString(dataReader["marca"]);
+                            briefing.imagem_corporativa = Convert.ToString(dataReader["imagem_corporativa"]);
+                            briefing.posicionamento = Convert.ToString(dataReader["posicionamento"]);
+                            briefing.publico_alvo = Convert.ToString(dataReader["publico_alvo"]);
+                            briefing.concorrentes = Convert.ToString(dataReader["concorrentes"]);
+                            briefing.objetivos = Convert.ToString(dataReader["objetivos"]);
+                            briefing.resultados_esperados = Convert.ToString(dataReader["resultados_esperados"]);
+                            briefing.permissas = Convert.ToString(dataReader["permissas"]);
+                            briefing.restricoes = Convert.ToString(dataReader["restricoes"]);
+                            briefing.data_entrega = Convert.ToDateTime(dataReader["data_entrega"]).Date;
+                            briefing.cronograma_1 = Convert.ToDateTime(dataReader["cronograma_1"]).Date;
+                            briefing.cronograma_2 = Convert.ToDateTime(dataReader["cronograma_2"]).Date;
+                            briefing.cronograma_3 = Convert.ToDateTime(dataReader["cronograma_3"]).Date;
+                            briefing.linha_seguir = Convert.ToString(dataReader["linha_seguir"]);
+                            briefing.tom_voz = Convert.ToString(dataReader["tom_voz"]);
+                            briefing.tipo_letra = Convert.ToString(dataReader["tipo_letra"]);
+                            briefing.cor = Convert.ToString(dataReader["cor"]);
+                            briefing.aceite = Convert.ToBoolean(dataReader["aceite"]);
+                            briefing.produtoCompraID = Convert.ToInt32(dataReader["produto_compra_id"]);
+                            if (!briefing.aceite)
+                            {
+                                briefings.Add(briefing);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            List<BriefingPorAceitar> briefingPorAceitar = new List<BriefingPorAceitar>();
+            foreach (Briefing b in briefings)
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string sql = $"SELECT * FROM Produto_Compra WHERE id = {b.produtoCompraID}";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+                        using (SqlDataReader dataReader = command.ExecuteReader())
+                        {
+                            while (dataReader.Read())
+                            {
+                                BriefingPorAceitar bpa = new BriefingPorAceitar();
+                                bpa.id = b.id;
+                                bpa.produto = getProductByID(Convert.ToInt32(dataReader["produto_id"]));
+                                bpa.comprador = getComprador(Convert.ToInt32(dataReader["compra_id"]));
+                                if (getEstado(Convert.ToInt32(dataReader["compra_id"])).Equals("Planeamento"))
+                                {
+                                    briefingPorAceitar.Add(bpa);
+                                }
+                            }
+                        }
+                        connection.Close();
+                    }
+                }
+            }        
+            return View(briefingPorAceitar);
+        }
+
+        public String getEstado(int idCompra)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Compra WHERE id = {idCompra}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["id"]) == idCompra)
+                            {
+                                return getNomeEstado(Convert.ToInt32(dataReader["estado_id"]));
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
+        }
+
+        public String getComprador(int idCompra)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Compra WHERE id = {idCompra}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["id"]) == idCompra)
+                            {
+                                return getNomeComprador(Convert.ToInt32(dataReader["cliente_id"]));
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
+        }
+
+        public String getNomeComprador(int idCliente)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Cliente WHERE id = {idCliente}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["id"]) == idCliente)
+                            {
+                                return Convert.ToString(dataReader["nome"]);
+
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
+        }
+
+        public String getProductByID(int pID)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Produto";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            if (Convert.ToInt32(dataReader["id"]) == pID)
+                            {
+                               return Convert.ToString(dataReader["nome"]);
+                        
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return "";
         }
 
         public Boolean compraPertenceCliente(int idCompra,int idCliente)
@@ -518,6 +1121,7 @@ namespace CMP.Controllers
                                 produto.idProdutoCompra = Convert.ToInt32(dataReader["id"]);
                                 produto.id = Convert.ToInt32(dataReader["produto_id"]);
                                 produto.quantidade = Convert.ToInt32(dataReader["quantidade"]);
+                                produto.revisao = getEstadoRevisao(produto.idProdutoCompra);
                                 ProdutoCompra.Add(produto);
                             }
                         }
@@ -526,6 +1130,28 @@ namespace CMP.Controllers
                 }
             }
             return ProdutoCompra;
+        }
+
+        public Boolean getEstadoRevisao(int idPC)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT * FROM Briefing WHERE produto_compra_id={idPC}";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            return Convert.ToBoolean(dataReader["revisao"]);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            return false;
         }
 
         public Product getProductByID(Product p)
@@ -547,7 +1173,7 @@ namespace CMP.Controllers
                                 product.id = Convert.ToInt32(dataReader["id"]);
                                 product.nome = Convert.ToString(dataReader["nome"]);
                                 product.preco = Convert.ToDouble(dataReader["preco"]);
-                                product.categoria = getProductCategory(product.id);
+                                product.categoria = getProductCategory(Convert.ToInt32(dataReader["categoria_id"]));
                                 product.idProdutoCompra = p.idProdutoCompra;
                                 product.quantidade = p.quantidade;
                             }

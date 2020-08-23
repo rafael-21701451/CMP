@@ -5,15 +5,12 @@ using System.Threading.Tasks;
 
 namespace CMP.Models
 {
-    public class UltimaCompra
+    public class DadosProdutor
     {
-        public IEnumerable<Product> produtos { get; set; }
-
-        public int id { get; set; }
-
-        public string estado { get; set; }
+        public int projetosAtuais { get; set; }
+        public int projetosEmAprovacao { get; set; }
+        public int projetosFinalizados { get; set; }
 
         public Boolean temMensagens { get; set; }
-
     }
 }

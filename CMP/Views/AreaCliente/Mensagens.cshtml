@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CompraPerfil>
+﻿@model IEnumerable<MensagemCliente>
 @{
     ViewData["Title"] = "Index";
 }
@@ -14,9 +14,10 @@
         width: 250px;
         font-family: 'Century Gothic';
     }
-    .btn-group button:hover {
+
+        .btn-group button:hover {
             background-color: whitesmoke;
-    }
+        }
 </style>
 
 <body>
@@ -30,22 +31,20 @@
             <div class="btn-group">
                 <div class="col-md-3">
                     <a asp-action="DadosPessoais"><button><b>Dados Pessoais</b></button></a>
-                    <a asp-action="MinhasEncomendas"><button style="background-color:whitesmoke"><b>Minhas Encomendas</b></button></a>
+                    <a asp-action="MinhasEncomendas"><button><b>Minhas Encomendas</b></button></a>
                     <button><b>Meus Produtos</b></button>
                     <button><b>Meus Favoritos</b></button>
                     <button><b>Meus Comentários</b></button>
-                    <a asp-action="Mensagens"><button><b>Minhas Mensagens</b></button></a>
+                    <a asp-action="Mensagens"><button style="background-color:whitesmoke"><b>Minhas Mensagens</b></button></a>
                     <button><b>Minhas Avaliações</b></button>
                     <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
                 </div>
             </div>
-            <div class="col-md-9" >
+            <div class="col-md-9">
                 <table style="text-align: center" class="table table-bordered table-sm table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Preço</th>
-                            <th>Estado</th>
+                            <th>Assunto</th>
                             <th>Data</th>
                         </tr>
                     </thead>
@@ -61,15 +60,13 @@
                             @foreach (var p in Model)
                             {
                                 <tr style="transform: rotate(0);">
-                                    <th scope="row"><a asp-action="VerCompra" asp-route-id="@p.id" class="stretched-link" style="color:black">@p.id</a></th>
-                                    <td style="text-align:center">@p.total€</td>
-                                    <td style="text-align:center">@p.estado</td>
+                                    <th scope="row"><a asp-action="VerMensagem" asp-route-idMensagem="@p.id" class="stretched-link" style="color:black">@p.assunto</a></th>
                                     <td style="text-align:center">@p.data</td>
                                 </tr>
                             }
                         }
                     </tbody>
-                </table>     
+                </table>
             </div>
         </div>
     </div>

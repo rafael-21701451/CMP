@@ -23,7 +23,28 @@
             <div class="col-md-3">
             </div>
             <div class="col-md-6 text-center">
-                <a style="color: black; font-family: 'Century Gothic'; font-size: 50px;" asp-area="" asp-controller="Home" asp-action="Index"><b>Content Marketplace Platform</b></a>
+                @if (@User.Identity.IsAuthenticated == false)
+                {
+                    <a style="color: black; font-family: 'Century Gothic'; font-size: 50px;" asp-area="" asp-controller="Home" asp-action="Index"><b>Content Marketplace Platform</b></a>
+
+                }
+                else
+                {
+                    if (User.Claims.ElementAt(3).Value.Equals("Cliente"))
+                    {
+                        <a style="color: black; font-family: 'Century Gothic'; font-size: 50px;" asp-area="" asp-controller="Home" asp-action="Index"><b>Content Marketplace Platform</b></a>
+                    }
+                    else if (User.Claims.ElementAt(3).Value.Equals("Content Manager"))
+                    {
+                        <a style="color: black; font-family: 'Century Gothic'; font-size: 50px;" asp-area="" asp-controller="AreaCM" asp-action="Index"><b>Content Marketplace Platform</b></a>
+
+                    }
+                    else
+                    {
+                        <a style="color: black; font-family: 'Century Gothic'; font-size: 50px;" asp-area="" asp-controller="AreaProdutor" asp-action="Index"><b>Content Marketplace Platform</b></a>
+
+                    }
+                }
             </div>
             <div class="col-md-1 text-right mt-4">
                 @if (@User.Identity.IsAuthenticated == false)
@@ -32,11 +53,32 @@
                 }
                 else
                 {
-                    <a class="image" asp-area="" asp-controller="AreaCliente" asp-action="Index"><img src="~/images/user.png" width="30" height="30"></a>
+                    if (User.Claims.ElementAt(3).Value.Equals("Cliente"))
+                    {
+                        <a class="image" asp-area="" asp-controller="AreaCliente" asp-action="Index"><img src="~/images/user.png" width="30" height="30"></a>
+                    }
+                    else if (User.Claims.ElementAt(3).Value.Equals("Content Manager"))
+                    {
+                        <a class="image" asp-area="" asp-controller="AreaCM" asp-action="Index"><img src="~/images/user.png" width="30" height="30"></a>
+                    }
+                    else
+                    {
+                        <a class="image" asp-area="" asp-controller="AreaProdutor" asp-action="Index"><img src="~/images/user.png" width="30" height="30"></a>
+                    }
                 }
             </div>
             <div class="col-md-1 text-center mt-4">
-                <a class = "image" href="#"><img src="~/images/fav.png" width="30" height="30"></a>
+                @if (@User.Identity.IsAuthenticated == false)
+                {
+                    <a class="image" href="#"><img src="~/images/fav.png" width="30" height="30"></a>
+                }
+                else
+                {
+                    if (User.Claims.ElementAt(3).Value.Equals("Cliente"))
+                    {
+                        <a class="image" href="#"><img src="~/images/fav.png" width="30" height="30"></a>
+                    }
+                }
             </div>
             <div class="col-md-1 text-left mt-4">
                 @if (@User.Identity.IsAuthenticated == false)
@@ -45,30 +87,66 @@
                 }
                 else
                 {
-                    <a class="image" asp-area="" asp-controller="Carrinho" asp-action="Index"><img src="~/images/carrinho.png" width="30" height="30"></a>
+                    if (User.Claims.ElementAt(3).Value.Equals("Cliente"))
+                    {
+                        <a class="image" asp-area="" asp-controller="Carrinho" asp-action="Index"><img src="~/images/carrinho.png" width="30" height="30"></a>
+                    }
                 }
             </div>
         </div>
-        <div class="row border-bottom">
-            <div class="col-md-3 text-center mt-3 mb-3">
-                <a class="underline" style="color: black; font-family: 'Century Gothic'; font-size: 30px;" asp-area="" asp-controller="Products" asp-action="Index"><b>Produtos</b></a>
-            </div>
-            <div class="col-md-3 text-center mt-3 mb-3">
-                <a class="underline" style="color: black; font-family: 'Century Gothic'; font-size: 30px;" asp-area="" asp-controller="Novidades" asp-action="Index"><b>Novidades</b></a>
-            </div>
-            <div class="col-md-3 text-center mt-3 mb-3">
-                <a class="underline" style="color: black; font-family: 'Century Gothic'; font-size: 30px;" asp-area="" asp-controller="Materiais" asp-action="Index"><b>Materiais Gratuitos</b></a>
-            </div>
-            <div class="col-md-3 text-center mt-3 mb-3">
-                <span class="underline" style="color: black; font-family: 'Century Gothic'; font-size: 30px;"><b>Blog</b></span>
-            </div>
-        </div>
-    </header>
+            @if (@User.Identity.IsAuthenticated == false)
+            {
+                <div class="row border-bottom">
+                    <div class="col-md-3 text-center mt-3 mb-3">
+                        <a class="underline" style="color: black; font-family: 'Century Gothic'; font-size: 30px;" asp-area="" asp-controller="Products" asp-action="Index"><b>Produtos</b></a>
+                    </div>
+                    <div class="col-md-3 text-center mt-3 mb-3">
+                        <a class="underline" style="color: black; font-family: 'Century Gothic'; font-size: 30px;" asp-area="" asp-controller="Novidades" asp-action="Index"><b>Novidades</b></a>
+                    </div>
+                    <div class="col-md-3 text-center mt-3 mb-3">
+                        <a class="underline" style="color: black; font-family: 'Century Gothic'; font-size: 30px;" asp-area="" asp-controller="Materiais" asp-action="Index"><b>Materiais Gratuitos</b></a>
+                    </div>
+                    <div class="col-md-3 text-center mt-3 mb-3">
+                        <span class="underline" style="color: black; font-family: 'Century Gothic'; font-size: 30px;"><b>Blog</b></span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                if (User.Claims.ElementAt(3).Value.Equals("Cliente"))
+                {
+                    <div class="row border-bottom">
+                        <div class="col-md-3 text-center mt-3 mb-3">
+                            <a class="underline" style="color: black; font-family: 'Century Gothic'; font-size: 30px;" asp-area="" asp-controller="Products" asp-action="Index"><b>Produtos</b></a>
+                        </div>
+                        <div class="col-md-3 text-center mt-3 mb-3">
+                            <a class="underline" style="color: black; font-family: 'Century Gothic'; font-size: 30px;" asp-area="" asp-controller="Novidades" asp-action="Index"><b>Novidades</b></a>
+                        </div>
+                        <div class="col-md-3 text-center mt-3 mb-3">
+                            <a class="underline" style="color: black; font-family: 'Century Gothic'; font-size: 30px;" asp-area="" asp-controller="Materiais" asp-action="Index"><b>Materiais Gratuitos</b></a>
+                        </div>
+                        <div class="col-md-3 text-center mt-3 mb-3">
+                            <span class="underline" style="color: black; font-family: 'Century Gothic'; font-size: 30px;"><b>Blog</b></span>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row border-bottom">
+
+                    </div>
+                }
+            }
+
+
+</header>
 
     <div>
             @RenderBody()
     </div>
 
+    @if (@User.Identity.IsAuthenticated == false || User.Claims.ElementAt(3).Value.Equals("Cliente"))
+    {
     <footer class="border-top footer text-muted">
         <div class="container-fluid text-center" style="background-color: rgba(67,67,67,1)">
             <div class="row">
@@ -155,6 +233,7 @@
             </div>
         </div>
     </footer>
+    }
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

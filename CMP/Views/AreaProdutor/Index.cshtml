@@ -1,0 +1,76 @@
+﻿@model DadosProdutor
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    .btn-group button {
+        background-color: white;
+        border: 1px solid whitesmoke;
+        color: black;
+        padding: 10px 24px;
+        cursor: pointer;
+        display: block;
+        width: 250px;
+        font-family: 'Century Gothic';
+    }
+
+    .btn-group button:hover {
+            background-color: whitesmoke;
+    }
+
+    hr.separar {
+        border: 1 px solid gray;
+    }
+
+    #botaoBriefing {
+        display: block;
+        background-color: white;
+        font-family: 'Century Gothic';
+        border-radius: 8px;
+        border: 2px solid #ff01f2;
+        padding-right: 1em;
+        padding-left: 1em;
+        color: black;
+        width: 180px;
+    }
+</style>
+
+<body>
+        <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
+            <p style="font-size: 40px; "><b><span>ÁREA PRODUTOR</span></b></p>
+            <p style="font-size: 20px; "><span>Bem-vindo à sua área, <b>@User.Claims.ElementAt(1).Value</b>!</span></p>
+        </div>
+
+        <div class="container">
+            @if (Model.temMensagens){
+                <div class="text-center" style="padding-top:1em; padding-bottom: 1em;">
+                    <p style="font-size: 20px; color:red"><b><span>TEM MENSAGENS POR LER</span></b></p>
+                </div>
+            }
+            <div class="row" style="padding-bottom: 2em;">
+                <div class="btn-group">
+                    <div class="col-md-3">
+                        <a asp-action="ProjetosAtuais"><button><b>Projetos Atuais</b></button></a>
+                        <a asp-action="ProjetosEmAprovacao"><button><b>Projetos Em Aprovação</b></button></a>
+                        <a asp-action="ProjetosFinalizados"><button><b>Projetos Finalizados</b></button></a>
+                        <a asp-action="Mensagens"><button><b>Minhas Mensagens</b></button></a>
+                        <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
+                    </div>
+                </div>
+
+                <div class="col-md-9" style="border: 1px solid whitesmoke; padding-top:1em">
+                    <div class="row" style="font-size: 20px; text-align: center">
+                        <div class="col-md-12">
+                            <center>
+                                <img src="~/images/userPhoto.png" width="300" height="250">
+                            </center>
+                            <p><span><b>Projetos Atuais: </b>@Model.projetosAtuais</span></p>
+                            <p><span><b>Projetos Em Aprovação: </b>@Model.projetosEmAprovacao</span></p>
+                            <p><span><b>Projetos Finalizados: </b>@Model.projetosFinalizados</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>

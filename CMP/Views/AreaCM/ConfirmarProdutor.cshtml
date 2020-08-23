@@ -1,0 +1,93 @@
+﻿@model Produtor
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    .btn-group button {
+        background-color: white;
+        border: 1px solid whitesmoke;
+        color: black;
+        padding: 10px 24px;
+        cursor: pointer;
+        display: block;
+        width: 250px;
+        font-family: 'Century Gothic';
+    }
+
+    .btn-group button:hover {
+        background-color: whitesmoke;
+    }
+
+    #botaoBriefing {
+        display: block;
+        background-color: white;
+        font-family: 'Century Gothic';
+        border-radius: 8px;
+        border: 2px solid #ff01f2;
+        padding-right: 1em;
+        padding-left: 1em;
+        color: black;
+        width: auto;
+        vertical-align: middle;
+        display: table-cell;
+        font-size: 14px;
+    }
+
+    #botaoAtribuirProjeto {
+        display: block;
+        background-color: white;
+        font-family: 'Century Gothic';
+        border-radius: 8px;
+        border: 2px solid #ff01f2;
+        padding-right: 1em;
+        padding-left: 1em;
+        color: black;
+        width: 100px;
+        vertical-align: middle;
+        display: table-cell;
+        font-size: 14px;
+    }
+</style>
+
+<body>
+    <div class="text-center" style="color:black; font-family: 'Century Gothic'; background-color:whitesmoke; padding-top: 1em; padding-bottom: 1em; margin-bottom: 20px;">
+        <p style="font-size: 40px; "><b><span>ÁREA CONTENT MANAGER</span></b></p>
+        <p style="font-size: 20px; "><span>Bem-vindo à sua área, <b>@User.Claims.ElementAt(1).Value</b>!</span></p>
+    </div>
+
+    <div class="container">
+        <div class="row" style="padding-bottom: 2em;">
+            <div class="btn-group">
+                <div class="col-md-3">
+                    <a asp-action="BriefingsPorAceitar"><button><b>Briefings Por Aceitar</b></button></a>
+                    <a asp-action="ProjetosPorAtribuir"><button style="background-color:whitesmoke"><b>Projetos Por Atribuir</b></button></a>
+                    <a asp-action="ProjetosAtribuidos"><button><b>Projetos Atribuídos</b></button></a>
+                    <a asp-action="ProjetosPorValidar"><button><b>Projetos Por Validar</b></button></a>
+                    <a asp-action="Mensagens"><button><b>Minhas Mensagens</b></button></a>
+                    <a asp-action="Logout"><button style="color:red" ;><b>Terminar Sessão</b></button></a>
+                </div>
+            </div>
+            <div class="col-md-9" style="border: 1px solid whitesmoke;">              
+                <div class="row" style="text-align: center; font-size: 20px;">
+                    <div class="col-md-4" style="padding-top: 1em;">
+                        <center>
+                            <img src="~/images/userPhoto.png" width="200" height="150" padding-right="100">
+                        </center>
+                    </div>
+                    <div class="col-md-4" style=" margin-top: 1.5em">
+                        <p><b><span>@Model.produtor </span></b></p>
+                        <p><b>Especialidade: </b><span>@Model.especialidade</span></p>
+                        <p><b>ID Projeto: </b><span>@Model.projetoSelecionado</span></p>
+                    </div>
+                    <div class="col-md-4" style="margin-top:2em; font-size:20px; text-align: center;">                     
+                        <br>
+                        <center>
+                            <a id="botaoAtribuirProjeto" asp-action="ConfirmarProjeto"  asp-route-idProjeto="@Model.projetoSelecionado" asp-route-idProdutor="@Model.id"class="button"><b>ATRIBUIR PROJETO</b></a>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

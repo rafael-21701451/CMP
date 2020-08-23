@@ -101,13 +101,36 @@ namespace CMP.Controllers
 
                     sql = $"Insert Into Briefing (empresa, setor, historia_empresa,objetivo_negocio, estrategia, produtos_comercializados, marca, imagem_corporativa" +
                         $",posicionamento,publico_alvo,concorrentes,objetivos,resultados_esperados,permissas,restricoes,data_entrega,cronograma_1,cronograma_2,cronograma_3" +
-                        $",linha_seguir,tom_voz,tipo_letra,cor,aceite,produto_compra_id) " +
-                        $"Values ('{briefing.empresa}','{briefing.setor}','{briefing.historia_empresa}','{briefing.objetivo_negocio}','{briefing.estrategia}','{briefing.produtos_comercializados}','{briefing.marca}','{briefing.imagem_corporativa}'" +
-                        $",'{briefing.posicionamento}','{briefing.publico_alvo}','{briefing.concorrentes}','{briefing.objetivos}','{briefing.resultados_esperados}','{briefing.permissas}','{briefing.restricoes}','{string.Format("{0:yyyy-MM-dd}", briefing.data_entrega)}','{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_1)}','{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_2)}','{string.Format("{0:yyyy-MM-dd}", briefing.cronograma_3)}'" +
-                        $",'{briefing.linha_seguir}','{briefing.tom_voz}','{briefing.tipo_letra}','{briefing.cor}','false','{pc_id}')";
+                        $",linha_seguir,tom_voz,tipo_letra,cor,aceite,produto_compra_id,revisao) " +
+                        $"Values (@empresa, @setor, @historia_empresa, @objetivo_negocio, @estrategia, @produtos_comercializados, @marca, @imagem_corporativa" +
+                        $", @posicionamento, @publico_alvo, @concorrentes, @objetivos, @resultados_esperados, @permissas, @restricoes, @data_entrega, @cronograma_1, @cronograma_2, @cronograma_3" +
+                        $", @linha_seguir, @tom_voz, @tipo_letra, @cor,'false','{pc_id}','false')";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.CommandType = System.Data.CommandType.Text;
+                        command.Parameters.AddWithValue("@empresa", briefing.empresa);
+                        command.Parameters.AddWithValue("@setor", briefing.setor);
+                        command.Parameters.AddWithValue("@historia_empresa", briefing.historia_empresa);
+                        command.Parameters.AddWithValue("@objetivo_negocio", briefing.objetivo_negocio);
+                        command.Parameters.AddWithValue("@estrategia", briefing.estrategia);
+                        command.Parameters.AddWithValue("@produtos_comercializados", briefing.produtos_comercializados);
+                        command.Parameters.AddWithValue("@marca", briefing.marca);
+                        command.Parameters.AddWithValue("@imagem_corporativa", briefing.imagem_corporativa);
+                        command.Parameters.AddWithValue("@posicionamento", briefing.posicionamento);
+                        command.Parameters.AddWithValue("@publico_alvo", briefing.publico_alvo);
+                        command.Parameters.AddWithValue("@concorrentes", briefing.concorrentes);
+                        command.Parameters.AddWithValue("@objetivos", briefing.objetivos);
+                        command.Parameters.AddWithValue("@resultados_esperados", briefing.resultados_esperados);
+                        command.Parameters.AddWithValue("@permissas", briefing.permissas);
+                        command.Parameters.AddWithValue("@restricoes", briefing.restricoes);
+                        command.Parameters.AddWithValue("@data_entrega", briefing.data_entrega);
+                        command.Parameters.AddWithValue("@cronograma_1", briefing.cronograma_1);
+                        command.Parameters.AddWithValue("@cronograma_2", briefing.cronograma_2);
+                        command.Parameters.AddWithValue("@cronograma_3", briefing.cronograma_3);
+                        command.Parameters.AddWithValue("@linha_seguir", briefing.linha_seguir);
+                        command.Parameters.AddWithValue("@tom_voz", briefing.tom_voz);
+                        command.Parameters.AddWithValue("@tipo_letra", briefing.tipo_letra);
+                        command.Parameters.AddWithValue("@cor", briefing.cor);
                         connection.Open();
                         command.ExecuteNonQuery();
                         connection.Close();
